@@ -92,7 +92,7 @@ const dummy_car: Procedure = {
   isCar: true,
 };
 
-export const dummy_procedures = [
+export const dummy_procedures: Procedure[] = [
   dummy_rentalCAN,
   dummy_gasTapStop,
   dummy_moveNotification,
