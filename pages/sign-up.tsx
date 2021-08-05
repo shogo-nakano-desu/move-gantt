@@ -1,3 +1,6 @@
+// ユーザーアイコンを登録できるようにしたい。
+// Udemyでやったやつを参考にしたらいいと思う
+
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
