@@ -1,20 +1,5 @@
 import { dummy_procedures } from "../info/procedures";
-// dummy_procedures: Procedure[]
-// export interface Procedure {
-//   title: string;
-//   startDate: Date; // プロジェクト作成日か関数で計算した日付
-//   deadline: Date;
-//   submitDestination: string;
-//   targetPerson: TARGET_PERSON;
-//   confirmationSource: string;
-//   isSelfEmployed: boolean;
-//   isStudent: boolean;
-//   isPet: boolean;
-//   isScooter: boolean;
-//   isCar: boolean;
-// }
 
-// check できていないのでチェックする必要あり
 const compare = (a, b) => {
   let comparison = 0;
   const startDateA = a.startDate;
@@ -27,4 +12,4 @@ const compare = (a, b) => {
   return comparison;
 };
 
-export const sortedProcedures = dummy_procedures.sort(compare);
+export const sortedProcedures = dummy_procedures.slice().sort(compare);
