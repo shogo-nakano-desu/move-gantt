@@ -70,8 +70,9 @@ export default function MenuAppBar() {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>
+                Profile(これクリックしたら直でユーザー画面にいくようにしたい)
+              </MenuItem>
             </Menu>
           </div>
         </Toolbar>
