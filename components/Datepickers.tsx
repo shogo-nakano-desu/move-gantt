@@ -1,7 +1,7 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import dateGenerator from "../utils/dateGenerator";
+import { dateGenerator } from "../utils/dateGenerator";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

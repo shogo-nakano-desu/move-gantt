@@ -1,0 +1,11 @@
+.container {
+  display: grid;
+}
+
+.appBar {
+  height: 10%;
+}
+
+.calendarBar {
+  height: 90%;
+}

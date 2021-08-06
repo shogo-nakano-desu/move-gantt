@@ -1,11 +1,6 @@
 import React from "react";
 import { Button } from "@material-ui/core";
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  createTheme,
-} from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { sortedProcedures } from "../utils/sortProcedures";
 import { Procedure } from "../info/procedures";
 
@@ -28,6 +23,7 @@ const GanttChart = () => {
             className={classes.gantt}
             variant="contained"
             id={procedure.title}
+            key={procedure.title}
           >
             {procedure.title}
           </Button>
