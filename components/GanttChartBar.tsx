@@ -28,6 +28,7 @@ const GanttChart = () => {
             className={classes.gantt}
             variant="contained"
             id={procedure.title}
+            key={procedure.title}
           >
             {procedure.title}
           </Button>

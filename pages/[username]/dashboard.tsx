@@ -1,12 +1,13 @@
 import React from "react";
 import MenuAppBar from "../../components/AppBar";
 import GanttChart from "../../components/GanttChartBar";
-import { sortedProcedures } from "../../utils/sortProcedures";
+import CalendarBar from "../../components/Calendar";
 
 const dashboard = () => {
   return (
     <React.Fragment>
       <MenuAppBar />
+      <CalendarBar />
       <GanttChart />
     </React.Fragment>
   );

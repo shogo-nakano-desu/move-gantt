@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import dateGenerator from "../utils/dateGenerator";
+import { dateGenerator } from "../utils/dateGenerator";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

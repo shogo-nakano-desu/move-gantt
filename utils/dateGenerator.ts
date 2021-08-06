@@ -1,6 +1,6 @@
 import { getYear, getMonth, getDate } from "date-fns";
 
-const dateGenerator = () => {
+export const dateGenerator = () => {
   const today = new Date();
   const year = "" + getYear(today);
   let month: string | number = getMonth(today) + 1;
@@ -21,5 +21,3 @@ const dateGenerator = () => {
     date: date,
   };
 };
-
-export default dateGenerator;
