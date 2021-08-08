@@ -6,9 +6,10 @@ import { add } from "date-fns";
 // ----------------------------------------------------------------
 // ここはダミーデータ
 const today = new Date();
-const moveDate = new Date(2021, 8, 6);
+export const moveDate = new Date(2021, 8, 6);
 // ----------------------------------------------------------------
 
+// booleanに関しては、trueの時だけその項目がマストになる
 export interface Procedure {
   title: string;
   startDate: Date; // プロジェクト作成日か関数で計算した日付

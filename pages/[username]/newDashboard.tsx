@@ -1,29 +1,3 @@
-// 実装する必要があること
-
-// import React from "react";
-// import useRef from "react-dom";
-// import { Container } from "@material-ui/core";
-
-// const NewDashboard = () => {
-//   // Refでエレメントにアクセスできるようにしておいて、TODOごとにどのElに入るべきかを決めるようにする
-//   const firstWeekEl = useRef(null);
-//   const secondWeekEl = useRef(null);
-//   const thirdWeekEl = useRef(null);
-//   const fourthWeekEl = useRef(null);
-//   const fifthWeekEl = useRef(null);
-//   const sixthWeekEl = useRef(null);
-//   const seventhWeekEl = useRef(null);
-//   const eighthWeekEl = useRef(null);
-//   const ninthWeekEl = useRef(null);
-
-//   return (
-//     <>
-//       <Container maxWidth="sm">
-//         <div></div>
-//       </Container>
-//     </>
-//   );
-// };
 import React, { useRef } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -34,6 +8,23 @@ import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { getMonth, getDate } from "date-fns";
+import { splitedProcedures } from "../../utils/splitProcedures";
+// type: Procedure[]
+// interface Procedure {
+//   title: string;
+//   startDate: Date; // プロジェクト作成日か関数で計算した日付
+//   deadline: Date;
+//   submitDestination: string;
+//   targetPerson: TARGET_PERSON;
+//   confirmationSource: string;
+//   isSelfEmployed: boolean;
+//   isStudent: boolean;
+//   isPet: boolean;
+//   isScooter: boolean;
+//   isCar: boolean;
+// }
+import { sortedProcedures } from "../../utils/sortProcedures";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,7 +55,8 @@ function generate(element: React.ReactElement) {
 // あとは中にデータ入れれば完成
 export default function InteractiveList() {
   const classes = useStyles();
-  const firstTitleRef = useRef<HTMLDivElement>(null);
+  console.log(sortedProcedures);
+  //const firstTitleRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className={classes.root}>
@@ -75,16 +67,21 @@ export default function InteractiveList() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {generate(
-                <ListItem>
-                  <ListItemText primary="Title" secondary={"Deadline"} />
+              {splitedProcedures().weekOneProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                      procedure.deadline
+                    )}日`}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              )}
+              ))}
             </List>
           </div>
         </Grid>
@@ -94,16 +91,21 @@ export default function InteractiveList() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {generate(
-                <ListItem>
-                  <ListItemText primary="Title" secondary={"Deadline"} />
+              {splitedProcedures().weekTwoProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                      procedure.deadline
+                    )}日`}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              )}
+              ))}
             </List>
           </div>
         </Grid>
@@ -113,16 +115,21 @@ export default function InteractiveList() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {generate(
-                <ListItem>
-                  <ListItemText primary="Title" secondary={"Deadline"} />
+              {splitedProcedures().weekThreeProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                      procedure.deadline
+                    )}日`}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              )}
+              ))}
             </List>
           </div>
         </Grid>
@@ -132,16 +139,21 @@ export default function InteractiveList() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {generate(
-                <ListItem>
-                  <ListItemText primary="Title" secondary={"Deadline"} />
+              {splitedProcedures().weekFourProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                      procedure.deadline
+                    )}日`}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              )}
+              ))}
             </List>
           </div>
         </Grid>
@@ -151,16 +163,21 @@ export default function InteractiveList() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {generate(
-                <ListItem>
-                  <ListItemText primary="Title" secondary={"Deadline"} />
+              {splitedProcedures().weekFiveProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                      procedure.deadline
+                    )}日`}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              )}
+              ))}
             </List>
           </div>
         </Grid>
@@ -170,16 +187,21 @@ export default function InteractiveList() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {generate(
-                <ListItem>
-                  <ListItemText primary="Title" secondary={"Deadline"} />
+              {splitedProcedures().weekSixProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                      procedure.deadline
+                    )}日`}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              )}
+              ))}
             </List>
           </div>
         </Grid>
@@ -189,16 +211,21 @@ export default function InteractiveList() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {generate(
-                <ListItem>
-                  <ListItemText primary="Title" secondary={"Deadline"} />
+              {splitedProcedures().weekSevenProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                      procedure.deadline
+                    )}日`}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              )}
+              ))}
             </List>
           </div>
         </Grid>
@@ -208,16 +235,21 @@ export default function InteractiveList() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {generate(
-                <ListItem>
-                  <ListItemText primary="Title" secondary={"Deadline"} />
+              {splitedProcedures().weekEightProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                      procedure.deadline
+                    )}日`}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              )}
+              ))}
             </List>
           </div>
         </Grid>
