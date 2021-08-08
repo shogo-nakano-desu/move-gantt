@@ -1,27 +1,21 @@
 import React from "react";
 import MenuAppBar from "../../components/AppBar";
-import GanttChart from "../../components/GanttChartBar";
-import CalendarBar from "../../components/Calendar";
-import styles from "./dashboard.module.css";
-import { calendarGen } from "../../utils/calendarGenerator";
+import TodosComponent from "../../components/Todos";
 
 const dashboard = () => {
-  const calendarLength = calendarGen.length;
-  if (typeof document !== "undefined") {
-    const gridBoarder = document.getElementById("scheduleGrid");
-    gridBoarder.style.gridTemplateColumns = calendarLength.toString();
-  }
+  // const calendarLength = calendarGen.length;
+  // if (typeof document !== "undefined") {
+  //   const gridBoarder = document.getElementById("scheduleGrid");
+  //   gridBoarder.style.gridTemplateColumns = calendarLength.toString();
+  // }
 
   return (
     <>
-      <div className={styles.appBar}>
+      <div>
         <MenuAppBar />
       </div>
-      <div className={styles.calendarBar}>
-        <CalendarBar />
-      </div>
       <div>
-        <GanttChart />
+        <TodosComponent />
       </div>
     </>
   );

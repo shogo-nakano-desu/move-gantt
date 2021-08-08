@@ -9,22 +9,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { getMonth, getDate } from "date-fns";
-import { splitedProcedures } from "../../utils/splitProcedures";
-// type: Procedure[]
-// interface Procedure {
-//   title: string;
-//   startDate: Date; // プロジェクト作成日か関数で計算した日付
-//   deadline: Date;
-//   submitDestination: string;
-//   targetPerson: TARGET_PERSON;
-//   confirmationSource: string;
-//   isSelfEmployed: boolean;
-//   isStudent: boolean;
-//   isPet: boolean;
-//   isScooter: boolean;
-//   isCar: boolean;
-// }
-import { sortedProcedures } from "../../utils/sortProcedures";
+import { splitedProcedures } from "../utils/splitProcedures";
+
+import { sortedProcedures } from "../utils/sortProcedures";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,7 +40,7 @@ function generate(element: React.ReactElement) {
 }
 
 // あとは中にデータ入れれば完成
-export default function InteractiveList() {
+export default function TodosComponent() {
   const classes = useStyles();
   console.log(sortedProcedures);
   //const firstTitleRef = useRef<HTMLDivElement>(null);
@@ -71,9 +58,9 @@ export default function InteractiveList() {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
                       procedure.deadline
-                    )}日`}
+                    )}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -95,9 +82,9 @@ export default function InteractiveList() {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
                       procedure.deadline
-                    )}日`}
+                    )}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -119,9 +106,9 @@ export default function InteractiveList() {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
                       procedure.deadline
-                    )}日`}
+                    )}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -143,9 +130,9 @@ export default function InteractiveList() {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
                       procedure.deadline
-                    )}日`}
+                    )}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -167,9 +154,9 @@ export default function InteractiveList() {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
                       procedure.deadline
-                    )}日`}
+                    )}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -191,9 +178,9 @@ export default function InteractiveList() {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
                       procedure.deadline
-                    )}日`}
+                    )}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -215,9 +202,9 @@ export default function InteractiveList() {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
                       procedure.deadline
-                    )}日`}
+                    )}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -239,9 +226,9 @@ export default function InteractiveList() {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`${getMonth(procedure.deadline)}月${getDate(
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
                       procedure.deadline
-                    )}日`}
+                    )}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
