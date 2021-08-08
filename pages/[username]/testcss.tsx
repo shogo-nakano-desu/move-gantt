@@ -2,10 +2,17 @@ import styled from "styled-components";
 
 const test = () => {
   return (
-    <TestStyle>
+    <div>
       青になる？
       <p>only this paragraph will get the style :)</p>
-    </TestStyle>
+      <style jsx>
+        {`
+          p {
+            color: blue;
+          }
+        `}
+      </style>
+    </div>
   );
 };
 
