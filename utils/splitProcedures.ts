@@ -1,16 +1,16 @@
 import { sortedProcedures } from "./sortProcedures";
-import { moveDate } from "../info/procedures";
+import { moveDate, Procedure } from "../info/procedures";
 import { add } from "date-fns";
 
 export const splitedProcedures = () => {
-  const weekOneProcedures = [];
-  const weekTwoProcedures = [];
-  const weekThreeProcedures = [];
-  const weekFourProcedures = [];
-  const weekFiveProcedures = [];
-  const weekSixProcedures = [];
-  const weekSevenProcedures = [];
-  const weekEightProcedures = [];
+  const weekOneProcedures: Procedure[] = [];
+  const weekTwoProcedures: Procedure[] = [];
+  const weekThreeProcedures: Procedure[] = [];
+  const weekFourProcedures: Procedure[] = [];
+  const weekFiveProcedures: Procedure[] = [];
+  const weekSixProcedures: Procedure[] = [];
+  const weekSevenProcedures: Procedure[] = [];
+  const weekEightProcedures: Procedure[] = [];
   // これはどのイベントを一番最初にするかによって変わってくる
   const firstWeek = add(moveDate, { months: -1 });
   // procedureがどの週にマッピングされるべきか決まる
