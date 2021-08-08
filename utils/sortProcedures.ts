@@ -1,15 +1,17 @@
 import { dummy_procedures } from "../info/procedures";
 
-const compare = (a, b) => {
+const compareWithDeadline = (a, b) => {
   let comparison = 0;
-  const startDateA = a.startDate;
-  const startDateB = b.startDate;
-  if (startDateA > startDateB) {
+  const deadlineA = a.deadline;
+  const deadlineB = b.deadline;
+  if (deadlineA > deadlineB) {
     comparison = 1;
-  } else if (startDateA < startDateB) {
+  } else if (deadlineA < deadlineB) {
     comparison = -1;
   }
   return comparison;
 };
 
-export const sortedProcedures = dummy_procedures.slice().sort(compare);
+export const sortedProcedures = dummy_procedures
+  .slice()
+  .sort(compareWithDeadline);
