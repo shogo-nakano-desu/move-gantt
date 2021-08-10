@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
@@ -6,10 +6,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Theme from "../components/Theme";
 import { Provider } from "react-redux";
 import { store } from "../app/store";
+import { selectUser, login, logout } from "../features/user/userSlice";
+import { auth } from "../../firebase";
+import { useAppSelector, useAppDispatch } from "../app/store";
 
 export default function MyApp({ Component, pageProps }) {
-  React.useEffect(() => {
-    // Remove the server-side injected CSS.
+  // Remove the server-side injected CSS.
+  useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
@@ -17,6 +20,25 @@ export default function MyApp({ Component, pageProps }) {
   }, []);
 
   // Reduxを投入
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const unSub = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        dispatch(
+          login({
+            uid: authUser.uid,
+            displayName: authUser.displayName,
+          })
+        );
+      } else {
+        dispatch(logout());
+      }
+    });
+    return () => {
+      unSub();
+    };
+  }, [dispatch]);
 
   return (
     <React.Fragment>

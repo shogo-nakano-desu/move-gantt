@@ -2,7 +2,7 @@ import React from "react";
 import MenuAppBar from "../../components/AppBar";
 import TodosComponent from "../../components/Todos";
 
-const dashboard = () => {
+const Dashboard = () => {
   // const calendarLength = calendarGen.length;
   // if (typeof document !== "undefined") {
   //   const gridBoarder = document.getElementById("scheduleGrid");
@@ -20,4 +20,4 @@ const dashboard = () => {
     </>
   );
 };
-export default dashboard;
+export default Dashboard;

@@ -7,6 +7,7 @@ import {
 import {
   useSelector as rawUseSelector,
   TypedUseSelectorHook,
+  useDispatch,
 } from "react-redux";
 import userReducer from "../features/user/userSlice";
 
@@ -24,7 +25,8 @@ export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {user: userReducer}
 export type AppDispatch = typeof store.dispatch;
 
-export const useSelector: TypedUseSelectorHook<RootState> = rawUseSelector;
+export const useAppSelector: TypedUseSelectorHook<RootState> = rawUseSelector;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
