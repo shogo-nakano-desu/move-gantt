@@ -1,4 +1,6 @@
 import React from "react";
+import { useReducer } from "react";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +14,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+import { reducers, initialState, changeUserName } from "../app/reducers";
+import { Login } from "../utils/auth";
+import { auth, provider } from "../../firebase";
+import { stateType } from "../app/reducers";
 
 function Copyright() {
   return (
@@ -48,6 +55,34 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  // これは消したい
+  // const [state, dispatch] = useReducer(reducers, initialState);
+
+  // refer dispatch func from store by useDispatch hooks
+  const dispatch = useDispatch();
+  // fetch state from global store
+  const email = useSelector((state: stateType) => state.authForm.email);
+  const password = useSelector((state: stateType) => state.authForm.password);
+  const userName = useSelector((state: stateType) => state.authForm.userName);
+  const signInEmail = async (state: stateType) => {
+    await auth.signInWithEmailAndPassword(
+      state.authForm.email,
+      state.authForm.password
+    );
+  };
+
+  const signUpEmail = async () => {
+    const authUser = await auth.createUserWithEmailAndPassword(email, password);
+
+    await authUser.user?.updateProfile({
+      displayName: userName,
+    });
+    dispatch(changeUserName(userName));
+  };
+
+  const signInGoogle = async () => {
+    await auth.signInWithPopup(provider).catch((err) => alert(err.message));
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -60,6 +95,20 @@ export default function SignIn() {
           ログイン
         </Typography>
         <form className={classes.form} noValidate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            name="username"
+            label="ユーザー名"
+            id="username"
+            autoComplete="username"
+            autoFocus
+            value={userName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(changeUserName(e.target.value));
+            }}
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -92,6 +141,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => Login(email, password)}
           >
             ログイン
           </Button>

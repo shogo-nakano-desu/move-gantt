@@ -11,7 +11,6 @@ const firebaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
-console.log(firebaseConfig);
 
 // if (firebase.apps.length === 0) {
 if (!firebase.apps.length) {
@@ -24,53 +23,3 @@ export const auth = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
 
 export const Firebase = firebase;
-
-export const Login = () => {
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then(function (result: any) {
-      return result;
-    })
-    .catch(function (error) {
-      console.log(error);
-      const errorCode = error.code;
-      console.log(errorCode);
-      const errorMessage = error.message;
-      console.log(errorMessage);
-    });
-};
-
-// ログイン状態の検知
-
-export const listenAuthState = (dispatch: any) => {
-  return firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      // User is signed in.
-      dispatch({
-        type: "login",
-        payload: {
-          user,
-        },
-      });
-    } else {
-      // User is signed out.
-      // ...
-      dispatch({
-        type: "logout",
-      });
-    }
-  });
-};
-
-// 今ログインしているユーザーはだれか確認する
-export const firebaseUser = () => {
-  return firebase.auth().currentUser;
-};
-
-// Logout
-export const Logout = () => {
-  auth.signOut().then(() => {
-    window.location.reload();
-  });
-};
