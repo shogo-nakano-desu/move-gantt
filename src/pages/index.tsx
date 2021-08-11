@@ -1,12 +1,11 @@
 import React from "react";
-import { useAppSelector } from "../app/store";
-import { selectUser } from "../features/user/userSlice";
+
 import SignIn from "./sign-in";
 import Dashboard from "./[username]/dashboard";
+import { Login, Logout, auth } from "../../firebase";
 
 const Home: React.VFC = () => {
-  const user = useAppSelector(selectUser);
-  return <>{user.uid ? <Dashboard /> : <SignIn />}</>;
+  return <>{auth.currentUser ? <Dashboard /> : <SignIn />}</>;
 };
 
 export default Home;
