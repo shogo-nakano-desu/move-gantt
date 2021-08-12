@@ -54,8 +54,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  // これは消したい
-  // const [state, dispatch] = useReducer(reducers, initialState);
 
   // refer dispatch func from store by useDispatch hooks
   const dispatch = useDispatch();

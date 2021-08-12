@@ -41,7 +41,7 @@ export const initialState = {
     formPassword: "",
     formUserName: "",
   },
-  auth: { accountFlag: false },
+  auth: { accountFlag: true },
   user: { uid: "", displayName: "" },
 };
 
