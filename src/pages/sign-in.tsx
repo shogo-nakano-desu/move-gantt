@@ -15,9 +15,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { emailForm, passwordForm, userNameForm } from "../app/reducers";
-import { signIn } from "../utils/auth";
+import { signIn, signUp } from "../utils/auth";
 import { auth, provider } from "../../firebase";
-import { stateType } from "../app/reducers";
+import { stateType, changeAccountFlag } from "../app/reducers";
 
 function Copyright() {
   return (
@@ -68,6 +68,8 @@ export default function SignIn() {
     (state: stateType) => state.authForm.formUserName
   );
 
+  const hasAccount = useSelector((state: stateType) => state.auth.accountFlag);
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -76,23 +78,30 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          ログイン
+          {hasAccount
+            ? // sign-in mode
+              "ログイン"
+            : // sign-up mode
+              "ユーザー登録"}
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            name="username"
-            label="ユーザー名"
-            id="username"
-            autoComplete="username"
-            autoFocus
-            value={userName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(userNameForm(e.target.value));
-            }}
-          />
+          {!hasAccount && (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              name="username"
+              label="ユーザー名"
+              id="username"
+              autoComplete="username"
+              autoFocus
+              value={userName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                dispatch(userNameForm(e.target.value));
+              }}
+            />
+          )}
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -133,20 +142,28 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={async () => await signIn(email, password)}
+            onClick={
+              hasAccount
+                ? // sign-in mode
+                  async () => await signIn(email, password)
+                : // sign-up mode
+                  async () => {
+                    await signUp(email, password, userName);
+                  }
+            }
           >
-            ログイン
+            {hasAccount ? "ログイン" : "登録"}
           </Button>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                パスワードを忘れましたか？
+                {hasAccount && "パスワードを忘れましたか？"}
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"アカウント作成はこちら"}
-              </Link>
+              <Button onClick={() => dispatch(changeAccountFlag(!hasAccount))}>
+                {hasAccount ? "ユーザー登録はこちら" : "ログインはこちら"}
+              </Button>
             </Grid>
           </Grid>
         </form>

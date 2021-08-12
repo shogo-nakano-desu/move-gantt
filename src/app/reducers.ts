@@ -19,14 +19,9 @@ export const userNameForm = (userName: string) => ({
   payload: userName,
 });
 
-export const signIn = () => ({
-  type: "SIGN_IN",
-  payload: true,
-});
-
-export const signOut = () => ({
-  type: "SIGN_OUT",
-  payload: false,
+export const changeAccountFlag = (flag: boolean) => ({
+  type: "CHANGE_ACCOUNT_FRAG",
+  payload: flag,
 });
 
 export const initialState = {
@@ -35,7 +30,7 @@ export const initialState = {
     formPassword: "",
     formUserName: "",
   },
-  auth: { isSignIn: false },
+  auth: { accountFlag: false },
 };
 
 export type stateType = typeof initialState;
@@ -63,15 +58,10 @@ export const reducer = (
         authForm: { ...state.authForm, formUserName: action.payload },
       };
     // auth
-    case "SIGN_IN":
+    case "CHANGE_ACCOUNT_FRAG":
       return {
         ...state,
-        auth: { ...state.auth, isSignIn: action.payload },
-      };
-    case "SIGN_OUT":
-      return {
-        ...state,
-        auth: { ...state.auth, isSignIn: action.payload },
+        auth: { ...state.auth, accountFlag: action.payload },
       };
 
     default:
