@@ -14,7 +14,7 @@ export const passwordForm = (password: string) => ({
   payload: password,
 });
 
-export const changeUserName = (userName: string) => ({
+export const userNameForm = (userName: string) => ({
   type: "CHANGE_USERNAME",
   payload: userName,
 });
@@ -31,11 +31,11 @@ export const signOut = () => ({
 
 export const initialState = {
   authForm: {
-    email: "",
-    password: "",
-    userName: "",
+    formEmail: "",
+    formPassword: "",
+    formUserName: "",
   },
-  auth: { user: undefined, isSignIn: false },
+  auth: { isSignIn: false },
 };
 
 export type stateType = typeof initialState;
@@ -48,23 +48,30 @@ export const reducer = (
   switch (action.type) {
     // sign-in form
     case "CHANGE_EMAIL_FORM":
-      return { ...state, email: action.payload };
+      return {
+        ...state,
+        authForm: { ...state.authForm, formEmail: action.payload },
+      };
     case "CHANGE_PASSWORD_FORM":
-      return { ...state, password: action.payload };
+      return {
+        ...state,
+        authForm: { ...state.authForm, formPassword: action.payload },
+      };
     case "CHANGE_USERNAME":
-      return { ...state, userName: action.payload };
+      return {
+        ...state,
+        authForm: { ...state.authForm, formUserName: action.payload },
+      };
     // auth
     case "SIGN_IN":
       return {
         ...state,
-        user: action.payload.user,
-        isSignIn: action.payload.isSignIn,
+        auth: { ...state.auth, isSignIn: action.payload },
       };
     case "SIGN_OUT":
       return {
         ...state,
-        user: null,
-        isSignIn: action.payload.isSignIn,
+        auth: { ...state.auth, isSignIn: action.payload },
       };
     default:
       return state;

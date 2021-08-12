@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { reducers, initialState, changeUserName } from "../app/reducers";
+import { emailForm, passwordForm, userNameForm } from "../app/reducers";
 import { Login } from "../utils/auth";
 import { auth, provider } from "../../firebase";
 import { stateType } from "../app/reducers";
@@ -61,13 +61,17 @@ export default function SignIn() {
   // refer dispatch func from store by useDispatch hooks
   const dispatch = useDispatch();
   // fetch state from global store
-  const email = useSelector((state: stateType) => state.authForm.email);
-  const password = useSelector((state: stateType) => state.authForm.password);
-  const userName = useSelector((state: stateType) => state.authForm.userName);
+  const email = useSelector((state: stateType) => state.authForm.formEmail);
+  const password = useSelector(
+    (state: stateType) => state.authForm.formPassword
+  );
+  const userName = useSelector(
+    (state: stateType) => state.authForm.formUserName
+  );
   const signInEmail = async (state: stateType) => {
     await auth.signInWithEmailAndPassword(
-      state.authForm.email,
-      state.authForm.password
+      state.authForm.formEmail,
+      state.authForm.formPassword
     );
   };
 
@@ -77,7 +81,7 @@ export default function SignIn() {
     await authUser.user?.updateProfile({
       displayName: userName,
     });
-    dispatch(changeUserName(userName));
+    dispatch(userNameForm(userName));
   };
 
   const signInGoogle = async () => {
@@ -106,7 +110,7 @@ export default function SignIn() {
             autoFocus
             value={userName}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(changeUserName(e.target.value));
+              dispatch(userNameForm(e.target.value));
             }}
           />
           <TextField
@@ -119,6 +123,10 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(emailForm(e.target.value));
+            }}
           />
           <TextField
             variant="outlined"
@@ -130,6 +138,10 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(userNameForm(e.target.value));
+            }}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
