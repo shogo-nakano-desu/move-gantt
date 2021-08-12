@@ -35,7 +35,7 @@ export const initialState = {
     formPassword: "",
     formUserName: "",
   },
-  auth: { isSignIn: false },
+  auth: { accountFrag: false },
 };
 
 export type stateType = typeof initialState;
