@@ -68,10 +68,6 @@ export default function SignIn() {
     (state: stateType) => state.authForm.formUserName
   );
 
-  const signInGoogle = async () => {
-    await auth.signInWithPopup(provider).catch((err) => alert(err.message));
-  };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
