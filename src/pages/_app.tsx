@@ -7,7 +7,7 @@ import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 
 import Theme from "../components/Theme";
-import { store } from "../app/reducers";
+import { useStore } from "../app/reducers";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Remove the server-side injected CSS.
@@ -18,12 +18,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  // Reduxを投入
-  // const [state, dispatch] = useReducer(reducers, initialState);
-  // useEffect(() => {
-  //   return listenAuthState(dispatch);
-  // }, []);
-  // 今はReduxを載せるためにProviderをいじっていた
+  // activate Redux
+  const store = useStore(pageProps.initialReduxState);
 
   return (
     <React.Fragment>

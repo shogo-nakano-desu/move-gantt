@@ -1,13 +1,14 @@
-import { createStore } from "redux";
+import { useMemo } from "react";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import logger from "redux-logger";
 
 // actions
-export const CHANGE_EMAIL_FORM = "CHANGE_EMAIL_FORM";
 export const emailForm = (email: string) => ({
-  type: "CHANGE_EMAIL_FOR",
+  type: "CHANGE_EMAIL_FORM",
   payload: email,
 });
 
-export const CHANGE_PASSWORD_FORM = "CHANGE_PASSWORD_FORM";
 export const passwordForm = (password: string) => ({
   type: "CHANGE_PASSWORD_FORM",
   payload: password,
@@ -34,27 +35,16 @@ export const initialState = {
     password: "",
     userName: "",
   },
-  auth: { user: null, isSignIn: false },
+  auth: { user: undefined, isSignIn: false },
 };
 
-export interface authFormType {
-  email: string;
-  password: string;
-  userName: string;
-}
-
-export interface authType {
-  user: any;
-  isSignIn: boolean;
-}
-
-export interface stateType {
-  authForm: authFormType;
-  auth: authType;
-}
+export type stateType = typeof initialState;
 
 // reducer
-export const reducers = (state = initialState, action: any) => {
+export const reducer = (
+  state = initialState,
+  action: { type: string; payload: any }
+) => {
   switch (action.type) {
     // sign-in form
     case "CHANGE_EMAIL_FORM":
@@ -81,4 +71,44 @@ export const reducers = (state = initialState, action: any) => {
   }
 };
 
-export const store = createStore(reducers, initialState);
+let store: any;
+
+const initStore = (preloadedState = initialState) => {
+  return createStore(
+    reducer,
+    preloadedState,
+    composeWithDevTools(applyMiddleware(logger))
+  );
+};
+
+export const initializeStore = (preloadedState: stateType) => {
+  // if store is null or undefined, return initStore(preloadedState)
+  let _store = store ?? initStore(preloadedState);
+
+  // After navigating to a page with an initial Redux state, merge that state
+  // with the current state in the store, and create a new store
+  if (preloadedState && store) {
+    _store = initStore({
+      ...store.getState(),
+      ...preloadedState,
+    });
+    // Reset the current store
+    store = undefined;
+  }
+
+  // For SSG and SSR always create a new store
+  if (typeof window === "undefined") {
+    return _store;
+  }
+  // Create the store once in the client
+  if (!store) {
+    store = _store;
+  }
+
+  return _store;
+};
+
+export const useStore = (initialState: stateType) => {
+  const store = useMemo(() => initializeStore(initialState), [initialState]);
+  return store;
+};
