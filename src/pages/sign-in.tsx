@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +13,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+import { emailForm, passwordForm, userNameForm } from "../app/reducers";
+import { signIn } from "../utils/auth";
+import { auth, provider } from "../../firebase";
+import { stateType } from "../app/reducers";
 
 function Copyright() {
   return (
@@ -48,6 +54,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  // これは消したい
+  // const [state, dispatch] = useReducer(reducers, initialState);
+
+  // refer dispatch func from store by useDispatch hooks
+  const dispatch = useDispatch();
+  // fetch state from global store
+  const email = useSelector((state: stateType) => state.authForm.formEmail);
+  const password = useSelector(
+    (state: stateType) => state.authForm.formPassword
+  );
+  const userName = useSelector(
+    (state: stateType) => state.authForm.formUserName
+  );
 
   return (
     <Container component="main" maxWidth="xs">
@@ -63,6 +82,20 @@ export default function SignIn() {
           <TextField
             variant="outlined"
             margin="normal"
+            fullWidth
+            name="username"
+            label="ユーザー名"
+            id="username"
+            autoComplete="username"
+            autoFocus
+            value={userName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(userNameForm(e.target.value));
+            }}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
             id="email"
@@ -70,6 +103,10 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(emailForm(e.target.value));
+            }}
           />
           <TextField
             variant="outlined"
@@ -81,6 +118,10 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(passwordForm(e.target.value));
+            }}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -92,6 +133,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={async () => await signIn(email, password)}
           >
             ログイン
           </Button>
