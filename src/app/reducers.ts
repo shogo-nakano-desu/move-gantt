@@ -80,8 +80,8 @@ export const reducer = (
         ...state,
         user: {
           ...state.user,
-          uid: action.payload,
-          displayName: action.payload,
+          uid: action.payload.uid,
+          displayName: action.payload.displayName,
         },
       };
     case "SIGN_OUT":
@@ -89,8 +89,8 @@ export const reducer = (
         ...state,
         user: {
           ...state.user,
-          uid: action.payload,
-          displayName: action.payload,
+          uid: action.payload.uid,
+          displayName: action.payload.displayName,
         },
       };
 

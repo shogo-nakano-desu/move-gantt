@@ -8,7 +8,6 @@ import { Provider, useDispatch } from "react-redux";
 
 import Theme from "../components/Theme";
 import { useStore, signIn, signOut } from "../app/reducers";
-
 import { auth } from "../../firebase";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -24,23 +23,29 @@ function MyApp({ Component, pageProps }: AppProps) {
   const store = useStore(pageProps.initialReduxState);
 
   // subscribe user
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const unSub = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        if (authUser.displayName) {
-          dispatch(signIn(authUser.uid, authUser.displayName));
+  // 以下の処理は、contextを使って各ページで必要なところを跨いで実行できるようにしたい。
+  const AuthComponent = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+      const unSub = auth.onAuthStateChanged((authUser) => {
+        if (authUser) {
+          if (authUser.displayName) {
+            dispatch(signIn(authUser.uid, authUser.displayName));
+          } else {
+            dispatch(signIn(authUser.uid));
+          }
         } else {
-          dispatch(signIn(authUser.uid));
+          dispatch(signOut());
         }
-      } else {
-        dispatch(signOut());
-      }
-    });
-    return () => {
-      unSub();
-    };
-  }, [dispatch]);
+      });
+      return () => {
+        unSub();
+      };
+    }, [dispatch]);
+    return null;
+  };
+
+  // ここまで
 
   return (
     <React.Fragment>
@@ -52,6 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Provider store={store}>
+        <AuthComponent />
         <ThemeProvider theme={Theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />

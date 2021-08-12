@@ -1,22 +1,28 @@
 import React from "react";
+import { useSelector } from "react-redux";
+
+import { stateType } from "../../app/reducers";
 import MenuAppBar from "../../components/AppBar";
 import TodosComponent from "../../components/Todos";
+import SignIn from "../sign-in";
 
 const Dashboard = () => {
-  // const calendarLength = calendarGen.length;
-  // if (typeof document !== "undefined") {
-  //   const gridBoarder = document.getElementById("scheduleGrid");
-  //   gridBoarder.style.gridTemplateColumns = calendarLength.toString();
-  // }
-
+  const uid = useSelector((state: stateType) => state.user.uid);
+  // const email = useSelector((state: stateType) => state.authForm.formEmail);
   return (
     <>
-      <div>
-        <MenuAppBar />
-      </div>
-      <div>
-        <TodosComponent />
-      </div>
+      {uid !== "" ? (
+        <>
+          <div>
+            <MenuAppBar />
+          </div>
+          <div>
+            <TodosComponent />
+          </div>
+        </>
+      ) : (
+        <SignIn />
+      )}
     </>
   );
 };
