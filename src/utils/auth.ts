@@ -1,26 +1,23 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { auth } from "../../firebase";
+import { auth, provider } from "../../firebase";
 
-export const SignUp = (email: string, password: string) => {
-  firebase
+export const signUp = async (
+  email: string,
+  password: string,
+  userName: string
+) => {
+  const authUser = await firebase
     .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+    .createUserWithEmailAndPassword(email, password);
+  await authUser.user?.updateProfile({
+    displayName: userName,
+  });
 };
 
-export const Login = (email: string, password: string) => {
-  firebase
+export const signIn = async (email: string, password: string) => {
+  await firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -33,6 +30,10 @@ export const Login = (email: string, password: string) => {
       const errorMessage = error.message;
       console.log(errorMessage);
     });
+};
+
+const signInGoogle = async () => {
+  await auth.signInWithPopup(provider).catch((err) => alert(err.message));
 };
 
 // ログイン状態の検知

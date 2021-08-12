@@ -1,6 +1,5 @@
 import React from "react";
-import { useReducer } from "react";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,7 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { emailForm, passwordForm, userNameForm } from "../app/reducers";
-import { Login } from "../utils/auth";
+import { signIn } from "../utils/auth";
 import { auth, provider } from "../../firebase";
 import { stateType } from "../app/reducers";
 
@@ -68,21 +67,6 @@ export default function SignIn() {
   const userName = useSelector(
     (state: stateType) => state.authForm.formUserName
   );
-  const signInEmail = async (state: stateType) => {
-    await auth.signInWithEmailAndPassword(
-      state.authForm.formEmail,
-      state.authForm.formPassword
-    );
-  };
-
-  const signUpEmail = async () => {
-    const authUser = await auth.createUserWithEmailAndPassword(email, password);
-
-    await authUser.user?.updateProfile({
-      displayName: userName,
-    });
-    dispatch(userNameForm(userName));
-  };
 
   const signInGoogle = async () => {
     await auth.signInWithPopup(provider).catch((err) => alert(err.message));
@@ -140,7 +124,7 @@ export default function SignIn() {
             autoComplete="current-password"
             value={password}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(userNameForm(e.target.value));
+              dispatch(passwordForm(e.target.value));
             }}
           />
           <FormControlLabel
@@ -153,7 +137,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={() => Login(email, password)}
+            onClick={async () => await signIn(email, password)}
           >
             ログイン
           </Button>

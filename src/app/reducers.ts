@@ -73,6 +73,7 @@ export const reducer = (
         ...state,
         auth: { ...state.auth, isSignIn: action.payload },
       };
+
     default:
       return state;
   }
