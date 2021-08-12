@@ -24,13 +24,25 @@ export const changeAccountFlag = (flag: boolean) => ({
   payload: flag,
 });
 
+export const signIn = (uid: string, displayName?: string) => ({
+  type: "SIGN_IN",
+  payload: { uid: uid, displayName: displayName },
+});
+
+export const signOut = () => ({
+  type: "SIGN_OUT",
+  payload: { uid: "", displayName: "" },
+});
+
+// サインインしているかどうかの管理は常にuser stateでしている。uidが存在すればログイン中、そうでなければログアウトしている
 export const initialState = {
   authForm: {
     formEmail: "",
     formPassword: "",
     formUserName: "",
   },
-  auth: { accountFlag: false },
+  auth: { accountFlag: true },
+  user: { uid: "", displayName: "" },
 };
 
 export type stateType = typeof initialState;
@@ -62,6 +74,24 @@ export const reducer = (
       return {
         ...state,
         auth: { ...state.auth, accountFlag: action.payload },
+      };
+    case "SIGN_IN":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          uid: action.payload.uid,
+          displayName: action.payload.displayName,
+        },
+      };
+    case "SIGN_OUT":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          uid: action.payload.uid,
+          displayName: action.payload.displayName,
+        },
       };
 
     default:

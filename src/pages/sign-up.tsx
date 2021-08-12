@@ -1,5 +1,5 @@
-// ユーザーアイコンを登録できるようにしたい。
-// Udemyでやったやつを参考にしたらいいと思う
+// このファイルは不要だから削除する。
+// その際に、sign-in.tsxのファイル名も変更する
 
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";

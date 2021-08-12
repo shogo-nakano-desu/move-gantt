@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -18,6 +18,7 @@ import { emailForm, passwordForm, userNameForm } from "../app/reducers";
 import { signIn, signUp } from "../utils/auth";
 import { auth, provider } from "../../firebase";
 import { stateType, changeAccountFlag } from "../app/reducers";
+import router from "next/router";
 
 function Copyright() {
   return (
@@ -54,8 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  // これは消したい
-  // const [state, dispatch] = useReducer(reducers, initialState);
 
   // refer dispatch func from store by useDispatch hooks
   const dispatch = useDispatch();

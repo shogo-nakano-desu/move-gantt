@@ -44,14 +44,14 @@ export const listenAuthState = (dispatch: any) => {
       // User is signed in.
       dispatch({
         type: "SIGN_IN",
-        payload: { user: user, isSignIn: true },
+        payload: user,
       });
     } else {
       // User is signed out.
       // ...
       dispatch({
         type: "SIGN_OUT",
-        payload: { siSignIn: false },
+        payload: "",
       });
     }
   });

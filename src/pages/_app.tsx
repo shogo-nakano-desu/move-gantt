@@ -4,10 +4,11 @@ import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import type { AppProps } from "next/app";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 
 import Theme from "../components/Theme";
-import { useStore } from "../app/reducers";
+import { useStore, signIn, signOut } from "../app/reducers";
+import { auth } from "../../firebase";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Remove the server-side injected CSS.
@@ -21,6 +22,31 @@ function MyApp({ Component, pageProps }: AppProps) {
   // activate Redux
   const store = useStore(pageProps.initialReduxState);
 
+  // subscribe user
+  // 以下の処理は、contextを使って各ページで必要なところを跨いで実行できるようにしたい。
+  const AuthComponent = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+      const unSub = auth.onAuthStateChanged((authUser) => {
+        if (authUser) {
+          if (authUser.displayName) {
+            dispatch(signIn(authUser.uid, authUser.displayName));
+          } else {
+            dispatch(signIn(authUser.uid));
+          }
+        } else {
+          dispatch(signOut());
+        }
+      });
+      return () => {
+        unSub();
+      };
+    }, [dispatch]);
+    return null;
+  };
+
+  // ここまで
+
   return (
     <React.Fragment>
       <Head>
@@ -31,6 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Provider store={store}>
+        <AuthComponent />
         <ThemeProvider theme={Theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
