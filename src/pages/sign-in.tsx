@@ -17,7 +17,7 @@ import Container from "@material-ui/core/Container";
 import { emailForm, passwordForm, userNameForm } from "../app/reducers";
 import { signIn, signUp } from "../utils/auth";
 import { auth, provider } from "../../firebase";
-import { stateType } from "../app/reducers";
+import { stateType, changeAccountFlag } from "../app/reducers";
 
 function Copyright() {
   return (
@@ -68,7 +68,7 @@ export default function SignIn() {
     (state: stateType) => state.authForm.formUserName
   );
 
-  const hasAccount = useSelector((state: stateType) => state.auth.accountFrag);
+  const hasAccount = useSelector((state: stateType) => state.auth.accountFlag);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -161,9 +161,9 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Button onClick={() => dispatch(changeAccountFlag(!hasAccount))}>
                 {hasAccount ? "ユーザー登録はこちら" : "ログインはこちら"}
-              </Link>
+              </Button>
             </Grid>
           </Grid>
         </form>
