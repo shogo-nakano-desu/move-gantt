@@ -1,13 +1,24 @@
-import { dummy_procedures } from "../info/procedures";
+import { dummy_procedures, Procedure } from "../info/procedures";
 
-const compareWithDeadline = (a, b) => {
+export const compareWithDeadline = (a: Procedure, b: Procedure) => {
   let comparison = 0;
-  const deadlineA = a.deadline;
-  const deadlineB = b.deadline;
+  const deadlineA = a.deadline.getTime();
+  const deadlineB = b.deadline.getTime();
+  const startDateA = a.startDate.getTime();
+  const startDateB = b.startDate.getTime();
+  console.log("check");
   if (deadlineA > deadlineB) {
     comparison = 1;
   } else if (deadlineA < deadlineB) {
     comparison = -1;
+  } else if (deadlineA === deadlineB) {
+    if (startDateA > startDateB) {
+      comparison = 1;
+    } else if (startDateA < startDateB) {
+      comparison = -1;
+    } else if (startDateA === startDateB) {
+      comparison = -1;
+    }
   }
   return comparison;
 };

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest --silent=false --verbose false"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
