@@ -6,7 +6,7 @@ export const compareWithDeadline = (a: Procedure, b: Procedure) => {
   const deadlineB = b.deadline.getTime();
   const startDateA = a.startDate.getTime();
   const startDateB = b.startDate.getTime();
-  console.log("check");
+
   if (deadlineA > deadlineB) {
     comparison = 1;
   } else if (deadlineA < deadlineB) {

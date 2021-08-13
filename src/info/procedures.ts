@@ -32,8 +32,9 @@ const TARGET_PERSON = {
 type TARGET_PERSON = typeof TARGET_PERSON[keyof typeof TARGET_PERSON];
 
 // ----------------------------------------------------------------
+// rentalCaN / gasTapStop /dummy_moveNotification /dummy_car
 // 以下全てダミーデータ
-const dummy_rentalCAN: Procedure = {
+export const dummy_rentalCAN: Procedure = {
   title: "賃貸物件の解約手続き",
   startDate: today,
   deadline: add(moveDate, { months: -1 }),
@@ -48,7 +49,7 @@ const dummy_rentalCAN: Procedure = {
   isCar: false,
 };
 
-const dummy_gasTapStop: Procedure = {
+export const dummy_gasTapStop: Procedure = {
   title: "ガス・水道停止の立ち合い",
   startDate: moveDate,
   deadline: moveDate,
@@ -63,7 +64,7 @@ const dummy_gasTapStop: Procedure = {
   isCar: false,
 };
 
-const dummy_moveNotification: Procedure = {
+export const dummy_moveNotification: Procedure = {
   title: "転出届の提出",
   startDate: add(moveDate, { weeks: -2 }),
   deadline: add(moveDate, { weeks: 1 }),
@@ -78,7 +79,7 @@ const dummy_moveNotification: Procedure = {
   isCar: false,
 };
 
-const dummy_car: Procedure = {
+export const dummy_car: Procedure = {
   title: "車庫証明の取得申請",
   startDate: add(moveDate, { days: 1 }),
   deadline: add(moveDate, { days: 15 }),

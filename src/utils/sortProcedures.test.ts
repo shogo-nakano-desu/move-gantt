@@ -1,5 +1,11 @@
-import { Procedure } from "../info/procedures";
-import { compareWithDeadline } from "./sortProcedures";
+import {
+  Procedure,
+  dummy_rentalCAN,
+  dummy_gasTapStop,
+  dummy_moveNotification,
+  dummy_car,
+} from "../info/procedures";
+import { compareWithDeadline, sortedProcedures } from "./sortProcedures";
 
 // export interface Procedure {
 //   title: string;
@@ -67,4 +73,13 @@ test("check if sort works correctly", () => {
   expect(compareWithDeadline(testProcedureA, testProcedureB)).toEqual(1);
   expect(compareWithDeadline(testProcedureC, testProcedureB)).toEqual(1);
   expect(compareWithDeadline(testProcedureC, testProcedureA)).toEqual(-1);
+});
+
+test("check if sortedProcedures func create array correctly", () => {
+  expect(sortedProcedures).toEqual([
+    dummy_rentalCAN,
+    dummy_gasTapStop,
+    dummy_moveNotification,
+    dummy_car,
+  ]);
 });
