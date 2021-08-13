@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+// URLを変えたかったら、dynamic routing使えばOKか
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -16,9 +17,7 @@ import Container from "@material-ui/core/Container";
 
 import { emailForm, passwordForm, userNameForm } from "../app/reducers";
 import { signIn, signUp } from "../utils/auth";
-import { auth, provider } from "../../firebase";
 import { stateType, changeAccountFlag } from "../app/reducers";
-import router from "next/router";
 
 function Copyright() {
   return (
