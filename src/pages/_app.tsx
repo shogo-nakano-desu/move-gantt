@@ -29,12 +29,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {
       const unSub = auth.onAuthStateChanged((authUser) => {
         if (authUser) {
+          console.log("ログインしているユーザーがいる");
           if (authUser.displayName) {
             dispatch(signIn(authUser.uid, authUser.displayName));
           } else {
             dispatch(signIn(authUser.uid));
           }
         } else {
+          console.log("ログインしているユーザーがいない");
           dispatch(signOut());
         }
       });

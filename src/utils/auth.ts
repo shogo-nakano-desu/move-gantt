@@ -1,28 +1,41 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import { useDispatch } from "react-redux";
+
 import { auth, provider } from "../../firebase";
 
-export const signUp = async (
+export const SignUp = async (
   email: string,
   password: string,
-  userName: string
+  userName: string | null
 ) => {
-  const authUser = await firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password);
-  await authUser.user?.updateProfile({
-    displayName: userName,
-  });
-};
-
-export const signIn = async (email: string, password: string) => {
-  await firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
+  await auth
+    .createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      user &&
+        userName &&
+        user.updateProfile({
+          displayName: userName,
+        });
     })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(`errorCode: ${errorCode}`);
+      console.log(`errorMessage: ${errorMessage}`);
+    });
+};
+
+export const SignIn = async (email: string, password: string) => {
+  await auth
+    .signInWithEmailAndPassword(email, password)
+    // 以下の処理は多分いらない。
+    // .then((userCredential) => {
+    //   const user = userCredential.user;
+    //   return user;
+    // })
     .catch(function (error) {
       console.log(error);
       const errorCode = error.code;
@@ -36,34 +49,24 @@ const signInGoogle = async () => {
   await auth.signInWithPopup(provider).catch((err) => alert(err.message));
 };
 
-// ログイン状態の検知
-export const listenAuthState = (dispatch: any) => {
-  return firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // User is signed in.
-      dispatch({
-        type: "SIGN_IN",
-        payload: user,
-      });
-    } else {
-      // User is signed out.
-      // ...
-      dispatch({
-        type: "SIGN_OUT",
-        payload: "",
-      });
-    }
-  });
-};
-
 // 今ログインしているユーザーはだれか確認する
+// ↓これはログイン状態を監視しているところが、stateにユーザー情報を入れているから、それを取ったほうがいいかも
 export const firebaseUser = () => {
-  return firebase.auth().currentUser;
+  return auth.currentUser;
 };
 
-// Logout
-export const Logout = () => {
-  auth.signOut().then(() => {
-    window.location.reload();
-  });
+// SignOut
+export const SignOut = () => {
+  auth
+    .signOut()
+    .then(() => {
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log(error);
+      const errorCode = error.code;
+      console.log(errorCode);
+      const errorMessage = error.message;
+      console.log(errorMessage);
+    });
 };

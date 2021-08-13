@@ -16,7 +16,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { emailForm, passwordForm, userNameForm } from "../app/reducers";
-import { signIn, signUp } from "../utils/auth";
+import { SignIn, SignUp } from "../utils/auth";
 import { stateType, changeAccountFlag } from "../app/reducers";
 
 function Copyright() {
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignInComponent() {
   const classes = useStyles();
 
   // refer dispatch func from store by useDispatch hooks
@@ -143,10 +143,13 @@ export default function SignIn() {
             onClick={
               hasAccount
                 ? // sign-in mode
-                  async () => await signIn(email, password)
+                  async () => {
+                    console.log("ログインしようとしているユーザーがいる");
+                    await SignIn(email, password);
+                  }
                 : // sign-up mode
                   async () => {
-                    await signUp(email, password, userName);
+                    await SignUp(email, password, userName);
                   }
             }
           >

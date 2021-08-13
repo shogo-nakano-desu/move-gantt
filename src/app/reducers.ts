@@ -35,7 +35,7 @@ export const signOut = () => ({
 });
 
 // サインインしているかどうかの管理は常にuser stateでしている。uidが存在すればログイン中、そうでなければログアウトしている
-export const initialState = {
+export const initialState: stateType = {
   authForm: {
     formEmail: "",
     formPassword: "",
@@ -45,7 +45,17 @@ export const initialState = {
   user: { uid: "", displayName: "" },
 };
 
-export type stateType = typeof initialState;
+// これはinitialStateからReturnTypeで持ってこないようにあえて書いている。
+// なぜなら、formUserNameをnullでもOKにしたいから
+export interface stateType {
+  authForm: {
+    formEmail: string;
+    formPassword: string;
+    formUserName: string | null;
+  };
+  auth: { accountFlag: boolean };
+  user: { uid: string; displayName: string };
+}
 
 // reducer
 export const reducer = (
