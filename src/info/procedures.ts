@@ -6,7 +6,7 @@ import { add } from "date-fns";
 // ----------------------------------------------------------------
 // ここはダミーデータ
 const today = new Date();
-export const moveDate = new Date(2021, 8, 6);
+export const moveDate = new Date(2021, 8, 6); // 2021/9/6
 // ----------------------------------------------------------------
 
 // booleanに関しては、trueの時だけその項目がマストになる
@@ -37,7 +37,7 @@ type TARGET_PERSON = typeof TARGET_PERSON[keyof typeof TARGET_PERSON];
 export const dummy_rentalCAN: Procedure = {
   title: "賃貸物件の解約手続き",
   startDate: today,
-  deadline: add(moveDate, { months: -1 }),
+  deadline: add(moveDate, { months: -1 }), // 2021/8/6
   submitDestination: "管理会社や不動産会社、大家など",
   targetPerson: "everyone",
   confirmationSource:
@@ -52,7 +52,7 @@ export const dummy_rentalCAN: Procedure = {
 export const dummy_gasTapStop: Procedure = {
   title: "ガス・水道停止の立ち合い",
   startDate: moveDate,
-  deadline: moveDate,
+  deadline: moveDate, // 2021/9/6
   submitDestination: "ガス・水道会社",
   targetPerson: "everyone",
   confirmationSource:
@@ -67,7 +67,7 @@ export const dummy_gasTapStop: Procedure = {
 export const dummy_moveNotification: Procedure = {
   title: "転出届の提出",
   startDate: add(moveDate, { weeks: -2 }),
-  deadline: add(moveDate, { weeks: 1 }),
+  deadline: add(moveDate, { weeks: 1 }), // 2021/9/13
   submitDestination: "ガス・水道会社",
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
@@ -82,7 +82,7 @@ export const dummy_moveNotification: Procedure = {
 export const dummy_car: Procedure = {
   title: "車庫証明の取得申請",
   startDate: add(moveDate, { days: 1 }),
-  deadline: add(moveDate, { days: 15 }),
+  deadline: add(moveDate, { days: 15 }), //2021/9/21
   submitDestination: "管轄の警察署",
   targetPerson: "everyone",
   confirmationSource:
@@ -95,8 +95,8 @@ export const dummy_car: Procedure = {
 };
 
 export const dummy_procedures: Procedure[] = [
-  dummy_rentalCAN,
-  dummy_gasTapStop,
   dummy_moveNotification,
   dummy_car,
+  dummy_rentalCAN,
+  dummy_gasTapStop,
 ];

@@ -1,5 +1,6 @@
 import { dummy_procedures, Procedure } from "../info/procedures";
 
+// sortedProceduresでdummy_proceduresのところにProceduresを渡すと、deadlineが早い順に並び替える関数
 export const compareWithDeadline = (a: Procedure, b: Procedure) => {
   let comparison = 0;
   const deadlineA = a.deadline.getTime();

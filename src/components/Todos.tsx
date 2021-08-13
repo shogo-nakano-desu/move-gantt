@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { getMonth, getDate } from "date-fns";
-import { splitedProcedures } from "../utils/splitProcedures";
+import { splittedProcedures } from "../utils/splitProcedures";
 
 import { sortedProcedures } from "../utils/sortProcedures";
 
@@ -54,7 +54,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splitedProcedures().weekOneProcedures.map((procedure) => (
+              {splittedProcedures().weekOneProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
@@ -78,7 +78,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splitedProcedures().weekTwoProcedures.map((procedure) => (
+              {splittedProcedures().weekTwoProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
@@ -102,7 +102,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splitedProcedures().weekThreeProcedures.map((procedure) => (
+              {splittedProcedures().weekThreeProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
@@ -126,7 +126,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splitedProcedures().weekFourProcedures.map((procedure) => (
+              {splittedProcedures().weekFourProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
@@ -150,7 +150,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splitedProcedures().weekFiveProcedures.map((procedure) => (
+              {splittedProcedures().weekFiveProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
@@ -174,7 +174,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splitedProcedures().weekSixProcedures.map((procedure) => (
+              {splittedProcedures().weekSixProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
@@ -198,7 +198,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splitedProcedures().weekSevenProcedures.map((procedure) => (
+              {splittedProcedures().weekSevenProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
@@ -222,7 +222,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splitedProcedures().weekEightProcedures.map((procedure) => (
+              {splittedProcedures().weekEightProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
