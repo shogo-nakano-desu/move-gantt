@@ -1,7 +1,7 @@
 import { add } from "date-fns";
 
 // dummy data---------------------------------
-const moveDate = new Date(2021, 8, 6);
+export const moveDate = new Date(2021, 8, 6);
 // -------------------------------------------
 
 export const calendarGen = () => {

@@ -8,7 +8,6 @@ export const signUp = async (
   password: string,
   userName: string
 ) => {
-  console.log("signUp関数は動いている");
   const authUser = await firebase
     .auth()
     .createUserWithEmailAndPassword(email, password);
