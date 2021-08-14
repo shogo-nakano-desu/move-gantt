@@ -3,6 +3,8 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 
+import { auth } from "../../firebase";
+
 // actions
 export const emailForm = (email: string) => ({
   type: "CHANGE_EMAIL_FORM",
@@ -24,8 +26,8 @@ export const changeAccountFlag = (flag: boolean) => ({
   payload: flag,
 });
 
-export const signIn = (uid: string, displayName?: string) => ({
-  type: "SIGN_IN",
+export const setCurrentUser = (uid: string, displayName?: string) => ({
+  type: "SET_CURRENT_USER",
   payload: { uid: uid, displayName: displayName },
 });
 
@@ -41,20 +43,23 @@ export const initialState: stateType = {
     formPassword: "",
     formUserName: "",
   },
-  auth: { accountFlag: true },
   user: { uid: "", displayName: "" },
 };
 
 // これはinitialStateからReturnTypeで持ってこないようにあえて書いている。
 // なぜなら、formUserNameをnullでもOKにしたいから
+export interface userType {
+  uid: string;
+  displayName: string;
+}
+
 export interface stateType {
   authForm: {
     formEmail: string;
     formPassword: string;
     formUserName: string | null;
   };
-  auth: { accountFlag: boolean };
-  user: { uid: string; displayName: string };
+  user: userType;
 }
 
 // reducer
@@ -79,13 +84,7 @@ export const reducer = (
         ...state,
         authForm: { ...state.authForm, formUserName: action.payload },
       };
-    // auth
-    case "CHANGE_ACCOUNT_FRAG":
-      return {
-        ...state,
-        auth: { ...state.auth, accountFlag: action.payload },
-      };
-    case "SIGN_IN":
+    case "SET_CURRENT_USER":
       return {
         ...state,
         user: {

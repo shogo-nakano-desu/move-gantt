@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { stateType } from "../app/reducers";
+import { stateType } from "../utils/reducers";
 import SignInComponent from "./sign-in";
-import Dashboard from "./[username]/dashboard";
+import Dashboard from "./dashboard";
 import { auth } from "../../firebase";
 
 const Home: React.VFC = () => {
