@@ -1,4 +1,3 @@
-// URLを変えたかったら、dynamic routing使えばOKか
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -16,7 +15,13 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { emailForm, passwordForm, stateType } from "../utils/reducers";
+import {
+  emailForm,
+  passwordForm,
+  userNameForm,
+  stateType,
+  changeAccountFlag,
+} from "../utils/reducers";
 import { auth } from "../../firebase";
 
 function Copyright() {
@@ -52,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignInComponent: React.VFC = () => {
+export default function SignUpComponent() {
   const classes = useStyles();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -61,6 +66,9 @@ const SignInComponent: React.VFC = () => {
   const password = useSelector(
     (state: stateType) => state.authForm.formPassword
   );
+  const userName = useSelector(
+    (state: stateType) => state.authForm.formUserName
+  );
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -68,10 +76,10 @@ const SignInComponent: React.VFC = () => {
     });
   }, []);
 
-  const SignIn = async (e: any) => {
+  const SignUp = async (e: any) => {
     e.preventDefault();
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      await auth.createUserWithEmailAndPassword(email, password);
       router.push("/dashboard");
     } catch (err) {
       alert(err.message);
@@ -86,9 +94,24 @@ const SignInComponent: React.VFC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          ログイン
+          ユーザー登録
         </Typography>
-        <form className={classes.form} noValidate onSubmit={SignIn}>
+        <form className={classes.form} noValidate onSubmit={SignUp}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            name="username"
+            label="ユーザー名"
+            id="username"
+            autoComplete="username"
+            autoFocus
+            value={userName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(userNameForm(e.target.value));
+            }}
+          />
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -129,26 +152,32 @@ const SignInComponent: React.VFC = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            // onClick={
+            //   hasAccount
+            //     ? // sign-in mode
+            //       async () => {
+            //         console.log("ログインしようとしているユーザーがいる");
+            //         await SignIn(email, password);
+            //       }
+            //     : // sign-up mode
+            //       async () => {
+            //         await SignUp(email, password, userName);
+            //       }
+            // }
           >
-            ログイン
+            登録
           </Button>
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item>
+              <Link href="/sign-in">ログインはこちら</Link>
+            </Grid>
+          </Grid>
         </form>
-        <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              パスワードを忘れましたか？
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link href="/sign-up">ユーザー登録はこちら</Link>
-          </Grid>
-        </Grid>
       </div>
       <Box mt={8}>
         <Copyright />
       </Box>
     </Container>
   );
-};
-
-export default SignInComponent;
+}

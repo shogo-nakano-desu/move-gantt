@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["住所登録", "引越し予定日登録", "その他情報登録"];
 
-function getStepContent(step) {
+function getStepContent(step: number) {
   switch (step) {
     case 0:
       return <AddressForm />;

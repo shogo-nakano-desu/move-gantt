@@ -7,7 +7,7 @@ import type { AppProps } from "next/app";
 import { Provider, useDispatch } from "react-redux";
 
 import Theme from "../components/Theme";
-import { useStore, signIn, signOut } from "../app/reducers";
+import { useStore, setCurrentUser, signOut } from "../utils/reducers";
 import { auth } from "../../firebase";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -24,26 +24,28 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // subscribe user
   // 以下の処理は、contextを使って各ページで必要なところを跨いで実行できるようにしたい。
-  const AuthComponent = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-      const unSub = auth.onAuthStateChanged((authUser) => {
-        if (authUser) {
-          if (authUser.displayName) {
-            dispatch(signIn(authUser.uid, authUser.displayName));
-          } else {
-            dispatch(signIn(authUser.uid));
-          }
-        } else {
-          dispatch(signOut());
-        }
-      });
-      return () => {
-        unSub();
-      };
-    }, [dispatch]);
-    return null;
-  };
+  // const AuthComponent = () => {
+  //   const dispatch = useDispatch();
+  //   useEffect(() => {
+  //     const unSub = auth.onAuthStateChanged((authUser) => {
+  //       if (authUser) {
+  //         console.log("ログインしているユーザーがいる");
+  //         if (authUser.displayName) {
+  //           dispatch(setCurrentUser(authUser.uid, authUser.displayName));
+  //         } else {
+  //           dispatch(setCurrentUser(authUser.uid));
+  //         }
+  //       } else {
+  //         console.log("ログインしているユーザーがいない");
+  //         dispatch(signOut());
+  //       }
+  //     });
+  //     return () => {
+  //       unSub();
+  //     };
+  //   }, [dispatch]);
+  //   return null;
+  // };
 
   // ここまで
 
@@ -57,7 +59,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Provider store={store}>
-        <AuthComponent />
+        {/* <AuthComponent /> */}
         <ThemeProvider theme={Theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
