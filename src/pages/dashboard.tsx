@@ -17,19 +17,17 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: { height: "100%", width: "100%" },
     appbar: {
-      height: "7%",
+      height: "9%",
       width: "100%",
     },
     todos: {
-      height: "85%",
+      height: "83%",
       width: "100%",
+      marginLeft: "5px",
+      marginRight: "5px",
     },
     addtodo: {
-      height: "10%",
-      width: "100%",
-    },
-    addtodocontainer: {
-      height: "100%",
+      height: "8%",
       width: "100%",
     },
   })
@@ -47,17 +45,17 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Grid container>
-      <Grid className={classes.appbar} item>
+    <div style={{ width: "100%", height: "98%" }}>
+      <Box className={classes.appbar}>
         <AppBarComponent />
-      </Grid>
-      <Grid className={classes.todos} item>
+      </Box>
+      <Box className={classes.todos}>
         <TodosComponent />
-      </Grid>
-      <Grid className={classes.addtodo} container alignContent="space-between">
+      </Box>
+      <Box className={classes.addtodo} display="flex" justifyContent="flex-end">
         <AddTodoButtonComponent />
-      </Grid>
-    </Grid>
+      </Box>
+    </div>
   );
 };
 export default Dashboard;
