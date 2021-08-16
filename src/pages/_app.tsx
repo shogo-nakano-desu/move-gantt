@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 
 import Theme from "../components/Theme";
 import { useStore } from "../utils/reducers";
+import "./styles.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Remove the server-side injected CSS.

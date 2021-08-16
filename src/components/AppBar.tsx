@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function MenuAppBar() {
+export default function AppBarComponent() {
   const router = useRouter();
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = React.useState(false);
