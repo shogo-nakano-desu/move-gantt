@@ -4,11 +4,10 @@ import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import type { AppProps } from "next/app";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 
 import Theme from "../components/Theme";
-import { useStore, setCurrentUser, signOut } from "../utils/reducers";
-import { auth } from "../../firebase";
+import { useStore } from "../utils/reducers";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Remove the server-side injected CSS.
@@ -21,33 +20,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // activate Redux
   const store = useStore(pageProps.initialReduxState);
-
-  // subscribe user
-  // 以下の処理は、contextを使って各ページで必要なところを跨いで実行できるようにしたい。
-  // const AuthComponent = () => {
-  //   const dispatch = useDispatch();
-  //   useEffect(() => {
-  //     const unSub = auth.onAuthStateChanged((authUser) => {
-  //       if (authUser) {
-  //         console.log("ログインしているユーザーがいる");
-  //         if (authUser.displayName) {
-  //           dispatch(setCurrentUser(authUser.uid, authUser.displayName));
-  //         } else {
-  //           dispatch(setCurrentUser(authUser.uid));
-  //         }
-  //       } else {
-  //         console.log("ログインしているユーザーがいない");
-  //         dispatch(signOut());
-  //       }
-  //     });
-  //     return () => {
-  //       unSub();
-  //     };
-  //   }, [dispatch]);
-  //   return null;
-  // };
-
-  // ここまで
 
   return (
     <React.Fragment>
