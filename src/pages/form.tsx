@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import firebase from "firebase/app";
 
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -15,12 +14,13 @@ import Button from "@material-ui/core/Button";
 import { Link as MaterialLink } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
-import AddressFormComponent from "../components/AddressForm";
+import AddressFormComponent from "../components/addressForm";
 import DateForm from "../components/dateForm";
 import OtherForm from "../components/oterForm";
-import { auth } from "../../firebaseClient";
+import { auth, db } from "../../firebaseClient";
 import { setCurrentUser } from "../utils/reducers";
 import AppBarComponent from "../components/AppBar";
+import { stateType } from "../utils/reducers";
 
 function Copyright() {
   return (
@@ -106,6 +106,53 @@ export default function CreateProjectComponent() {
     setActiveStep(activeStep - 1);
   };
 
+  const userId = useSelector((state: stateType) => state.user.uid);
+  // firestoreに新規プロジェクトを作成するための関数群
+  const willMovePrefecture = useSelector(
+    (state: stateType) => state.projectForm.formWillMovePrefecture
+  );
+  const willMoveAddress = useSelector(
+    (state: stateType) => state.projectForm.formWillMoveAddress
+  );
+  const moveFromPrefecture = useSelector(
+    (state: stateType) => state.projectForm.formMoveFromPrefecture
+  );
+  const moveFromAddress = useSelector(
+    (state: stateType) => state.projectForm.formMoveFromAddress
+  );
+  const willMoveDate = useSelector(
+    (state: stateType) => state.projectForm.formWillMoveDate
+  );
+  const isSelfEmployed = useSelector(
+    (state: stateType) => state.projectForm.formIsSelfEmployed
+  );
+  const isStudent = useSelector(
+    (state: stateType) => state.projectForm.formIsStudent
+  );
+  const isPet = useSelector((state: stateType) => state.projectForm.formIsPet);
+  const isScooter = useSelector(
+    (state: stateType) => state.projectForm.formIsScooter
+  );
+  const isCar = useSelector((state: stateType) => state.projectForm.formIsCar);
+  // 最後にstateを空にする処理を忘れずに書く
+  // この前に、usercollectionを作成して、そこに入れるようにしたほうが良さげ
+  const putProjectToFirestore = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    db.collection("users").doc(userId).collection("projects").add({
+      willMovePrefecture: willMovePrefecture,
+      willMoveAddress: willMoveAddress,
+      moveFromPrefecture: moveFromPrefecture,
+      moveFromAddress: moveFromAddress,
+      willMoveDate: willMoveDate,
+      isSelfEmployed: isSelfEmployed,
+      isStudent: isStudent,
+      isPet: isPet,
+      isScooter: isScooter,
+      isCar: isCar,
+      created_at: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -134,22 +181,36 @@ export default function CreateProjectComponent() {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      戻る
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "登録完了" : "次へ"}
-                  </Button>
-                </div>
+                <form onSubmit={putProjectToFirestore}>
+                  {getStepContent(activeStep)}
+                  <div className={classes.buttons}>
+                    {activeStep !== 0 && (
+                      <Button onClick={handleBack} className={classes.button}>
+                        戻る
+                      </Button>
+                    )}
+                    {activeStep === steps.length - 1 ? (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={classes.button}
+                      >
+                        登録完了
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={classes.button}
+                      >
+                        次へ
+                      </Button>
+                    )}
+                  </div>
+                </form>
               </React.Fragment>
             )}
           </React.Fragment>

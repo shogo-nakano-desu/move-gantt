@@ -16,8 +16,13 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { emailForm, passwordForm, stateType } from "../utils/reducers";
-import { auth } from "../../firebaseClient";
+import {
+  emailForm,
+  passwordForm,
+  stateType,
+  setCurrentUser,
+} from "../utils/reducers";
+import { auth, db } from "../../firebaseClient";
 
 function Copyright() {
   return (
@@ -61,10 +66,11 @@ const SignInComponent: React.VFC = () => {
   const password = useSelector(
     (state: stateType) => state.authForm.formPassword
   );
+  const userId = useSelector((state: stateType) => state.user.uid);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      user && router.push("/dashboard");
+      user && router.push("/dashboard"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
     });
   }, []);
 
@@ -78,6 +84,11 @@ const SignInComponent: React.VFC = () => {
     }
   };
 
+  const createUserCollection = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    db.collection("users").doc(userId);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -88,6 +99,7 @@ const SignInComponent: React.VFC = () => {
         <Typography component="h1" variant="h5">
           ログイン
         </Typography>
+        {/* ここで２つの関数を呼んでいるのはちょっと怪しい */}
         <form className={classes.form} noValidate onSubmit={SignIn}>
           <TextField
             variant="outlined"
