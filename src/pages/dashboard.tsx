@@ -2,10 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import { Container } from "@material-ui/core";
-import { sizing } from "@material-ui/system";
 
 import { setCurrentUser } from "../utils/reducers";
 import TodosComponent from "../components/Todos";
