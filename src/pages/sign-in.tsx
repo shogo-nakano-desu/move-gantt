@@ -17,7 +17,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { emailForm, passwordForm, stateType } from "../utils/reducers";
-import { auth } from "../../firebase";
+import { auth } from "../../firebaseClient";
 
 function Copyright() {
   return (

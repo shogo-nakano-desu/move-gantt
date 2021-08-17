@@ -13,7 +13,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 
-import { auth } from "../../firebase";
+import { auth } from "../../firebaseClient";
 import { dateGenerator } from "../utils/dateGenerator";
 
 type LinkMenuItemProps = Omit<

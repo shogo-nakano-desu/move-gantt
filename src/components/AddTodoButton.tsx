@@ -1,6 +1,6 @@
 // [TODO] ダイアログからTODOを追加できるようにする必要あり
 
-import React from "react";
+import React, { useState } from "react";
 import AddTaskIcon from "@material-ui/icons/AddTask";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -9,8 +9,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import DatePickers from "./Datepickers";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
+import { dateParser } from "../utils/dateParser";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,10 +32,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // ホバーした際にbackgroundColorを100,162,185にしたい
+interface Props {
+  onChange?: (date: Date) => void;
+}
 
-export default function AddTodoButtonComponent() {
+export default function AddTodoButtonComponent({ onChange }: Props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [startDate, setStartDate] = useState<undefined | Date>(undefined);
+  const [endDate, setEndDate] = useState<undefined | Date>(undefined);
+  const [memo, setMemo] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,6 +51,7 @@ export default function AddTodoButtonComponent() {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Button
@@ -75,23 +84,38 @@ export default function AddTodoButtonComponent() {
               id="title"
               label="タイトル"
               type="text"
+              value={title}
               fullWidth
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setTitle(e.target.value);
+              }}
             />
             <span className={classes.root}>
               <TextField
                 margin="dense"
                 type="date"
                 label="開始日"
+                required
+                value={startDate}
                 InputLabelProps={{
                   shrink: true,
+                }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setStartDate(dateParser(e.target.value));
                 }}
               />
               <TextField
                 margin="dense"
                 type="date"
                 label="終了日"
+                required
+                value={endDate}
                 InputLabelProps={{
                   shrink: true,
+                }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setEndDate(dateParser(e.target.value));
                 }}
               />
             </span>
@@ -99,18 +123,22 @@ export default function AddTodoButtonComponent() {
               margin="dense"
               type="text"
               label="詳細メモ"
+              value={memo}
               InputLabelProps={{
                 shrink: true,
               }}
               fullWidth
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setMemo(e.target.value);
+              }}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
-              Cancel
+              キャンセル
             </Button>
             <Button type="submit" color="primary">
-              Subscribe
+              追加
             </Button>
           </DialogActions>
         </form>

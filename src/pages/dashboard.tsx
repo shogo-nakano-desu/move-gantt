@@ -10,7 +10,7 @@ import { sizing } from "@material-ui/system";
 import { setCurrentUser } from "../utils/reducers";
 import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
-import { auth } from "../../firebase";
+import { auth } from "../../firebaseClient";
 import AppBarComponent from "../components/AppBar";
 
 const useStyles = makeStyles((theme: Theme) =>

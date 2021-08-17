@@ -1,7 +1,7 @@
 import { FC, createContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { auth } from "../../firebase";
+import { auth } from "../../firebaseClient";
 import { setCurrentUser, signOut, stateType, userType } from "./reducers";
 
 type AuthContextProps = {
