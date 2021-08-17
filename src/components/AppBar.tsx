@@ -13,7 +13,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 
-import { auth } from "../../firebase";
+import { auth } from "../../firebaseClient";
 import { dateGenerator } from "../utils/dateGenerator";
 
 type LinkMenuItemProps = Omit<
@@ -113,10 +113,7 @@ export default function AppBarComponent() {
               onClose={handleClose}
             >
               <LinkMenuItem href="/profile">プロフィール</LinkMenuItem>
-              <LinkMenuItem href="/forms/form">
-                新規プロジェクト作成
-              </LinkMenuItem>
-              {/* モーダルを出して、ログアウトさせるようにしよう */}
+              <LinkMenuItem href="/form">新規プロジェクト作成</LinkMenuItem>
               <MenuItem onClick={handleDialogOpen}>ログアウト</MenuItem>
               <Dialog
                 open={dialogOpen}

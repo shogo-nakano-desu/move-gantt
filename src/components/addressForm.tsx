@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import firebase from "firebase/app";
+import "firebase/firestore";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -8,6 +11,15 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
+
+import { db } from "../../firebaseClient";
+import {
+  willMovePrefectureForm,
+  willMoveAddressForm,
+  moveFromPrefectureForm,
+  moveFromAddressForm,
+  stateType,
+} from "../utils/reducers";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,13 +32,31 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-export default function AddressForm() {
+export default function AddressFormComponent() {
   const classes = useStyles();
-  const [prefecture, setPrefecture] = React.useState("");
+  const dispatch = useDispatch();
+  const willMovePrefecture = useSelector(
+    (state: stateType) => state.projectForm.formWillMovePrefecture
+  );
+  const willMoveAddress = useSelector(
+    (state: stateType) => state.projectForm.formWillMoveAddress
+  );
+  const moveFromPrefecture = useSelector(
+    (state: stateType) => state.projectForm.formMoveFromPrefecture
+  );
+  const moveFromAddress = useSelector(
+    (state: stateType) => state.projectForm.formMoveFromAddress
+  );
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setPrefecture(event.target.value as string);
-  };
+  // const addProject = async () => {
+  //   await db.collection("projects").add({
+  //     UID: user.id,
+  //     title: title,
+  //     move_date: move_date,
+  //     future_address: further_address,
+  //     current_address: current_address,
+  //   });
+  // };
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -39,8 +69,10 @@ export default function AddressForm() {
             <Select
               labelId="required-prefecture"
               id="required-prefecture-selector"
-              value={prefecture}
-              onChange={handleChange}
+              value={willMovePrefecture}
+              onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+                dispatch(willMovePrefectureForm(event.target.value as string));
+              }}
               className={classes.selectEmpty}
             >
               <MenuItem value={"hokkaido"}>北海道</MenuItem>
@@ -102,6 +134,10 @@ export default function AddressForm() {
             label="市区町村"
             fullWidth
             autoComplete="address-level2"
+            value={willMoveAddress}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              dispatch(willMoveAddressForm(e.target.value));
+            }}
           />
         </Grid>
         <Typography variant="h6" gutterBottom>
@@ -114,8 +150,12 @@ export default function AddressForm() {
               <Select
                 labelId="required-prefecture"
                 id="required-prefecture-selector"
-                value={prefecture}
-                onChange={handleChange}
+                value={moveFromPrefecture}
+                onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+                  dispatch(
+                    moveFromPrefectureForm(event.target.value as string)
+                  );
+                }}
                 className={classes.selectEmpty}
               >
                 <MenuItem value={"hokkaido"}>北海道</MenuItem>
@@ -177,6 +217,10 @@ export default function AddressForm() {
               label="市区町村"
               fullWidth
               autoComplete="address-level2"
+              value={moveFromAddress}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                dispatch(moveFromAddressForm(e.target.value));
+              }}
             />
           </Grid>
         </Grid>

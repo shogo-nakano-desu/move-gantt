@@ -22,7 +22,7 @@ import {
   stateType,
   changeAccountFlag,
 } from "../utils/reducers";
-import { auth } from "../../firebase";
+import { auth } from "../../firebaseClient";
 
 function Copyright() {
   return (

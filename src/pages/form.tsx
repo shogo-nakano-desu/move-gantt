@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import Link from "next/link";
+
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,19 +12,23 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
+import { Link as MaterialLink } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import AddressForm from "./addressForm";
-import DateForm from "./dateForm";
-import OtherForm from "./oterForm";
+
+import AddressFormComponent from "../components/AddressForm";
+import DateForm from "../components/dateForm";
+import OtherForm from "../components/oterForm";
+import { auth } from "../../firebaseClient";
+import { setCurrentUser } from "../utils/reducers";
+import AppBarComponent from "../components/AppBar";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <MaterialLink color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{" "}
+      </MaterialLink>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -69,7 +77,7 @@ const steps = ["住所登録", "引越し予定日登録", "その他情報登�
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <AddressFormComponent />;
     case 1:
       return <DateForm />;
     case 2:
@@ -79,9 +87,16 @@ function getStepContent(step: number) {
   }
 }
 
-export default function Checkout() {
+export default function CreateProjectComponent() {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const router = useRouter();
   const [activeStep, setActiveStep] = React.useState(0);
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
+    });
+  }, []);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -94,13 +109,7 @@ export default function Checkout() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <AppBarComponent></AppBarComponent>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
@@ -117,13 +126,11 @@ export default function Checkout() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  登録完了！（この画面なしでダッシュボードに飛ばすようにしたい）
+                  プロジェクト登録完了！
                 </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
+                <Link href="/dashboard">
+                  <a>ダッシュボードに戻る</a>
+                </Link>
               </React.Fragment>
             ) : (
               <React.Fragment>

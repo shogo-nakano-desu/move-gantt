@@ -1,10 +1,21 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+
+import {
+  isSelfEmployedForm,
+  isStudentForm,
+  isPetForm,
+  isScooterForm,
+  isCarForm,
+  stateType,
+} from "../utils/reducers";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,19 +30,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function CheckboxesGroup() {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    isSelfEmployed: true,
-    isStudent: false,
-    isPet: false,
-    isScooter: false,
-    isCar: false,
-  });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
-  const { isSelfEmployed, isStudent, isPet, isScooter, isCar } = state;
+  const dispatch = useDispatch();
+  const isSelfEmployed = useSelector(
+    (state: stateType) => state.projectForm.formIsSelfEmployed
+  );
+  const isStudent = useSelector(
+    (state: stateType) => state.projectForm.formIsStudent
+  );
+  const isPet = useSelector((state: stateType) => state.projectForm.formIsPet);
+  const isScooter = useSelector(
+    (state: stateType) => state.projectForm.formIsScooter
+  );
+  const isCar = useSelector((state: stateType) => state.projectForm.formIsCar);
 
   return (
     <div className={classes.root}>
@@ -44,7 +54,9 @@ export default function CheckboxesGroup() {
             control={
               <Checkbox
                 checked={isSelfEmployed}
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isSelfEmployedForm(event.target.checked));
+                }}
                 name="isSelfEmployed"
               />
             }
@@ -54,7 +66,9 @@ export default function CheckboxesGroup() {
             control={
               <Checkbox
                 checked={isStudent}
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isStudentForm(event.target.checked));
+                }}
                 name="isStudent"
               />
             }
@@ -62,7 +76,13 @@ export default function CheckboxesGroup() {
           />
           <FormControlLabel
             control={
-              <Checkbox checked={isPet} onChange={handleChange} name="isPet" />
+              <Checkbox
+                checked={isPet}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isPetForm(event.target.checked));
+                }}
+                name="isPet"
+              />
             }
             label="ペットを飼っていますか？"
           />
@@ -70,7 +90,9 @@ export default function CheckboxesGroup() {
             control={
               <Checkbox
                 checked={isScooter}
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isScooterForm(event.target.checked));
+                }}
                 name="isScooter"
               />
             }
@@ -78,7 +100,13 @@ export default function CheckboxesGroup() {
           />
           <FormControlLabel
             control={
-              <Checkbox checked={isCar} onChange={handleChange} name="isCar" />
+              <Checkbox
+                checked={isCar}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isCarForm(event.target.checked));
+                }}
+                name="isCar"
+              />
             }
             label="自家用車を保有していますか？"
           />

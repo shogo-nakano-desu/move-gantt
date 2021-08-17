@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import DatePickers from "../../components/Datepickers";
+import DatePickers from "./Datepickers";
 
 const DateForm = () => {
   return (

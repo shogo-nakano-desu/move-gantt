@@ -2,9 +2,6 @@ import { useMemo } from "react";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
-
-import { auth } from "../../firebase";
-
 // actions
 export const emailForm = (email: string) => ({
   type: "CHANGE_EMAIL_FORM",
@@ -36,6 +33,49 @@ export const signOut = () => ({
   payload: { uid: "", displayName: "" },
 });
 
+export const willMovePrefectureForm = (prefecture: string) => ({
+  type: "CHANGE_WILL_MOVE_PREFECTURE",
+  payload: prefecture,
+});
+
+export const willMoveAddressForm = (address: string) => ({
+  type: "CHANGE_WILL_MOVE_ADDRESS",
+  payload: address,
+});
+
+export const moveFromPrefectureForm = (prefecture: string) => ({
+  type: "CHANGE_MOVE_FROM_PREFECTURE",
+  payload: prefecture,
+});
+export const moveFromAddressForm = (address: string) => ({
+  type: "CHANGE_MOVE_FROM_ADDRESS",
+  payload: address,
+});
+export const willMoveDateForm = (date: Date) => ({
+  type: "CHANGE_WILL_MOVE_DATE",
+  payload: date,
+});
+export const isSelfEmployedForm = (check: boolean) => ({
+  type: "CHANGE_IS_SELF_EMPLOYED",
+  payload: check,
+});
+export const isStudentForm = (check: boolean) => ({
+  type: "CHANGE_IS_STUDENT",
+  payload: check,
+});
+export const isPetForm = (check: boolean) => ({
+  type: "CHANGE_IS_PET",
+  payload: check,
+});
+export const isScooterForm = (check: boolean) => ({
+  type: "CHANGE_IS_SCOOTER",
+  payload: check,
+});
+export const isCarForm = (check: boolean) => ({
+  type: "CHANGE_IS_CAR",
+  payload: check,
+});
+
 // サインインしているかどうかの管理は常にuser stateでしている。uidが存在すればログイン中、そうでなければログアウトしている
 export const initialState: stateType = {
   authForm: {
@@ -44,6 +84,18 @@ export const initialState: stateType = {
     formUserName: "",
   },
   user: { uid: "", displayName: "" },
+  projectForm: {
+    formWillMovePrefecture: "",
+    formWillMoveAddress: "",
+    formMoveFromPrefecture: "",
+    formMoveFromAddress: "",
+    formWillMoveDate: null,
+    formIsSelfEmployed: false,
+    formIsStudent: false,
+    formIsPet: false,
+    formIsScooter: false,
+    formIsCar: false,
+  },
 };
 
 // これはinitialStateからReturnTypeで持ってこないようにあえて書いている。
@@ -60,6 +112,18 @@ export interface stateType {
     formUserName: string | null;
   };
   user: userType;
+  projectForm: {
+    formWillMovePrefecture: string;
+    formWillMoveAddress: string;
+    formMoveFromPrefecture: string;
+    formMoveFromAddress: string;
+    formWillMoveDate: Date | null;
+    formIsSelfEmployed: boolean;
+    formIsStudent: boolean;
+    formIsPet: boolean;
+    formIsScooter: boolean;
+    formIsCar: boolean;
+  };
 }
 
 // reducer
@@ -102,7 +166,86 @@ export const reducer = (
           displayName: action.payload.displayName,
         },
       };
-
+    case "CHANGE_WILL_MOVE_PREFECTURE":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formWillMovePrefecture: action.payload,
+        },
+      };
+    case "CHANGE_WILL_MOVE_ADDRESS":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formWillMoveAddress: action.payload,
+        },
+      };
+    case "CHANGE_MOVE_FROM_PREFECTURE":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formMoveFromPrefecture: action.payload,
+        },
+      };
+    case "CHANGE_MOVE_FROM_ADDRESS":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formMoveFromAddress: action.payload,
+        },
+      };
+    case "CHANGE_WILL_MOVE_DATE":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formWillMoveDate: action.payload,
+        },
+      };
+    case "CHANGE_IS_SELF_EMPLOYED":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          isSelfEmployed: action.payload,
+        },
+      };
+    case "CHANGE_IS_STUDENT":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          isStudent: action.payload,
+        },
+      };
+    case "CHANGE_IS_PET":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          isPet: action.payload,
+        },
+      };
+    case "CHANGE_IS_SCOOTER":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          isScooter: action.payload,
+        },
+      };
+    case "CHANGE_IS_CAR":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          isCar: action.payload,
+        },
+      };
     default:
       return state;
   }
