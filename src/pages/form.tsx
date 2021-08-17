@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,7 +12,7 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
+import { Link as MaterialLink } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
 import AddressFormComponent from "../components/AddressForm";
@@ -25,9 +26,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <MaterialLink color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{" "}
+      </MaterialLink>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -125,13 +126,11 @@ export default function CreateProjectComponent() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  登録完了！（この画面なしでダッシュボードに飛ばすようにしたい）
+                  プロジェクト登録完了！
                 </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
+                <Link href="/dashboard">
+                  <a>ダッシュボードに戻る</a>
+                </Link>
               </React.Fragment>
             ) : (
               <React.Fragment>

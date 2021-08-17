@@ -113,10 +113,7 @@ export default function AppBarComponent() {
               onClose={handleClose}
             >
               <LinkMenuItem href="/profile">プロフィール</LinkMenuItem>
-              <LinkMenuItem href="/forms/form">
-                新規プロジェクト作成
-              </LinkMenuItem>
-              {/* モーダルを出して、ログアウトさせるようにしよう */}
+              <LinkMenuItem href="/form">新規プロジェクト作成</LinkMenuItem>
               <MenuItem onClick={handleDialogOpen}>ログアウト</MenuItem>
               <Dialog
                 open={dialogOpen}
