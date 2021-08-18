@@ -62,7 +62,7 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
     db.collection("users")
       .doc(userId)
       .collection("projects")
-      .doc("5GsdMBBOJNrFjLSYusYI") //仮に適当なプロジェクトに突っ込んでみる
+      .doc("5GsdMBBOJNrFjLSYusYI") //[TODO]仮に適当なプロジェクトに突っ込んでみる
       .collection("todos")
       .add({
         title: title,
