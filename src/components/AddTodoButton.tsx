@@ -1,6 +1,7 @@
 // [TODO] ダイアログからTODOを追加できるようにする必要あり
-
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import firebase from "firebase/app";
 import AddTaskIcon from "@material-ui/icons/AddTask";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -12,6 +13,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import { dateParser } from "../utils/dateParser";
+import { auth, db } from "../../firebaseClient";
+import { stateType } from "../utils/reducers";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,6 +47,8 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
   const [endDate, setEndDate] = useState<undefined | Date>(undefined);
   const [memo, setMemo] = useState("");
 
+  const userId = useSelector((state: stateType) => state.user.uid);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -52,6 +57,26 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
     setOpen(false);
   };
 
+  const putTodoToFirestore = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .doc("5GsdMBBOJNrFjLSYusYI") //仮に適当なプロジェクトに突っ込んでみる
+      .collection("todos")
+      .add({
+        title: title,
+        startDate: startDate,
+        endDate: endDate,
+        memo: memo,
+        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    setOpen(false);
+    setTitle("");
+    setStartDate(undefined);
+    setEndDate(undefined);
+    setMemo("");
+  };
   return (
     <>
       <Button
@@ -70,7 +95,7 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
         aria-labelledby="form-dialog-title"
       >
         {/* このフォームに対して、onSubmitプロパティを追加する。DBにサブミットする関数は別で書く */}
-        <form>
+        <form onSubmit={putTodoToFirestore}>
           <DialogTitle id="form-dialog-title">TODOを追加する</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -97,7 +122,6 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
                 type="date"
                 label="開始日"
                 required
-                value={startDate}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -110,7 +134,6 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
                 type="date"
                 label="終了日"
                 required
-                value={endDate}
                 InputLabelProps={{
                   shrink: true,
                 }}
