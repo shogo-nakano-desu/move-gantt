@@ -151,6 +151,7 @@ export default function CreateProjectComponent() {
       isCar: isCar,
       created_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
+    // ここにstateをリフレッシュする処理を書いておく
   };
 
   return (

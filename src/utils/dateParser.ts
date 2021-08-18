@@ -4,7 +4,10 @@ export const dateParser = (stringDate: string) => {
     return Number(stringDate.match(regexp)?.join(""));
   };
   const year = parser(/^[0-9]{4}/);
+  console.log(year);
   const month = parser(/(?<=^.{5}).{2}/);
+  console.log(month);
   const day = parser(/(?<=^.{8}).{2}/);
+  console.log(day);
   return new Date(year, month, day);
 };
