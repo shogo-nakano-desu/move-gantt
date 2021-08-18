@@ -3,10 +3,12 @@
 // もしくは、オブジェクトによっては日付にはプロジェクト作成日を入れる
 // 一旦UI作成用でダミーデータを入れる
 import { add } from "date-fns";
+
 // ----------------------------------------------------------------
 // ここはダミーデータ
 const today = new Date();
 export const moveDate = new Date(2021, 8, 6); // 2021/9/6
+const projectCreatedAt = new Date(2021, 7, 18); // 本当はproject作成日をとってくる
 // ----------------------------------------------------------------
 
 // booleanに関しては、trueの時だけその項目がマストになる
@@ -31,7 +33,592 @@ const TARGET_PERSON = {
 } as const;
 type TARGET_PERSON = typeof TARGET_PERSON[keyof typeof TARGET_PERSON];
 
+// ここには本番用データを入れていく----------------------------------------------------------------
+const rentalCancellation: Procedure = {
+  title: "賃貸物件の解約手続き",
+  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -2 }), //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
+  submitDestination: "管理会社や不動産会社、大家など",
+  targetPerson: "everyone",
+  confirmationSource:
+    "管理会社や不動産会社、大家などに問い合わせ、契約内容を確認する",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const parkingCancellation: Procedure = {
+  title: "駐車場の解約手続き",
+  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -2 }),
+  submitDestination: "貸主もしくは管理会社",
+  targetPerson: "everyone",
+  confirmationSource: "契約書を確認、もしくは貸主、管理会社に問い合わせ",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: true, // 表示条件はscooterかcarどっちかがtrueにする
+  isCar: true,
+};
+
+const moverContraction: Procedure = {
+  title: "引越し業者との契約",
+  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { weeks: -1 }),
+  submitDestination: "各引越し業者",
+  targetPerson: "everyone",
+  confirmationSource:
+    "各引越し業者のサイト。直前になるにつれて選択肢が狭まるので注意",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const schoolChanging: Procedure = {
+  title: "学校の転校手続き",
+  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
+  deadline: add(projectCreatedAt, { weeks: 2 }),
+  submitDestination: "（公立校）役所（教育委員会）の窓口/ （私立校）学校の窓口",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/other/school/",
+  isSelfEmployed: false,
+  isStudent: true,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const internet: Procedure = {
+  title: "インターネットの引越し手続き",
+  startDate: add(moveDate, { months: -1, weeks: -2 }), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -1 }), //
+  submitDestination: "回線会社、プロバイダのHPもしくは電話など",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/internet/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const largeGarbage: Procedure = {
+  title: "粗大ゴミの処分手続き",
+  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -1 }),
+  submitDestination: "各自治体もしくは粗大ゴミ回収業者",
+  targetPerson: "everyone",
+  confirmationSource: "https://hikkoshizamurai.jp/useful/unnecessary/#anchor05",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const fireInsurance: Procedure = {
+  title: "火災保険の住所変更手続き",
+  startDate: add(moveDate, { months: -1 }), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { weeks: -3 }), //
+  submitDestination: "保険会社",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/other/fire-insurance/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const movingOutNotification: Procedure = {
+  title: "転出届の提出",
+  startDate: add(moveDate, { weeks: -2 }), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { days: 13 }), //
+  submitDestination: "旧住所管轄の役場",
+  targetPerson: "moveToDifferentMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/resident/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const NationalHealthInsuranceCancellation: Procedure = {
+  title: "国民健康保険の資格喪失手続き",
+  startDate: add(moveDate, { weeks: -2 }), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { days: 14 }),
+  submitDestination: "引越し元の市区町村役場",
+  targetPerson: "moveToDifferentMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/nhl/#loss",
+  isSelfEmployed: true, // [TODO]定義としてはここにフリーターも含んでいることに注意
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const stampDeletion: Procedure = {
+  title: "印鑑登録の抹消",
+  startDate: add(moveDate, { weeks: -2 }), // プロジェクト作成日か関数で計算した日付
+  deadline: moveDate,
+  submitDestination: "旧住所の役場",
+  targetPerson: "moveToDifferentMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/seal/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const scooterDeletion: Procedure = {
+  title: "原付の廃車手続き・住所変更",
+  startDate: add(moveDate, { weeks: -2 }),
+  deadline: add(moveDate, { days: 15 }),
+  submitDestination: "市区町村役場もしくは陸運局",
+  targetPerson: "moveToDifferentMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/vehicle/motorcycle/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: true,
+  isCar: false,
+};
+
+// [TODO]isChildrenを追加する必要がある
+const childAllowance: Procedure = {
+  title: "児童手当の住所変更手続き",
+  startDate: add(moveDate, { weeks: -2 }),
+  deadline: add(moveDate, { days: 15 }),
+  submitDestination:
+    "引越し元住所に「児童手当受給事由消滅届」⇨引越し先住所に「児童手当認定請求書」",
+  targetPerson: "moveToDifferentMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/allowance/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const electricity: Procedure = {
+  title: "電気の使用停止・開始手続き",
+  startDate: add(moveDate, { weeks: -2 }),
+  deadline: add(moveDate, { weeks: -1 }),
+  submitDestination: "電力会社のHPもしくは電話",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/electricity/#oldAddress",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const gasTap: Procedure = {
+  title: "ガスの使用中止・開始手続き",
+  startDate: add(moveDate, { weeks: -2 }),
+  deadline: add(moveDate, { weeks: -1 }),
+  submitDestination: "ガス会社",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/gas/#oldAddress",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const tapwaterCancellation: Procedure = {
+  title: "水道の使用中止手続き",
+  startDate: add(moveDate, { weeks: -2 }),
+  deadline: add(moveDate, { days: -2 }),
+  submitDestination: "水道局",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/water/#oldAddress",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const tapwaterStart: Procedure = {
+  title: "水道の使用開始手続き",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 10 }),
+  submitDestination: "水道局webサイト、郵便、電話",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/water/#oldAddress",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const postofficeChangeAddress: Procedure = {
+  title: "転居・転送届",
+  startDate: add(moveDate, { weeks: -2 }),
+  deadline: add(moveDate, { weeks: -1 }),
+  submitDestination: "郵便局",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/post/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+// [TODO]固定電話を持っているかどうか
+const fixedlinePhone: Procedure = {
+  title: "固定電話の住所変更手続き",
+  startDate: projectCreatedAt,
+  deadline: add(moveDate, { weeks: -2 }),
+  submitDestination: "NTT",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/telephone/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const mobilePhone: Procedure = {
+  title: "携帯電話・スマートフォンの住所変更手続",
+  startDate: moveDate,
+  deadline: add(moveDate, { weeks: 1 }),
+  submitDestination: "携帯電話会社のHP、電話、窓口など",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/mobile-phone/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const pet: Procedure = {
+  title: "ペットの登録事項変更届",
+  startDate: add(moveDate, { weeks: -1 }),
+  deadline: add(moveDate, { weeks: 1 }),
+  submitDestination: "市区町村役所の窓口、保健所など",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/other/pet-address/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: true,
+  isScooter: false,
+  isCar: false,
+};
+
+const gasPrecense: Procedure = {
+  title: "ガス使用停止の立ち合い",
+  startDate: moveDate,
+  deadline: moveDate,
+  submitDestination: "旧居",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/gas/#oldAddress",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const tapPrecense: Procedure = {
+  title: "水道使用停止の立ち合い",
+  startDate: moveDate,
+  deadline: moveDate,
+  submitDestination: "旧居",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/water/#oldAddress",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const moveOutPrecense: Procedure = {
+  title: "旧居の明け渡し",
+  startDate: moveDate,
+  deadline: moveDate,
+  submitDestination: "旧居",
+  targetPerson: "everyone",
+  confirmationSource: "なし",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const gasStartPrecense: Procedure = {
+  title: "ガス開栓の立ち会い",
+  startDate: moveDate,
+  deadline: moveDate,
+  submitDestination: "新居",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/lifeline/gas/#newAddress",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const movingNotification: Procedure = {
+  title: "転居届",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 14 }),
+  submitDestination: "市区町村役場",
+  targetPerson: "moveInTheSameMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/resident/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const transferNotification: Procedure = {
+  title: "転入届",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 14 }),
+  submitDestination: "市区町村役場",
+  targetPerson: "moveToDifferentMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/resident/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+// [TODO]マイナンバー持っているかどうかとか判定する？
+const mynumber: Procedure = {
+  title: "マイナンバーの住所変更",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 14 }),
+  submitDestination: "市区町村役場",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/my-number/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const stampRegistration: Procedure = {
+  title: "印鑑登録",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 21 }),
+  submitDestination: "市区町村役場",
+  targetPerson: "moveToDifferentMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/seal/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+// isSelfEmployedはもしかしたら、会社員以外とかにしたほうがいいかも
+const compensation: Procedure = {
+  title: "国民年金の住所変更",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 14 }),
+  submitDestination: "市区町村役場",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/national-pension/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const nationalHealthInsuranceRegistration: Procedure = {
+  title: "国民健康保険の加入",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 14 }),
+  submitDestination: "引越し先の市区町村役場",
+  targetPerson: "moveToDifferentMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/nhl/#join",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const nationalHealthInsuranceChange: Procedure = {
+  title: "国民健康保険の住所変更",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 14 }),
+  submitDestination: "引越し先の市区町村役場",
+  targetPerson: "moveInTheSameMunicipalities",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/public/nhl/#join",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const parkingCertification: Procedure = {
+  title: "車庫証明の取得申請",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 15 }),
+  submitDestination: "保管場所を管轄する警察署",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/vehicle/parking-space/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: true,
+};
+
+const drivingLicense: Procedure = {
+  title: "免許証の住所変更手続き",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 14 }),
+  submitDestination:
+    "新居住地の警察署運転免許課、運転免許センター、運転免許試験場",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/vehicle/license/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const carAddress: Procedure = {
+  title: "自動車の住所変更手続き",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 15 }),
+  submitDestination: "新居住地の地方運輸局、運輸支局、自動車検査登録事務所",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/vehicle/car/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: true,
+};
+
+const company: Procedure = {
+  title: "会社の健康保険と厚生年金の変更手続き",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 7 }),
+  submitDestination: "勤め先の担当部署",
+  targetPerson: "everyone",
+  confirmationSource: "なし",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const creaditcard: Procedure = {
+  title: "クレジットカードの住所変更手続き",
+  startDate: moveDate,
+  deadline: add(moveDate, { weeks: 1 }),
+  submitDestination: "クレジットカード会社のHP、郵送、電話",
+  targetPerson: "everyone",
+  confirmationSource:
+    "https://hikkoshizamurai.jp/useful/procedure/other/credit-card/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const bankAccount: Procedure = {
+  title: "銀行口座の住所変更",
+  startDate: moveDate,
+  deadline: add(moveDate, { days: 15 }),
+  submitDestination: "銀行",
+  targetPerson: "everyone",
+  confirmationSource: "https://hikkoshizamurai.jp/useful/procedure/other/bank/",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+const onlineShop: Procedure = {
+  title: "通販サイトの住所変更手続き",
+  startDate: moveDate,
+  deadline: add(moveDate, { weeks: 3 }),
+  submitDestination: "各通販サイト",
+  targetPerson: "everyone",
+  confirmationSource: "なし",
+  isSelfEmployed: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+};
+
+/*
+title: string,
+startDate: Date,
+deadline: Date,
+submitDestination: string,
+targetPerson: TARGET_PERSON,
+confirmationSource: string,
+isSelfEmployed: false,
+isStudent: false,
+isPet: false,
+isScooter: false,
+isCar: false,
+*/
 // ----------------------------------------------------------------
+
 // rentalCaN / gasTapStop /dummy_moveNotification /dummy_car
 // 以下全てダミーデータ
 export const dummy_rentalCAN: Procedure = {
