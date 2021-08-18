@@ -75,6 +75,21 @@ export const isCarForm = (check: boolean) => ({
   type: "CHANGE_IS_CAR",
   payload: check,
 });
+export const refreshProjectForm = () => ({
+  type: "REFRESH_PROJECT",
+  payload: {
+    formWillMovePrefecture: "",
+    formWillMoveAddress: "",
+    formMoveFromPrefecture: "",
+    formMoveFromAddress: "",
+    formWillMoveDate: null,
+    formIsSelfEmployed: false,
+    formIsStudent: false,
+    formIsPet: false,
+    formIsScooter: false,
+    formIsCar: false,
+  },
+});
 
 // サインインしているかどうかの管理は常にuser stateでしている。uidが存在すればログイン中、そうでなければログアウトしている
 export const initialState: stateType = {
@@ -211,7 +226,7 @@ export const reducer = (
         ...state,
         projectForm: {
           ...state.projectForm,
-          isSelfEmployed: action.payload,
+          formIsSelfEmployed: action.payload,
         },
       };
     case "CHANGE_IS_STUDENT":
@@ -219,7 +234,7 @@ export const reducer = (
         ...state,
         projectForm: {
           ...state.projectForm,
-          isStudent: action.payload,
+          formIsStudent: action.payload,
         },
       };
     case "CHANGE_IS_PET":
@@ -227,7 +242,7 @@ export const reducer = (
         ...state,
         projectForm: {
           ...state.projectForm,
-          isPet: action.payload,
+          formIsPet: action.payload,
         },
       };
     case "CHANGE_IS_SCOOTER":
@@ -235,7 +250,7 @@ export const reducer = (
         ...state,
         projectForm: {
           ...state.projectForm,
-          isScooter: action.payload,
+          formIsScooter: action.payload,
         },
       };
     case "CHANGE_IS_CAR":
@@ -243,7 +258,24 @@ export const reducer = (
         ...state,
         projectForm: {
           ...state.projectForm,
-          isCar: action.payload,
+          formIsCar: action.payload,
+        },
+      };
+    case "REFRESH_PROJECT":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formWillMovePrefecture: action.payload.formWillMovePrefecture,
+          formWillMoveAddress: action.payload.formWillMoveAddress,
+          formMoveFromPrefecture: action.payload.formMoveFromPrefecture,
+          formMoveFromAddress: action.payload.formMoveFromAddress,
+          formWillMoveDate: action.payload.formWillMoveDate,
+          formIsSelfEmployed: action.payload.formIsSelfEmployed,
+          formIsStudent: action.payload.formIsStudent,
+          formIsPet: action.payload.formIsPet,
+          formIsScooter: action.payload.formIsScooter,
+          formIsCar: action.payload.formIsCar,
         },
       };
     default:
