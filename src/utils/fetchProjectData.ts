@@ -23,3 +23,7 @@ export const sampleProjectData = docRef
   });
 
 // 2.filter default todos
+/*
+フィルターするのにいいアルゴリズムを考える
+1. fetchしてきたプロジェクトの中身１個ずつ、array.prototype.filterしていく。
+*/

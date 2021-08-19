@@ -14,6 +14,7 @@ import {
   isPetForm,
   isScooterForm,
   isCarForm,
+  isParkingForm,
   isUnderFifteenForm,
   isFireInsuranceForm,
   isFixedPhoneForm,
@@ -48,6 +49,10 @@ export default function CheckboxesGroup() {
     (state: stateType) => state.projectForm.formIsScooter
   );
   const isCar = useSelector((state: stateType) => state.projectForm.formIsCar);
+  const isParking = useSelector(
+    (state: stateType) => state.projectForm.formIsParking
+  );
+
   const isUnderFifteen = useSelector(
     (state: stateType) => state.projectForm.formIsUnderFifteen
   );
@@ -130,6 +135,18 @@ export default function CheckboxesGroup() {
                   dispatch(isCarForm(event.target.checked));
                 }}
                 name="isCar"
+              />
+            }
+            label="自家用車を保有していますか？"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isParking}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isParkingForm(event.target.checked));
+                }}
+                name="isParking"
               />
             }
             label="自家用車を保有していますか？"

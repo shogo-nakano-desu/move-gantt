@@ -75,6 +75,10 @@ export const isCarForm = (check: boolean) => ({
   type: "CHANGE_IS_CAR",
   payload: check,
 });
+export const isParkingForm = (check: boolean) => ({
+  type: "CHANGE_IS_PARKING",
+  payload: check,
+});
 export const isUnderFifteenForm = (check: boolean) => ({
   type: "CHANGE_IS_UNDER_FIFTEEN",
   payload: check,
@@ -113,6 +117,7 @@ export const refreshProjectForm = () => ({
     formIsPet: false,
     formIsScooter: false,
     formIsCar: false,
+    formIsParking: false,
     formIsUnderFifteen: false,
     formIsFireInsurance: false,
     formIsFixedPhone: false,
@@ -140,6 +145,7 @@ export const initialState: stateType = {
     formIsPet: false,
     formIsScooter: false,
     formIsCar: false,
+    formIsParking: false,
     formIsUnderFifteen: false,
     formIsFireInsurance: false,
     formIsFixedPhone: false,
@@ -174,6 +180,7 @@ export interface stateType {
     formIsPet: boolean;
     formIsScooter: boolean;
     formIsCar: boolean;
+    formIsParking: boolean;
     formIsUnderFifteen: boolean;
     formIsFireInsurance: boolean;
     formIsFixedPhone: boolean;
@@ -301,6 +308,14 @@ export const reducer = (
         projectForm: {
           ...state.projectForm,
           formIsCar: action.payload,
+        },
+      };
+    case "CHANGE_IS_PARKING":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formIsParking: action.payload,
         },
       };
     case "CHANGE_IS_UNDER_FIFTEEN":
