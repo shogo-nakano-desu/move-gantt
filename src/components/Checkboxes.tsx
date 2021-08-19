@@ -9,7 +9,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import {
-  isSelfEmployedForm,
+  isNotEmployeeForm,
   isStudentForm,
   isPetForm,
   isScooterForm,
@@ -38,7 +38,7 @@ export default function CheckboxesGroup() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const isSelfEmployed = useSelector(
-    (state: stateType) => state.projectForm.formIsSelfEmployed
+    (state: stateType) => state.projectForm.formIsNotEmployee
   );
   const isStudent = useSelector(
     (state: stateType) => state.projectForm.formIsStudent
@@ -79,12 +79,12 @@ export default function CheckboxesGroup() {
               <Checkbox
                 checked={isSelfEmployed}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  dispatch(isSelfEmployedForm(event.target.checked));
+                  dispatch(isNotEmployeeForm(event.target.checked));
                 }}
                 name="isSelfEmployed"
               />
             }
-            label="自営業を営んでいますか？"
+            label="会社員ではないでしょうか？"
           />
           <FormControlLabel
             control={

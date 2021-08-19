@@ -124,7 +124,7 @@ export default function CreateProjectComponent() {
     (state: stateType) => state.projectForm.formWillMoveDate
   );
   const isSelfEmployed = useSelector(
-    (state: stateType) => state.projectForm.formIsSelfEmployed
+    (state: stateType) => state.projectForm.formIsNotEmployee
   );
   const isStudent = useSelector(
     (state: stateType) => state.projectForm.formIsStudent

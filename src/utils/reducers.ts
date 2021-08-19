@@ -55,8 +55,8 @@ export const willMoveDateForm = (date: Date) => ({
   type: "CHANGE_WILL_MOVE_DATE",
   payload: date,
 });
-export const isSelfEmployedForm = (check: boolean) => ({
-  type: "CHANGE_IS_SELF_EMPLOYED",
+export const isNotEmployeeForm = (check: boolean) => ({
+  type: "CHANGE_IS_NOT_EMPLOYEE",
   payload: check,
 });
 export const isStudentForm = (check: boolean) => ({
@@ -108,7 +108,7 @@ export const refreshProjectForm = () => ({
     formMoveFromPrefecture: "",
     formMoveFromAddress: "",
     formWillMoveDate: null,
-    formIsSelfEmployed: false,
+    formIsNotEmployee: false,
     formIsStudent: false,
     formIsPet: false,
     formIsScooter: false,
@@ -135,7 +135,7 @@ export const initialState: stateType = {
     formMoveFromPrefecture: "",
     formMoveFromAddress: "",
     formWillMoveDate: null,
-    formIsSelfEmployed: false,
+    formIsNotEmployee: false,
     formIsStudent: false,
     formIsPet: false,
     formIsScooter: false,
@@ -169,7 +169,7 @@ export interface stateType {
     formMoveFromPrefecture: string;
     formMoveFromAddress: string;
     formWillMoveDate: Date | null;
-    formIsSelfEmployed: boolean;
+    formIsNotEmployee: boolean;
     formIsStudent: boolean;
     formIsPet: boolean;
     formIsScooter: boolean;
@@ -263,12 +263,12 @@ export const reducer = (
           formWillMoveDate: action.payload,
         },
       };
-    case "CHANGE_IS_SELF_EMPLOYED":
+    case "CHANGE_IS_NOT_EMPLOYEE":
       return {
         ...state,
         projectForm: {
           ...state.projectForm,
-          formIsSelfEmployed: action.payload,
+          formIsNotEmployee: action.payload,
         },
       };
     case "CHANGE_IS_STUDENT":
