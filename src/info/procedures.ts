@@ -32,6 +32,8 @@ export interface Procedure {
   submitDestination: string;
   targetPerson: TARGET_PERSON;
   confirmationSource: string;
+  memo: string;
+  complete: boolean;
   isNotEmployee: boolean;
   isStudent: boolean;
   isPet: boolean;
@@ -61,6 +63,8 @@ const rentalCancellation: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "管理会社や不動産会社、大家などに問い合わせ、契約内容を確認する",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -81,6 +85,8 @@ const parkingCancellation: Procedure = {
   submitDestination: "貸主もしくは管理会社",
   targetPerson: "everyone",
   confirmationSource: "契約書を確認、もしくは貸主、管理会社に問い合わせ",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -102,6 +108,8 @@ const moverContraction: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "各引越し業者のサイト。直前になるにつれて選択肢が狭まるので注意",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -123,6 +131,8 @@ const schoolChanging: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/other/school/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: true,
   isPet: false,
@@ -144,6 +154,8 @@ const internet: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/internet/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -164,6 +176,8 @@ const largeGarbage: Procedure = {
   submitDestination: "各自治体もしくは粗大ゴミ回収業者",
   targetPerson: "everyone",
   confirmationSource: "https://hikkoshizamurai.jp/useful/unnecessary/#anchor05",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -185,6 +199,8 @@ const fireInsurance: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/other/fire-insurance/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -206,6 +222,8 @@ const movingOutNotification: Procedure = {
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/resident/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -227,6 +245,8 @@ const NationalHealthInsuranceCancellation: Procedure = {
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/nhl/#loss",
+  memo: "",
+  complete: false,
   isNotEmployee: true,
   isStudent: false,
   isPet: false,
@@ -248,6 +268,8 @@ const stampDeletion: Procedure = {
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/seal/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -269,6 +291,8 @@ const scooterDeletion: Procedure = {
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/vehicle/motorcycle/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -291,6 +315,8 @@ const childAllowance: Procedure = {
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/allowance/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -312,6 +338,8 @@ const electricity: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/electricity/#oldAddress",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -333,6 +361,8 @@ const gasTap: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/gas/#oldAddress",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -354,6 +384,8 @@ const tapwaterCancellation: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/water/#oldAddress",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -375,6 +407,8 @@ const tapwaterStart: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/water/#oldAddress",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -396,6 +430,8 @@ const postofficeChangeAddress: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/post/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -418,6 +454,8 @@ const fixedPhone: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/telephone/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -439,6 +477,8 @@ const mobilePhone: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/mobile-phone/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -460,6 +500,8 @@ const pet: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/other/pet-address/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: true,
@@ -481,6 +523,8 @@ const gasPrecense: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/gas/#oldAddress",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -502,6 +546,8 @@ const tapPrecense: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/water/#oldAddress",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -522,6 +568,8 @@ const moveOutPrecense: Procedure = {
   submitDestination: "旧居",
   targetPerson: "everyone",
   confirmationSource: "なし",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -543,6 +591,8 @@ const gasStartPrecense: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/lifeline/gas/#newAddress",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -564,6 +614,8 @@ const movingNotification: Procedure = {
   targetPerson: "moveInTheSameMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/resident/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -585,6 +637,8 @@ const transferNotification: Procedure = {
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/resident/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -606,6 +660,8 @@ const mynumber: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/my-number/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -627,6 +683,8 @@ const stampRegistration: Procedure = {
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/seal/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -648,6 +706,8 @@ const compensation: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/national-pension/",
+  memo: "",
+  complete: false,
   isNotEmployee: true,
   isStudent: false,
   isPet: false,
@@ -669,6 +729,8 @@ const nationalHealthInsuranceRegistration: Procedure = {
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/nhl/#join",
+  memo: "",
+  complete: false,
   isNotEmployee: true,
   isStudent: false,
   isPet: false,
@@ -690,6 +752,8 @@ const nationalHealthInsuranceChange: Procedure = {
   targetPerson: "moveInTheSameMunicipalities",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/public/nhl/#join",
+  memo: "",
+  complete: false,
   isNotEmployee: true,
   isStudent: false,
   isPet: false,
@@ -709,6 +773,8 @@ const company: Procedure = {
   submitDestination: "勤め先の担当部署",
   targetPerson: "everyone",
   confirmationSource: "なし",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -730,6 +796,8 @@ const parkingCertification: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/vehicle/parking-space/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -752,6 +820,8 @@ const drivingLicense: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/vehicle/license/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -773,6 +843,8 @@ const carAddress: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/vehicle/car/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -794,6 +866,8 @@ const creaditcard: Procedure = {
   targetPerson: "everyone",
   confirmationSource:
     "https://hikkoshizamurai.jp/useful/procedure/other/credit-card/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -814,6 +888,8 @@ const bankAccount: Procedure = {
   submitDestination: "銀行",
   targetPerson: "everyone",
   confirmationSource: "https://hikkoshizamurai.jp/useful/procedure/other/bank/",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
@@ -834,6 +910,8 @@ const onlineShop: Procedure = {
   submitDestination: "各通販サイト",
   targetPerson: "everyone",
   confirmationSource: "なし",
+  memo: "",
+  complete: false,
   isNotEmployee: false,
   isStudent: false,
   isPet: false,
