@@ -7,7 +7,7 @@ import { add } from "date-fns";
 // ----------------------------------------------------------------
 // ここはダミーデータ
 const today = new Date();
-export const moveDate = new Date(2021, 8, 6); // 2021/9/6
+export const moveDate = new Date(2021, 8, 6); // [TODO]登録した引越し日をとってくるようにする
 const projectCreatedAt = new Date(2021, 7, 18); // [TODO]本当はproject作成日をとってくる
 // ----------------------------------------------------------------
 
@@ -847,7 +847,7 @@ const onlineShop: Procedure = {
   isDrivingLicense: false,
 };
 
-const procedures: Procedure[] = [
+export const procedures: Procedure[] = [
   rentalCancellation,
   parkingCancellation,
   moverContraction,

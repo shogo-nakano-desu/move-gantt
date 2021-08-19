@@ -31,14 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function generate(element: React.ReactElement) {
-  return [0, 1, 2, 3].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    })
-  );
-}
-
 // あとは中にデータ入れれば完成
 export default function TodosComponent() {
   const classes = useStyles();
@@ -50,7 +42,7 @@ export default function TodosComponent() {
       <Grid container spacing={1}>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            Week1
+            1ヶ月以上前
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -72,7 +64,7 @@ export default function TodosComponent() {
             </List>
           </div>
         </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
+        {/* <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
             Week2
           </Typography>
@@ -167,10 +159,10 @@ export default function TodosComponent() {
               ))}
             </List>
           </div>
-        </Grid>
+        </Grid> */}
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            Week6
+            3週間前
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -194,7 +186,7 @@ export default function TodosComponent() {
         </Grid>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            Week7
+            2週間前
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -218,11 +210,107 @@ export default function TodosComponent() {
         </Grid>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            Week8
+            1週間前
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
               {splittedProcedures().weekEightProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
+                      procedure.deadline
+                    )}`}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        </Grid>
+        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
+          <Typography variant="h6" className={classes.title}>
+            当日まで
+          </Typography>
+          <div className={classes.demo}>
+            <List dense={false}>
+              {splittedProcedures().weekNineProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
+                      procedure.deadline
+                    )}`}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        </Grid>
+        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
+          <Typography variant="h6" className={classes.title}>
+            1週間後
+          </Typography>
+          <div className={classes.demo}>
+            <List dense={false}>
+              {splittedProcedures().weekTenProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
+                      procedure.deadline
+                    )}`}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        </Grid>
+        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
+          <Typography variant="h6" className={classes.title}>
+            2週間後
+          </Typography>
+          <div className={classes.demo}>
+            <List dense={false}>
+              {splittedProcedures().weekElevenProcedures.map((procedure) => (
+                <ListItem key={procedure.title}>
+                  <ListItemText
+                    primary={procedure.title}
+                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
+                      procedure.deadline
+                    )}`}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        </Grid>
+        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
+          <Typography variant="h6" className={classes.title}>
+            3週間後
+          </Typography>
+          <div className={classes.demo}>
+            <List dense={false}>
+              {splittedProcedures().weekTwelveProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
