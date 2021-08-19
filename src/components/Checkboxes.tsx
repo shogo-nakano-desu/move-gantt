@@ -14,6 +14,12 @@ import {
   isPetForm,
   isScooterForm,
   isCarForm,
+  isUnderFifteenForm,
+  isFireInsuranceForm,
+  isFixedPhoneForm,
+  isMynumberForm,
+  isStampRegistrationForm,
+  isDrivingLicenseForm,
   stateType,
 } from "../utils/reducers";
 
@@ -42,6 +48,24 @@ export default function CheckboxesGroup() {
     (state: stateType) => state.projectForm.formIsScooter
   );
   const isCar = useSelector((state: stateType) => state.projectForm.formIsCar);
+  const isUnderFifteen = useSelector(
+    (state: stateType) => state.projectForm.formIsUnderFifteen
+  );
+  const isFireInsurance = useSelector(
+    (state: stateType) => state.projectForm.formIsFireInsurance
+  );
+  const isFixedPhone = useSelector(
+    (state: stateType) => state.projectForm.formIsFixedPhone
+  );
+  const isMynumber = useSelector(
+    (state: stateType) => state.projectForm.formIsMynumber
+  );
+  const isStampRegistration = useSelector(
+    (state: stateType) => state.projectForm.formIsStampRegistration
+  );
+  const isDrivingLicense = useSelector(
+    (state: stateType) => state.projectForm.formIsDrivingLicense
+  );
 
   return (
     <div className={classes.root}>
@@ -109,6 +133,78 @@ export default function CheckboxesGroup() {
               />
             }
             label="自家用車を保有していますか？"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isUnderFifteen}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isUnderFifteenForm(event.target.checked));
+                }}
+                name="isUnderFifteen"
+              />
+            }
+            label="15歳以下の子供がいますか？"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isFireInsurance}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isFireInsuranceForm(event.target.checked));
+                }}
+                name="isFireInsurance"
+              />
+            }
+            label="火災保険に加入していますか？"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isFixedPhone}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isFixedPhoneForm(event.target.checked));
+                }}
+                name="isFixedPhone"
+              />
+            }
+            label="固定電話を保有していますか？"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isMynumber}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isMynumberForm(event.target.checked));
+                }}
+                name="isMynumber"
+              />
+            }
+            label="マイナンバーカードを保有していますか？"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isStampRegistration}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isStampRegistrationForm(event.target.checked));
+                }}
+                name="isStampRegistration"
+              />
+            }
+            label="印鑑登録をしていますか？"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isDrivingLicense}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isDrivingLicenseForm(event.target.checked));
+                }}
+                name="isDrivingLicense"
+              />
+            }
+            label="運転免許証を保有していますか？"
           />
         </FormGroup>
       </FormControl>

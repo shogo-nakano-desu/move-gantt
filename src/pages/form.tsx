@@ -134,6 +134,24 @@ export default function CreateProjectComponent() {
     (state: stateType) => state.projectForm.formIsScooter
   );
   const isCar = useSelector((state: stateType) => state.projectForm.formIsCar);
+  const isUnderFifteen = useSelector(
+    (state: stateType) => state.projectForm.formIsUnderFifteen
+  );
+  const isFireInsurance = useSelector(
+    (state: stateType) => state.projectForm.formIsFireInsurance
+  );
+  const isFixedPhone = useSelector(
+    (state: stateType) => state.projectForm.formIsFixedPhone
+  );
+  const isMynumber = useSelector(
+    (state: stateType) => state.projectForm.formIsMynumber
+  );
+  const isStampRegistration = useSelector(
+    (state: stateType) => state.projectForm.formIsStampRegistration
+  );
+  const isDrivingLicense = useSelector(
+    (state: stateType) => state.projectForm.formIsDrivingLicense
+  );
   // 最後にstateを空にする処理を忘れずに書く
   // この前に、usercollectionを作成して、そこに入れるようにしたほうが良さげ
   const putProjectToFirestore = (e: React.FormEvent<HTMLFormElement>) => {
@@ -149,6 +167,13 @@ export default function CreateProjectComponent() {
       isPet: isPet,
       isScooter: isScooter,
       isCar: isCar,
+      isUnderFifteen: isUnderFifteen,
+      isFireInsurance: isFireInsurance,
+      isFixedPhone: isFixedPhone,
+      isMynumber: isMynumber,
+      isStampRegistration: isStampRegistration,
+      isDrivingLicense: isDrivingLicense,
+
       created_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
     // ここにstateをリフレッシュする処理を書いておく

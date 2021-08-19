@@ -42,7 +42,7 @@ export default function TodosComponent() {
       <Grid container spacing={1}>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            1ヶ月以上前
+            1ヶ月以上前まで
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -162,7 +162,7 @@ export default function TodosComponent() {
         </Grid> */}
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            3週間前
+            3週間前まで
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -186,7 +186,7 @@ export default function TodosComponent() {
         </Grid>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            2週間前
+            2週間前まで
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -210,7 +210,7 @@ export default function TodosComponent() {
         </Grid>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            1週間前
+            1週間前まで
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -258,7 +258,7 @@ export default function TodosComponent() {
         </Grid>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            1週間後
+            1週間後まで
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -282,7 +282,7 @@ export default function TodosComponent() {
         </Grid>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            2週間後
+            2週間後まで
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
@@ -306,7 +306,7 @@ export default function TodosComponent() {
         </Grid>
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
-            3週間後
+            3週間後まで
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
