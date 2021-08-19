@@ -9,7 +9,7 @@ import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
 import { auth } from "../../firebaseClient";
 import AppBarComponent from "../components/AppBar";
-import { sampleProjectData } from "../utils/fetchProjectData";
+import { filteredProjectData } from "../utils/fetchProjectData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Dashboard = () => {
-  sampleProjectData;
+  filteredProjectData;
   const classes = useStyles();
   const dispatch = useDispatch();
   const router = useRouter();

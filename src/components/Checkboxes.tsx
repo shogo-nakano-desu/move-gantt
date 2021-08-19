@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function CheckboxesGroup() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const isSelfEmployed = useSelector(
+  const isNotEmployee = useSelector(
     (state: stateType) => state.projectForm.formIsNotEmployee
   );
   const isStudent = useSelector(
@@ -82,11 +82,11 @@ export default function CheckboxesGroup() {
           <FormControlLabel
             control={
               <Checkbox
-                checked={isSelfEmployed}
+                checked={isNotEmployee}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   dispatch(isNotEmployeeForm(event.target.checked));
                 }}
-                name="isSelfEmployed"
+                name="isNotEmployee"
               />
             }
             label="会社員ではないでしょうか？"
@@ -149,7 +149,7 @@ export default function CheckboxesGroup() {
                 name="isParking"
               />
             }
-            label="自家用車を保有していますか？"
+            label="駐車場を借りていますか？"
           />
           <FormControlLabel
             control={

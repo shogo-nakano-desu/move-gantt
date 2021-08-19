@@ -11,7 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { getMonth, getDate } from "date-fns";
 import { splittedProcedures } from "../utils/splitProcedures";
 
-import { sortedProcedures } from "../utils/sortProcedures";
+import { filteredProjectData } from "../utils/fetchProjectData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 // あとは中にデータ入れれば完成
 export default function TodosComponent() {
   const classes = useStyles();
-  console.log(sortedProcedures);
+  console.log(filteredProjectData);
   //const firstTitleRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -46,7 +46,7 @@ export default function TodosComponent() {
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splittedProcedures().weekOneProcedures.map((procedure) => (
+              {filteredProjectData().weekOneProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
