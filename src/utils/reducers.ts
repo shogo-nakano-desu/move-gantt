@@ -75,6 +75,31 @@ export const isCarForm = (check: boolean) => ({
   type: "CHANGE_IS_CAR",
   payload: check,
 });
+export const isUnderFifteenForm = (check: boolean) => ({
+  type: "CHANGE_IS_UNDER_FIFTEEN",
+  payload: check,
+});
+export const isFireInsuranceForm = (check: boolean) => ({
+  type: "CHANGE_IS_FIRE_INSURANCE",
+  payload: check,
+});
+export const isFixedPhoneForm = (check: boolean) => ({
+  type: "CHANGE_IS_FIXED_PHONE",
+  payload: check,
+});
+export const isMynumberForm = (check: boolean) => ({
+  type: "CHANGE_IS_MYNUMBER",
+  payload: check,
+});
+export const isStampRegistrationForm = (check: boolean) => ({
+  type: "CHANGE_IS_STAMP_REGISTRATION",
+  payload: check,
+});
+export const isDrivingLicenseForm = (check: boolean) => ({
+  type: "CHANGE_IS_DRIVING_LICENSE",
+  payload: check,
+});
+
 export const refreshProjectForm = () => ({
   type: "REFRESH_PROJECT",
   payload: {
@@ -88,10 +113,15 @@ export const refreshProjectForm = () => ({
     formIsPet: false,
     formIsScooter: false,
     formIsCar: false,
+    formIsUnderFifteen: false,
+    formIsFireInsurance: false,
+    formIsFixedPhone: false,
+    formIsMynumber: false,
+    formIsStampRegistration: false,
+    formIsDrivingLicense: false,
   },
 });
 
-// サインインしているかどうかの管理は常にuser stateでしている。uidが存在すればログイン中、そうでなければログアウトしている
 export const initialState: stateType = {
   authForm: {
     formEmail: "",
@@ -110,6 +140,12 @@ export const initialState: stateType = {
     formIsPet: false,
     formIsScooter: false,
     formIsCar: false,
+    formIsUnderFifteen: false,
+    formIsFireInsurance: false,
+    formIsFixedPhone: false,
+    formIsMynumber: false,
+    formIsStampRegistration: false,
+    formIsDrivingLicense: false,
   },
 };
 
@@ -138,6 +174,12 @@ export interface stateType {
     formIsPet: boolean;
     formIsScooter: boolean;
     formIsCar: boolean;
+    formIsUnderFifteen: boolean;
+    formIsFireInsurance: boolean;
+    formIsFixedPhone: boolean;
+    formIsMynumber: boolean;
+    formIsStampRegistration: boolean;
+    formIsDrivingLicense: boolean;
   };
 }
 
@@ -261,6 +303,54 @@ export const reducer = (
           formIsCar: action.payload,
         },
       };
+    case "CHANGE_IS_UNDER_FIFTEEN":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formIsUnderFifteen: action.payload,
+        },
+      };
+    case "CHANGE_IS_FIRE_INSURANCE":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formIsFireInsurance: action.payload,
+        },
+      };
+    case "CHANGE_IS_FIXED_PHONE":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formIsFixedPhone: action.payload,
+        },
+      };
+    case "CHANGE_IS_MYNUMBER":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formIsMynumber: action.payload,
+        },
+      };
+    case "CHANGE_IS_STAMP_REGISTRATION":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formIsStampRegistration: action.payload,
+        },
+      };
+    case "CHANGE_IS_DRIVING_LICENSE":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formIsDrivingLicense: action.payload,
+        },
+      };
     case "REFRESH_PROJECT":
       return {
         ...state,
@@ -276,6 +366,12 @@ export const reducer = (
           formIsPet: action.payload.formIsPet,
           formIsScooter: action.payload.formIsScooter,
           formIsCar: action.payload.formIsCar,
+          formIsUnderFifteen: action.payload.formIsUnderFifteen,
+          formIsFireInsurance: action.payload.formIsFireInsurance,
+          formIsFixedPhone: action.payload.formIsFixedPhone,
+          formIsMynumber: action.payload.formIsMynumber,
+          formIsStampRegistration: action.payload.formIsStampRegistration,
+          formIsDrivingLicense: action.payload.formIsDrivingLicense,
         },
       };
     default:
