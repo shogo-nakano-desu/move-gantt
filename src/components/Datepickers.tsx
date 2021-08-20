@@ -23,23 +23,17 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function DatePickers() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const willMoveDate = useSelector(
-    (state: stateType) => state.projectForm.formWillMoveDate
-  );
+
   return (
     <TextField
       id="movedate"
-      // label="引越し予定日"
       type="date"
-      // value={willMoveDate}
       className={classes.textField}
       InputLabelProps={{
         shrink: true,
       }}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(`redux投入前${dateParser(e.target.value)}`);
         dispatch(willMoveDateForm(dateParser(e.target.value)));
-        console.log(`reduxから取り出し${willMoveDate}`);
       }}
     />
   );

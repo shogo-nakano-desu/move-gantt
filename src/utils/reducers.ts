@@ -126,6 +126,10 @@ export const refreshProjectForm = () => ({
     formIsDrivingLicense: false,
   },
 });
+export const createNewProject = (projectId: string) => ({
+  type: "CREATE_NEW_PROJECT",
+  payload: projectId,
+});
 
 export const initialState: stateType = {
   authForm: {
@@ -152,6 +156,9 @@ export const initialState: stateType = {
     formIsMynumber: false,
     formIsStampRegistration: false,
     formIsDrivingLicense: false,
+  },
+  project: {
+    projectId: "",
   },
 };
 
@@ -187,6 +194,9 @@ export interface stateType {
     formIsMynumber: boolean;
     formIsStampRegistration: boolean;
     formIsDrivingLicense: boolean;
+  };
+  project: {
+    projectId: string;
   };
 }
 
@@ -389,6 +399,15 @@ export const reducer = (
           formIsDrivingLicense: action.payload.formIsDrivingLicense,
         },
       };
+    case "CREATE_NEW_PROJECT":
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          projectId: action.payload,
+        },
+      };
+
     default:
       return state;
   }

@@ -20,7 +20,12 @@ import OtherForm from "../components/oterForm";
 import { auth, db } from "../../firebaseClient";
 import { setCurrentUser } from "../utils/reducers";
 import AppBarComponent from "../components/AppBar";
-import { stateType } from "../utils/reducers";
+import {
+  stateType,
+  refreshProjectForm,
+  createNewProject,
+} from "../utils/reducers";
+import { procedures } from "../info/procedures";
 
 function Copyright() {
   return (
@@ -96,7 +101,7 @@ export default function CreateProjectComponent() {
     auth.onAuthStateChanged((user) => {
       user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
     });
-  }, []);
+  }, [dispatch, router]); // 元は[]だった。
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -123,7 +128,7 @@ export default function CreateProjectComponent() {
   const willMoveDate = useSelector(
     (state: stateType) => state.projectForm.formWillMoveDate
   );
-  const isSelfEmployed = useSelector(
+  const isNotEmployee = useSelector(
     (state: stateType) => state.projectForm.formIsNotEmployee
   );
   const isStudent = useSelector(
@@ -152,31 +157,84 @@ export default function CreateProjectComponent() {
   const isDrivingLicense = useSelector(
     (state: stateType) => state.projectForm.formIsDrivingLicense
   );
+  const projectId = useSelector((state: stateType) => state.project.projectId);
   // 最後にstateを空にする処理を忘れずに書く
   // この前に、usercollectionを作成して、そこに入れるようにしたほうが良さげ
   const putProjectToFirestore = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    db.collection("users").doc(userId).collection("projects").add({
-      willMovePrefecture: willMovePrefecture,
-      willMoveAddress: willMoveAddress,
-      moveFromPrefecture: moveFromPrefecture,
-      moveFromAddress: moveFromAddress,
-      willMoveDate: willMoveDate,
-      isSelfEmployed: isSelfEmployed,
-      isStudent: isStudent,
-      isPet: isPet,
-      isScooter: isScooter,
-      isCar: isCar,
-      isUnderFifteen: isUnderFifteen,
-      isFireInsurance: isFireInsurance,
-      isFixedPhone: isFixedPhone,
-      isMynumber: isMynumber,
-      isStampRegistration: isStampRegistration,
-      isDrivingLicense: isDrivingLicense,
-
-      created_at: firebase.firestore.FieldValue.serverTimestamp(),
+    const filteredTodos = procedures.filter((procedure) => {
+      // ロジックはOK
+      if (
+        !(isCar === false && procedure.isCar === true) &&
+        !(isDrivingLicense === false && procedure.isDrivingLicense === true) &&
+        !(isFireInsurance === false && procedure.isFireInsurance === true) &&
+        !(isFixedPhone === false && procedure.isFixedPhone === true) &&
+        !(isMynumber === false && procedure.isMynumber === true) &&
+        !(isPet === false && procedure.isPet === true) &&
+        !(isScooter === false && procedure.isScooter === true) &&
+        !(isNotEmployee === false && procedure.isNotEmployee === true) &&
+        !(
+          isStampRegistration === false &&
+          procedure.isStampRegistration === true
+        ) &&
+        !(isStudent === false && procedure.isStudent === true) &&
+        !(isUnderFifteen === false && procedure.isUnderFifteen === true)
+      ) {
+        return true;
+      }
     });
-    // ここにstateをリフレッシュする処理を書いておく
+    console.log("filteredTodos:", filteredTodos);
+    console.log("firestoreに登録開始");
+    db.collection("users")
+      .doc(userId)
+      .collection("projects")
+      .add({
+        willMovePrefecture: willMovePrefecture,
+        willMoveAddress: willMoveAddress,
+        moveFromPrefecture: moveFromPrefecture,
+        moveFromAddress: moveFromAddress,
+        willMoveDate: willMoveDate,
+        isNotEmployee: isNotEmployee,
+        isStudent: isStudent,
+        isPet: isPet,
+        isScooter: isScooter,
+        isCar: isCar,
+        isUnderFifteen: isUnderFifteen,
+        isFireInsurance: isFireInsurance,
+        isFixedPhone: isFixedPhone,
+        isMynumber: isMynumber,
+        isStampRegistration: isStampRegistration,
+        isDrivingLicense: isDrivingLicense,
+        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then((docRef) => {
+        console.log("projectIdのdispatch開始");
+        dispatch(createNewProject(docRef.id));
+        console.log("projectIdのdispatch完了:", projectId);
+        return projectId;
+      })
+      .then((projectId) => {
+        console.log("ループ前のprojectId", projectId);
+        for (let i = 0; i < filteredTodos.length; i++) {
+          console.log(i);
+          db.collection("users")
+            .doc(userId)
+            .collection("projects")
+            .doc(projectId) // [TODO]まだプロジェクトの登録が終わる前に発生してしまう。
+            .collection("todos")
+            .add(filteredTodos[i]);
+        }
+        console.log("TODOS登録も完了");
+      })
+      .then(() => {
+        dispatch(refreshProjectForm());
+        console.log("project stateの初期化完了");
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+    // project登録とprojectの内容に沿ったtodosの登録を同時に行う。
+    // DBには必要なTODOだけが入っているはず。
   };
 
   return (
@@ -204,18 +262,25 @@ export default function CreateProjectComponent() {
                 <Link href="/dashboard">
                   <a>ダッシュボードに戻る</a>
                 </Link>
+                <Button></Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
                 <form onSubmit={putProjectToFirestore}>
                   {getStepContent(activeStep)}
+                  {console.log("activeStep: ", activeStep)}
+                  {console.log("stepLength", steps.length)}
                   <div className={classes.buttons}>
                     {activeStep !== 0 && (
-                      <Button onClick={handleBack} className={classes.button}>
+                      <Button
+                        onClick={handleBack}
+                        className={classes.button}
+                        type="button"
+                      >
                         戻る
                       </Button>
                     )}
-                    {activeStep === steps.length - 1 ? (
+                    {activeStep === steps.length - 1 ? ( //2の時
                       <Button
                         type="submit"
                         variant="contained"
@@ -231,6 +296,7 @@ export default function CreateProjectComponent() {
                         color="primary"
                         onClick={handleNext}
                         className={classes.button}
+                        type="button"
                       >
                         次へ
                       </Button>

@@ -1,3 +1,4 @@
+// [TODO]方針を変えるのでこのファイルは全部無視することになる
 import { db } from "../../firebaseClient";
 import { procedures, Procedure } from "../info/procedures";
 import { compareWithDeadline } from "./sortProcedures";
@@ -19,37 +20,37 @@ export const filteredProjectData = () =>
       // ここにprocedures（array）と比較する関数を作っていく
       if (doc.exists) {
         const myProcedures: Procedure[] = procedures.filter((procedure) => {
-          !(projectData.isCar === false && procedure.isCar === true) ||
+          !(projectData.isCar === false && procedure.isCar === true) &&
             !(
               projectData.isDrivingLicense === false &&
               procedure.isDrivingLicense === true
-            ) ||
+            ) &&
             !(
               projectData.isFireInsurance === false &&
               procedure.isFireInsurance === true
-            ) ||
+            ) &&
             !(
               projectData.isFixedPhone === false &&
               procedure.isFixedPhone === true
-            ) ||
+            ) &&
             !(
               projectData.isMynumber === false && procedure.isMynumber === true
-            ) ||
-            !(projectData.isPet === false && procedure.isPet === true) ||
+            ) &&
+            !(projectData.isPet === false && procedure.isPet === true) &&
             !(
               projectData.isScooter === false && procedure.isScooter === true
-            ) ||
+            ) &&
             !(
               projectData.isNotEmployee === false &&
               procedure.isNotEmployee === true
-            ) ||
+            ) &&
             !(
               projectData.isStampRegistration === false &&
               procedure.isStampRegistration === true
-            ) ||
+            ) &&
             !(
               projectData.isStudent === false && procedure.isStudent === true
-            ) ||
+            ) &&
             !(
               projectData.isUnderFifteen === false &&
               procedure.isUnderFifteen === true
