@@ -207,20 +207,20 @@ export default function CreateProjectComponent() {
         isDrivingLicense: isDrivingLicense,
         created_at: firebase.firestore.FieldValue.serverTimestamp(),
       })
+      // .then((docRef) => {
+      //   console.log("projectIdのdispatch開始");
+      //   dispatch(createNewProject(docRef.id));
+      //   console.log("projectIdのdispatch完了:", projectId);
+      //   return projectId;
+      // })
       .then((docRef) => {
-        console.log("projectIdのdispatch開始");
-        dispatch(createNewProject(docRef.id));
-        console.log("projectIdのdispatch完了:", projectId);
-        return projectId;
-      })
-      .then((projectId) => {
-        console.log("ループ前のprojectId", projectId);
+        console.log("ループ前のprojectId", docRef.id);
         for (let i = 0; i < filteredTodos.length; i++) {
           console.log(i);
           db.collection("users")
             .doc(userId)
             .collection("projects")
-            .doc(projectId) // [TODO]まだプロジェクトの登録が終わる前に発生してしまう。
+            .doc(docRef.id) // [TODO]まだプロジェクトの登録が終わる前に発生してしまう。
             .collection("todos")
             .add(filteredTodos[i]);
         }
@@ -254,7 +254,7 @@ export default function CreateProjectComponent() {
             ))}
           </Stepper>
           <React.Fragment>
-            {activeStep === steps.length ? (
+            {activeStep === steps.length ? ( //steps.length=3。activeStepは次へをクリックすると増える
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
                   プロジェクト登録完了！
