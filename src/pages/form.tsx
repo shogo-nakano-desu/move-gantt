@@ -280,13 +280,13 @@ export default function CreateProjectComponent() {
                         戻る
                       </Button>
                     )}
-                    {activeStep === steps.length - 1 ? ( //2の時
+                    {activeStep === steps.length - 1 ? (
                       <Button
-                        type="submit"
                         variant="contained"
                         color="primary"
                         onClick={handleNext}
                         className={classes.button}
+                        type="submit"
                       >
                         登録完了
                       </Button>
