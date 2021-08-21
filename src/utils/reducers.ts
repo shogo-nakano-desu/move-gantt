@@ -126,9 +126,19 @@ export const refreshProjectForm = () => ({
     formIsDrivingLicense: false,
   },
 });
+
 export const createNewProject = (projectId: string) => ({
   type: "CREATE_NEW_PROJECT",
   payload: projectId,
+});
+
+export const handleNext = () => ({
+  type: "HANDLE_NEXT",
+  payload: 1,
+});
+export const handleBack = () => ({
+  type: "HANDLE_BACK",
+  payload: -1,
 });
 
 export const initialState: stateType = {
@@ -159,6 +169,9 @@ export const initialState: stateType = {
   },
   project: {
     projectId: "",
+  },
+  step: {
+    stepNum: 0,
   },
 };
 
@@ -197,6 +210,9 @@ export interface stateType {
   };
   project: {
     projectId: string;
+  };
+  step: {
+    stepNum: number;
   };
 }
 
@@ -405,6 +421,22 @@ export const reducer = (
         project: {
           ...state.project,
           projectId: action.payload,
+        },
+      };
+    case "HANDLE_NEXT":
+      return {
+        ...state,
+        step: {
+          ...state.step,
+          stepNum: state.step.stepNum + 1,
+        },
+      };
+    case "HANDLE_BACK":
+      return {
+        ...state,
+        step: {
+          ...state.step,
+          stepNum: state.step.stepNum - 1,
         },
       };
 

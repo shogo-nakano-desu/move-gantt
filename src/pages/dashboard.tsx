@@ -41,7 +41,7 @@ const Dashboard = () => {
     auth.onAuthStateChanged((user) => {
       user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
     });
-  }, []);
+  }, [router, dispatch]); // dependenciesが必要とのこと
 
   return (
     <div style={{ width: "100%", height: "98%" }}>

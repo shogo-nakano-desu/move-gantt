@@ -1,15 +1,17 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import firebase from "firebase/app";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import DatePickers from "./Datepickers";
-import { handleNext, handleBack, stateType } from "../utils/reducers";
+import CheckboxesGroup from "./Checkboxes";
+import { handleNext, stateType, refreshProjectForm } from "../utils/reducers";
+import { procedures } from "../info/procedures";
+import { auth, db } from "../../firebaseClient";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    title: {},
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
@@ -27,26 +29,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-export default function DateFormComponent() {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const handleNextStep = () => {
-    dispatch(handleNext());
-  };
-  const handleBackStep = () => {
-    dispatch(handleBack());
-  };
+export default function OtherFormComponent() {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        引越し予定日を登録
+        その他情報を登録
       </Typography>
+      {/* <body>
+        <form onSubmit={putProjectToFirestore}> */}
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <DatePickers />
-        </Grid>
+        {/* <Grid item xs={12} sm={6}> */}
+        <CheckboxesGroup />
       </Grid>
+      {/* </Grid> */}
     </React.Fragment>
   );
 }

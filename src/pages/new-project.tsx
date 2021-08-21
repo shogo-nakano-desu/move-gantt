@@ -1,22 +1,20 @@
-// [TODO]このコンポーネントはもう使わない
-
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import firebase from "firebase/app";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import { Link as MaterialLink } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
 import AddressFormComponent from "../components/addressForm";
+import DateFormComponent from "../components/dateForm";
+import OtherFormComponent from "../components/otherForm";
+
 import DateForm from "../components/dateForm";
 import OtherForm from "../components/otherForm";
 import { auth, db } from "../../firebaseClient";
@@ -25,90 +23,59 @@ import AppBarComponent from "../components/AppBar";
 import { stateType, refreshProjectForm } from "../utils/reducers";
 import { procedures } from "../info/procedures";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <MaterialLink color="inherit" href="https://material-ui.com/">
-        Your Website
-      </MaterialLink>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: "relative",
-  },
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-      width: 600,
-      marginLeft: "auto",
-      marginRight: "auto",
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    appBar: {
+      position: "relative",
     },
-  },
-  paper: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
-      padding: theme.spacing(3),
+    title: {
+      marginBottom: theme.spacing(3),
     },
-  },
-  stepper: {
-    padding: theme.spacing(3, 0, 5),
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "flex-end",
-  },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1),
-  },
-}));
-
-const steps = ["住所登録", "引越し予定日登録", "その他情報登録"];
-
-function getStepContent(step: number) {
-  switch (step) {
-    case 0:
-      return <AddressFormComponent />;
-    case 1:
-      return <DateForm />;
-    case 2:
-      return <OtherForm />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
+    layout: {
+      width: "auto",
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+      [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+        width: 600,
+        marginLeft: "auto",
+        marginRight: "auto",
+      },
+    },
+    paper: {
+      marginTop: theme.spacing(3),
+      marginBottom: theme.spacing(3),
+      padding: theme.spacing(2),
+      [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+        marginTop: theme.spacing(6),
+        marginBottom: theme.spacing(6),
+        padding: theme.spacing(3),
+      },
+    },
+    buttons: {
+      display: "flex",
+      justifyContent: "flex-end",
+    },
+    button: {
+      marginTop: theme.spacing(3),
+      marginLeft: theme.spacing(1),
+      backgroundColor: "rgb(56,162,185)",
+      "&:hover": {
+        backgroundColor: "rgb(110,162,185)",
+      },
+    },
+  })
+);
 
 export default function CreateProjectComponent() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const router = useRouter();
-  const [activeStep, setActiveStep] = React.useState(0);
   // const activeStep = useSelector((state: stateType) => state.step.stepNum);
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
     });
   }, [dispatch, router]); // 元は[]だった。
-
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
 
   const userId = useSelector((state: stateType) => state.user.uid);
   // firestoreに新規プロジェクトを作成するための関数群
@@ -234,70 +201,34 @@ export default function CreateProjectComponent() {
       <AppBarComponent></AppBarComponent>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
+          <Typography
+            className={classes.title}
+            component="h1"
+            variant="h4"
+            align="center"
+          >
             引越しプロジェクト登録
           </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+
           <React.Fragment>
-            {activeStep === steps.length ? ( //steps.length=3。activeStepは次へをクリックすると増える
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  プロジェクト登録完了！
-                </Typography>
-                <Link href="/dashboard">
-                  <a>ダッシュボードに戻る</a>
-                </Link>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <form onSubmit={putProjectToFirestore} id="myform">
-                  {getStepContent(activeStep)}
-                  {console.log("activeStep: ", activeStep)}
-                  {console.log("stepLength", steps.length)}
-                  <div className={classes.buttons}>
-                    {activeStep !== 0 && (
-                      <Button
-                        onClick={handleBack}
-                        className={classes.button}
-                        type="button"
-                      >
-                        戻る
-                      </Button>
-                    )}
-                    {activeStep === 2 ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                        className={classes.button}
-                        type="submit"
-                      >
-                        登録完了
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                        className={classes.button}
-                        type="button"
-                      >
-                        次へ
-                      </Button>
-                    )}
-                  </div>
-                </form>
-              </React.Fragment>
-            )}
+            <form onSubmit={putProjectToFirestore} id="myform">
+              <AddressFormComponent />
+              <DateFormComponent />
+              <OtherFormComponent />
+
+              <div className={classes.buttons}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  type="submit"
+                >
+                  登録完了
+                </Button>
+              </div>
+            </form>
           </React.Fragment>
         </Paper>
-        <Copyright />
       </main>
     </React.Fragment>
   );
