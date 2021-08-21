@@ -9,11 +9,12 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import {
-  isSelfEmployedForm,
+  isNotEmployeeForm,
   isStudentForm,
   isPetForm,
   isScooterForm,
   isCarForm,
+  isParkingForm,
   isUnderFifteenForm,
   isFireInsuranceForm,
   isFixedPhoneForm,
@@ -37,8 +38,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function CheckboxesGroup() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const isSelfEmployed = useSelector(
-    (state: stateType) => state.projectForm.formIsSelfEmployed
+  const isNotEmployee = useSelector(
+    (state: stateType) => state.projectForm.formIsNotEmployee
   );
   const isStudent = useSelector(
     (state: stateType) => state.projectForm.formIsStudent
@@ -48,6 +49,10 @@ export default function CheckboxesGroup() {
     (state: stateType) => state.projectForm.formIsScooter
   );
   const isCar = useSelector((state: stateType) => state.projectForm.formIsCar);
+  const isParking = useSelector(
+    (state: stateType) => state.projectForm.formIsParking
+  );
+
   const isUnderFifteen = useSelector(
     (state: stateType) => state.projectForm.formIsUnderFifteen
   );
@@ -77,14 +82,14 @@ export default function CheckboxesGroup() {
           <FormControlLabel
             control={
               <Checkbox
-                checked={isSelfEmployed}
+                checked={isNotEmployee}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  dispatch(isSelfEmployedForm(event.target.checked));
+                  dispatch(isNotEmployeeForm(event.target.checked));
                 }}
-                name="isSelfEmployed"
+                name="isNotEmployee"
               />
             }
-            label="自営業を営んでいますか？"
+            label="会社員ではないでしょうか？"
           />
           <FormControlLabel
             control={
@@ -133,6 +138,18 @@ export default function CheckboxesGroup() {
               />
             }
             label="自家用車を保有していますか？"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isParking}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch(isParkingForm(event.target.checked));
+                }}
+                name="isParking"
+              />
+            }
+            label="駐車場を借りていますか？"
           />
           <FormControlLabel
             control={

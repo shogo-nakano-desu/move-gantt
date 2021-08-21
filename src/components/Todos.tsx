@@ -11,7 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { getMonth, getDate } from "date-fns";
 import { splittedProcedures } from "../utils/splitProcedures";
 
-import { sortedProcedures } from "../utils/sortProcedures";
+import { filteredProjectData } from "../utils/fetchProjectData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,19 +34,20 @@ const useStyles = makeStyles((theme: Theme) =>
 // あとは中にデータ入れれば完成
 export default function TodosComponent() {
   const classes = useStyles();
-  console.log(sortedProcedures);
+  // console.log(filteredProjectData);
   //const firstTitleRef = useRef<HTMLDivElement>(null);
 
+  // firestoreから直ゲットトライ
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
+        {/* <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
             1ヶ月以上前まで
           </Typography>
           <div className={classes.demo}>
             <List dense={false}>
-              {splittedProcedures().weekOneProcedures.map((procedure) => (
+              {filteredProjectData().weekOneProcedures.map((procedure) => (
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
@@ -64,102 +65,6 @@ export default function TodosComponent() {
             </List>
           </div>
         </Grid>
-        {/* <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            Week2
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {splittedProcedures().weekTwoProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            Week3
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {splittedProcedures().weekThreeProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            Week4
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {splittedProcedures().weekFourProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            Week5
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {splittedProcedures().weekFiveProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid> */}
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
             3週間前まで
@@ -327,7 +232,7 @@ export default function TodosComponent() {
               ))}
             </List>
           </div>
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );

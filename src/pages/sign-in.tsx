@@ -72,12 +72,17 @@ const SignInComponent: React.VFC = () => {
     auth.onAuthStateChanged((user) => {
       user && router.push("/dashboard"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
     });
-  }, []);
+  }, [dispatch, router]); // 元々は[]だったのだが、dependencies arrayを作ってとエラーなので入れた。
 
   const SignIn = async (e: any) => {
     e.preventDefault();
     try {
       await auth.signInWithEmailAndPassword(email, password);
+      console.log("userId: ", userId);
+
+      // await db.collection("users").doc(userId);
+      // .set({ userId: userId }, { merge: true });
+      console.log("sign-in&createdoc");
       router.push("/dashboard");
     } catch (err) {
       alert(err.message);

@@ -9,6 +9,7 @@ import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
 import { auth } from "../../firebaseClient";
 import AppBarComponent from "../components/AppBar";
+import { filteredProjectData } from "../utils/fetchProjectData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Dashboard = () => {
+  filteredProjectData;
   const classes = useStyles();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -39,7 +41,7 @@ const Dashboard = () => {
     auth.onAuthStateChanged((user) => {
       user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
     });
-  }, []);
+  }, [router, dispatch]); // dependenciesが必要とのこと
 
   return (
     <div style={{ width: "100%", height: "98%" }}>

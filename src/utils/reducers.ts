@@ -55,8 +55,8 @@ export const willMoveDateForm = (date: Date) => ({
   type: "CHANGE_WILL_MOVE_DATE",
   payload: date,
 });
-export const isSelfEmployedForm = (check: boolean) => ({
-  type: "CHANGE_IS_SELF_EMPLOYED",
+export const isNotEmployeeForm = (check: boolean) => ({
+  type: "CHANGE_IS_NOT_EMPLOYEE",
   payload: check,
 });
 export const isStudentForm = (check: boolean) => ({
@@ -73,6 +73,10 @@ export const isScooterForm = (check: boolean) => ({
 });
 export const isCarForm = (check: boolean) => ({
   type: "CHANGE_IS_CAR",
+  payload: check,
+});
+export const isParkingForm = (check: boolean) => ({
+  type: "CHANGE_IS_PARKING",
   payload: check,
 });
 export const isUnderFifteenForm = (check: boolean) => ({
@@ -108,11 +112,12 @@ export const refreshProjectForm = () => ({
     formMoveFromPrefecture: "",
     formMoveFromAddress: "",
     formWillMoveDate: null,
-    formIsSelfEmployed: false,
+    formIsNotEmployee: false,
     formIsStudent: false,
     formIsPet: false,
     formIsScooter: false,
     formIsCar: false,
+    formIsParking: false,
     formIsUnderFifteen: false,
     formIsFireInsurance: false,
     formIsFixedPhone: false,
@@ -120,6 +125,20 @@ export const refreshProjectForm = () => ({
     formIsStampRegistration: false,
     formIsDrivingLicense: false,
   },
+});
+
+export const createNewProject = (projectId: string) => ({
+  type: "CREATE_NEW_PROJECT",
+  payload: projectId,
+});
+
+export const handleNext = () => ({
+  type: "HANDLE_NEXT",
+  payload: 1,
+});
+export const handleBack = () => ({
+  type: "HANDLE_BACK",
+  payload: -1,
 });
 
 export const initialState: stateType = {
@@ -135,17 +154,24 @@ export const initialState: stateType = {
     formMoveFromPrefecture: "",
     formMoveFromAddress: "",
     formWillMoveDate: null,
-    formIsSelfEmployed: false,
+    formIsNotEmployee: false,
     formIsStudent: false,
     formIsPet: false,
     formIsScooter: false,
     formIsCar: false,
+    formIsParking: false,
     formIsUnderFifteen: false,
     formIsFireInsurance: false,
     formIsFixedPhone: false,
     formIsMynumber: false,
     formIsStampRegistration: false,
     formIsDrivingLicense: false,
+  },
+  project: {
+    projectId: "",
+  },
+  step: {
+    stepNum: 0,
   },
 };
 
@@ -169,17 +195,24 @@ export interface stateType {
     formMoveFromPrefecture: string;
     formMoveFromAddress: string;
     formWillMoveDate: Date | null;
-    formIsSelfEmployed: boolean;
+    formIsNotEmployee: boolean;
     formIsStudent: boolean;
     formIsPet: boolean;
     formIsScooter: boolean;
     formIsCar: boolean;
+    formIsParking: boolean;
     formIsUnderFifteen: boolean;
     formIsFireInsurance: boolean;
     formIsFixedPhone: boolean;
     formIsMynumber: boolean;
     formIsStampRegistration: boolean;
     formIsDrivingLicense: boolean;
+  };
+  project: {
+    projectId: string;
+  };
+  step: {
+    stepNum: number;
   };
 }
 
@@ -263,12 +296,12 @@ export const reducer = (
           formWillMoveDate: action.payload,
         },
       };
-    case "CHANGE_IS_SELF_EMPLOYED":
+    case "CHANGE_IS_NOT_EMPLOYEE":
       return {
         ...state,
         projectForm: {
           ...state.projectForm,
-          formIsSelfEmployed: action.payload,
+          formIsNotEmployee: action.payload,
         },
       };
     case "CHANGE_IS_STUDENT":
@@ -301,6 +334,14 @@ export const reducer = (
         projectForm: {
           ...state.projectForm,
           formIsCar: action.payload,
+        },
+      };
+    case "CHANGE_IS_PARKING":
+      return {
+        ...state,
+        projectForm: {
+          ...state.projectForm,
+          formIsParking: action.payload,
         },
       };
     case "CHANGE_IS_UNDER_FIFTEEN":
@@ -374,6 +415,31 @@ export const reducer = (
           formIsDrivingLicense: action.payload.formIsDrivingLicense,
         },
       };
+    case "CREATE_NEW_PROJECT":
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          projectId: action.payload,
+        },
+      };
+    case "HANDLE_NEXT":
+      return {
+        ...state,
+        step: {
+          ...state.step,
+          stepNum: state.step.stepNum + 1,
+        },
+      };
+    case "HANDLE_BACK":
+      return {
+        ...state,
+        step: {
+          ...state.step,
+          stepNum: state.step.stepNum - 1,
+        },
+      };
+
     default:
       return state;
   }
