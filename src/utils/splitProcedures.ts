@@ -22,44 +22,42 @@ export const splittedProcedures = (procedures: procedureType[]) => {
   const oneMonthBeforeMove = add(moveDate, { months: -1, weeks: 1 });
   // procedureがどの週にマッピングされるべきか決まる
   procedures.map((procedure: procedureType) => {
-    if (
-      procedure.deadline >= firstWeek &&
-      procedure.deadline < oneMonthBeforeMove
-    ) {
+    const deadlineDate = new Date(procedure.deadline);
+    if (deadlineDate >= firstWeek && deadlineDate < oneMonthBeforeMove) {
       weekOneProcedures.push(procedure);
     } else if (
-      procedure.deadline >= add(firstWeek, { weeks: 5 }) &&
-      procedure.deadline < add(firstWeek, { weeks: 6 })
+      deadlineDate >= add(firstWeek, { weeks: 5 }) &&
+      deadlineDate < add(firstWeek, { weeks: 6 })
     ) {
       weekSixProcedures.push(procedure);
     } else if (
-      procedure.deadline >= add(firstWeek, { weeks: 6 }) &&
-      procedure.deadline < add(firstWeek, { weeks: 7 })
+      deadlineDate >= add(firstWeek, { weeks: 6 }) &&
+      deadlineDate < add(firstWeek, { weeks: 7 })
     ) {
       weekSevenProcedures.push(procedure);
     } else if (
-      procedure.deadline >= add(firstWeek, { weeks: 7 }) &&
-      procedure.deadline < add(firstWeek, { weeks: 8 })
+      deadlineDate >= add(firstWeek, { weeks: 7 }) &&
+      deadlineDate < add(firstWeek, { weeks: 8 })
     ) {
       weekEightProcedures.push(procedure);
     } else if (
-      procedure.deadline >= add(firstWeek, { weeks: 8 }) &&
-      procedure.deadline < add(firstWeek, { weeks: 9 })
+      deadlineDate >= add(firstWeek, { weeks: 8 }) &&
+      deadlineDate < add(firstWeek, { weeks: 9 })
     ) {
       weekNineProcedures.push(procedure);
     } else if (
-      procedure.deadline >= add(firstWeek, { weeks: 9 }) &&
-      procedure.deadline < add(firstWeek, { weeks: 10 })
+      deadlineDate >= add(firstWeek, { weeks: 9 }) &&
+      deadlineDate < add(firstWeek, { weeks: 10 })
     ) {
       weekTenProcedures.push(procedure);
     } else if (
-      procedure.deadline >= add(firstWeek, { weeks: 10 }) &&
-      procedure.deadline < add(firstWeek, { weeks: 11 })
+      deadlineDate >= add(firstWeek, { weeks: 10 }) &&
+      deadlineDate < add(firstWeek, { weeks: 11 })
     ) {
       weekElevenProcedures.push(procedure);
     } else if (
-      procedure.deadline >= add(firstWeek, { weeks: 11 }) &&
-      procedure.deadline < add(firstWeek, { weeks: 12 })
+      deadlineDate >= add(firstWeek, { weeks: 11 }) &&
+      deadlineDate < add(firstWeek, { weeks: 12 })
     ) {
       weekTwelveProcedures.push(procedure);
     } else {

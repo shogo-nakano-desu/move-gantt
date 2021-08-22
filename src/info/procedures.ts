@@ -27,8 +27,8 @@ isDrivingLicense: false,
 // booleanに関しては、trueの時だけその項目がマストになる
 export interface Procedure {
   title: string;
-  startDate: Date; // プロジェクト作成日か関数で計算した日付
-  deadline: Date;
+  startDate: number; // プロジェクト作成日か関数で計算した日付
+  deadline: number;
   submitDestination: string;
   targetPerson: TARGET_PERSON;
   confirmationSource: string;
@@ -58,8 +58,8 @@ export type TARGET_PERSON = typeof TARGET_PERSON[keyof typeof TARGET_PERSON];
 // ここには本番用データを入れていく----------------------------------------------------------------
 const rentalCancellation: Procedure = {
   title: "賃貸物件の解約手続き",
-  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
-  deadline: add(moveDate, { months: -2 }), //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
+  startDate: projectCreatedAt.getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -2 }).getTime(), //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
   submitDestination: "管理会社や不動産会社、大家など",
   targetPerson: "everyone",
   confirmationSource:
@@ -82,8 +82,8 @@ const rentalCancellation: Procedure = {
 
 const parkingCancellation: Procedure = {
   title: "駐車場の解約手続き",
-  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
-  deadline: add(moveDate, { months: -2 }),
+  startDate: projectCreatedAt.getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -2 }).getTime(),
   submitDestination: "貸主もしくは管理会社",
   targetPerson: "everyone",
   confirmationSource: "契約書を確認、もしくは貸主、管理会社に問い合わせ",
@@ -105,8 +105,8 @@ const parkingCancellation: Procedure = {
 
 const moverContraction: Procedure = {
   title: "引越し業者との契約",
-  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
-  deadline: add(moveDate, { weeks: -1 }),
+  startDate: projectCreatedAt.getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { weeks: -1 }).getTime(),
   submitDestination: "各引越し業者",
   targetPerson: "everyone",
   confirmationSource:
@@ -129,8 +129,8 @@ const moverContraction: Procedure = {
 
 const schoolChanging: Procedure = {
   title: "学校の転校手続き",
-  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
-  deadline: add(projectCreatedAt, { weeks: 2 }),
+  startDate: projectCreatedAt.getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(projectCreatedAt, { weeks: 2 }).getTime(),
   submitDestination: "（公立校）役所（教育委員会）の窓口/ （私立校）学校の窓口",
   targetPerson: "everyone",
   confirmationSource:
@@ -153,8 +153,8 @@ const schoolChanging: Procedure = {
 
 const internet: Procedure = {
   title: "インターネットの引越し手続き",
-  startDate: add(moveDate, { months: -1, weeks: -2 }), // プロジェクト作成日か関数で計算した日付
-  deadline: add(moveDate, { months: -1 }), //
+  startDate: add(moveDate, { months: -1, weeks: -2 }).getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -1 }).getTime(), //
   submitDestination: "回線会社、プロバイダのHPもしくは電話など",
   targetPerson: "everyone",
   confirmationSource:
@@ -177,8 +177,8 @@ const internet: Procedure = {
 
 const largeGarbage: Procedure = {
   title: "粗大ゴミの処分手続き",
-  startDate: projectCreatedAt, // プロジェクト作成日か関数で計算した日付
-  deadline: add(moveDate, { months: -1 }),
+  startDate: projectCreatedAt.getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -1 }).getTime(),
   submitDestination: "各自治体もしくは粗大ゴミ回収業者",
   targetPerson: "everyone",
   confirmationSource: "https://hikkoshizamurai.jp/useful/unnecessary/#anchor05",
@@ -200,8 +200,8 @@ const largeGarbage: Procedure = {
 
 const fireInsurance: Procedure = {
   title: "火災保険の住所変更手続き",
-  startDate: add(moveDate, { months: -1 }), // プロジェクト作成日か関数で計算した日付
-  deadline: add(moveDate, { weeks: -3 }), //
+  startDate: add(moveDate, { months: -1 }).getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { weeks: -3 }).getTime(), //
   submitDestination: "保険会社",
   targetPerson: "everyone",
   confirmationSource:
@@ -224,8 +224,8 @@ const fireInsurance: Procedure = {
 
 const movingOutNotification: Procedure = {
   title: "転出届の提出",
-  startDate: add(moveDate, { weeks: -2 }), // プロジェクト作成日か関数で計算した日付
-  deadline: add(moveDate, { days: 13 }), //
+  startDate: add(moveDate, { weeks: -2 }).getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { days: 13 }).getTime(), //
   submitDestination: "旧住所管轄の役場",
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
@@ -248,8 +248,8 @@ const movingOutNotification: Procedure = {
 
 const NationalHealthInsuranceCancellation: Procedure = {
   title: "国民健康保険の資格喪失手続き",
-  startDate: add(moveDate, { weeks: -2 }),
-  deadline: add(moveDate, { days: 14 }),
+  startDate: add(moveDate, { weeks: -2 }).getTime(),
+  deadline: add(moveDate, { days: 14 }).getTime(),
   submitDestination: "引越し元の市区町村役場",
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
@@ -272,8 +272,8 @@ const NationalHealthInsuranceCancellation: Procedure = {
 
 const stampDeletion: Procedure = {
   title: "印鑑登録の抹消",
-  startDate: add(moveDate, { weeks: -2 }),
-  deadline: moveDate,
+  startDate: add(moveDate, { weeks: -2 }).getTime(),
+  deadline: moveDate.getTime(),
   submitDestination: "旧住所の役場",
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
@@ -296,8 +296,8 @@ const stampDeletion: Procedure = {
 
 const scooterDeletion: Procedure = {
   title: "原付の廃車手続き・住所変更",
-  startDate: add(moveDate, { weeks: -2 }),
-  deadline: add(moveDate, { days: 15 }),
+  startDate: add(moveDate, { weeks: -2 }).getTime(),
+  deadline: add(moveDate, { days: 15 }).getTime(),
   submitDestination: "市区町村役場もしくは陸運局",
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
@@ -320,8 +320,8 @@ const scooterDeletion: Procedure = {
 
 const childAllowance: Procedure = {
   title: "児童手当の住所変更手続き",
-  startDate: add(moveDate, { weeks: -2 }),
-  deadline: add(moveDate, { days: 15 }),
+  startDate: add(moveDate, { weeks: -2 }).getTime(),
+  deadline: add(moveDate, { days: 15 }).getTime(),
   submitDestination:
     "引越し元住所に「児童手当受給事由消滅届」⇨引越し先住所に「児童手当認定請求書」",
   targetPerson: "moveToDifferentMunicipalities",
@@ -345,8 +345,8 @@ const childAllowance: Procedure = {
 
 const electricity: Procedure = {
   title: "電気の使用停止・開始手続き",
-  startDate: add(moveDate, { weeks: -2 }),
-  deadline: add(moveDate, { weeks: -1 }),
+  startDate: add(moveDate, { weeks: -2 }).getTime(),
+  deadline: add(moveDate, { weeks: -1 }).getTime(),
   submitDestination: "電力会社のHPもしくは電話",
   targetPerson: "everyone",
   confirmationSource:
@@ -369,8 +369,8 @@ const electricity: Procedure = {
 
 const gasTap: Procedure = {
   title: "ガスの使用中止・開始手続き",
-  startDate: add(moveDate, { weeks: -2 }),
-  deadline: add(moveDate, { weeks: -1 }),
+  startDate: add(moveDate, { weeks: -2 }).getTime(),
+  deadline: add(moveDate, { weeks: -1 }).getTime(),
   submitDestination: "ガス会社",
   targetPerson: "everyone",
   confirmationSource:
@@ -393,8 +393,8 @@ const gasTap: Procedure = {
 
 const tapwaterCancellation: Procedure = {
   title: "水道の使用中止手続き",
-  startDate: add(moveDate, { weeks: -2 }),
-  deadline: add(moveDate, { days: -2 }),
+  startDate: add(moveDate, { weeks: -2 }).getTime(),
+  deadline: add(moveDate, { days: -2 }).getTime(),
   submitDestination: "水道局",
   targetPerson: "everyone",
   confirmationSource:
@@ -417,8 +417,8 @@ const tapwaterCancellation: Procedure = {
 
 const tapwaterStart: Procedure = {
   title: "水道の使用開始手続き",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 10 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 10 }).getTime(),
   submitDestination: "水道局webサイト、郵便、電話",
   targetPerson: "everyone",
   confirmationSource:
@@ -441,8 +441,8 @@ const tapwaterStart: Procedure = {
 
 const postofficeChangeAddress: Procedure = {
   title: "転居・転送届",
-  startDate: add(moveDate, { weeks: -2 }),
-  deadline: add(moveDate, { weeks: -1 }),
+  startDate: add(moveDate, { weeks: -2 }).getTime(),
+  deadline: add(moveDate, { weeks: -1 }).getTime(),
   submitDestination: "郵便局",
   targetPerson: "everyone",
   confirmationSource:
@@ -466,8 +466,8 @@ const postofficeChangeAddress: Procedure = {
 // [TODO]固定電話を持っているかどうか
 const fixedPhone: Procedure = {
   title: "固定電話の住所変更手続き",
-  startDate: projectCreatedAt,
-  deadline: add(moveDate, { weeks: -2 }),
+  startDate: projectCreatedAt.getTime(),
+  deadline: add(moveDate, { weeks: -2 }).getTime(),
   submitDestination: "NTT",
   targetPerson: "everyone",
   confirmationSource:
@@ -490,8 +490,8 @@ const fixedPhone: Procedure = {
 
 const mobilePhone: Procedure = {
   title: "携帯電話・スマートフォンの住所変更手続",
-  startDate: moveDate,
-  deadline: add(moveDate, { weeks: 1 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { weeks: 1 }).getTime(),
   submitDestination: "携帯電話会社のHP、電話、窓口など",
   targetPerson: "everyone",
   confirmationSource:
@@ -514,8 +514,8 @@ const mobilePhone: Procedure = {
 
 const pet: Procedure = {
   title: "ペットの登録事項変更届",
-  startDate: add(moveDate, { weeks: -1 }),
-  deadline: add(moveDate, { weeks: 1 }),
+  startDate: add(moveDate, { weeks: -1 }).getTime(),
+  deadline: add(moveDate, { weeks: 1 }).getTime(),
   submitDestination: "市区町村役所の窓口、保健所など",
   targetPerson: "everyone",
   confirmationSource:
@@ -538,8 +538,8 @@ const pet: Procedure = {
 
 const gasPrecense: Procedure = {
   title: "ガス使用停止の立ち合い",
-  startDate: moveDate,
-  deadline: moveDate,
+  startDate: moveDate.getTime(),
+  deadline: moveDate.getTime(),
   submitDestination: "旧居",
   targetPerson: "everyone",
   confirmationSource:
@@ -562,8 +562,8 @@ const gasPrecense: Procedure = {
 
 const tapPrecense: Procedure = {
   title: "水道使用停止の立ち合い",
-  startDate: moveDate,
-  deadline: moveDate,
+  startDate: moveDate.getTime(),
+  deadline: moveDate.getTime(),
   submitDestination: "旧居",
   targetPerson: "everyone",
   confirmationSource:
@@ -586,8 +586,8 @@ const tapPrecense: Procedure = {
 
 const moveOutPrecense: Procedure = {
   title: "旧居の明け渡し",
-  startDate: moveDate,
-  deadline: moveDate,
+  startDate: moveDate.getTime(),
+  deadline: moveDate.getTime(),
   submitDestination: "旧居",
   targetPerson: "everyone",
   confirmationSource: "なし",
@@ -609,8 +609,8 @@ const moveOutPrecense: Procedure = {
 
 const gasStartPrecense: Procedure = {
   title: "ガス開栓の立ち会い",
-  startDate: moveDate,
-  deadline: moveDate,
+  startDate: moveDate.getTime(),
+  deadline: moveDate.getTime(),
   submitDestination: "新居",
   targetPerson: "everyone",
   confirmationSource:
@@ -633,8 +633,8 @@ const gasStartPrecense: Procedure = {
 
 const movingNotification: Procedure = {
   title: "転居届",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 14 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 14 }).getTime(),
   submitDestination: "市区町村役場",
   targetPerson: "moveInTheSameMunicipalities",
   confirmationSource:
@@ -657,8 +657,8 @@ const movingNotification: Procedure = {
 
 const transferNotification: Procedure = {
   title: "転入届",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 14 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 14 }).getTime(),
   submitDestination: "市区町村役場",
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
@@ -681,8 +681,8 @@ const transferNotification: Procedure = {
 
 const mynumber: Procedure = {
   title: "マイナンバーの住所変更",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 14 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 14 }).getTime(),
   submitDestination: "市区町村役場",
   targetPerson: "everyone",
   confirmationSource:
@@ -705,8 +705,8 @@ const mynumber: Procedure = {
 
 const stampRegistration: Procedure = {
   title: "印鑑登録",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 21 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 21 }).getTime(),
   submitDestination: "市区町村役場",
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
@@ -729,8 +729,8 @@ const stampRegistration: Procedure = {
 
 const compensation: Procedure = {
   title: "国民年金の住所変更",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 14 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 14 }).getTime(),
   submitDestination: "市区町村役場",
   targetPerson: "everyone",
   confirmationSource:
@@ -753,8 +753,8 @@ const compensation: Procedure = {
 // [TODO]個人事業主、フリーターだけ必要＝会社員以外必要
 const nationalHealthInsuranceRegistration: Procedure = {
   title: "国民健康保険の加入",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 14 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 14 }).getTime(),
   submitDestination: "引越し先の市区町村役場",
   targetPerson: "moveToDifferentMunicipalities",
   confirmationSource:
@@ -777,8 +777,8 @@ const nationalHealthInsuranceRegistration: Procedure = {
 // [TODO]個人事業主、フリーターだけ必要＝会社員以外必要
 const nationalHealthInsuranceChange: Procedure = {
   title: "国民健康保険の住所変更",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 14 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 14 }).getTime(),
   submitDestination: "引越し先の市区町村役場",
   targetPerson: "moveInTheSameMunicipalities",
   confirmationSource:
@@ -800,8 +800,8 @@ const nationalHealthInsuranceChange: Procedure = {
 };
 const company: Procedure = {
   title: "会社の健康保険と厚生年金の変更手続き",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 7 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 7 }).getTime(),
   submitDestination: "勤め先の担当部署",
   targetPerson: "everyone",
   confirmationSource: "なし",
@@ -823,8 +823,8 @@ const company: Procedure = {
 
 const parkingCertification: Procedure = {
   title: "車庫証明の取得申請",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 15 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 15 }).getTime(),
   submitDestination: "保管場所を管轄する警察署",
   targetPerson: "everyone",
   confirmationSource:
@@ -847,8 +847,8 @@ const parkingCertification: Procedure = {
 // [TODO]免許を持っているかどうか
 const drivingLicense: Procedure = {
   title: "免許証の住所変更手続き",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 14 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 14 }).getTime(),
   submitDestination:
     "新居住地の警察署運転免許課、運転免許センター、運転免許試験場",
   targetPerson: "everyone",
@@ -872,8 +872,8 @@ const drivingLicense: Procedure = {
 
 const carAddress: Procedure = {
   title: "自動車の住所変更手続き",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 15 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 15 }).getTime(),
   submitDestination: "新居住地の地方運輸局、運輸支局、自動車検査登録事務所",
   targetPerson: "everyone",
   confirmationSource:
@@ -896,8 +896,8 @@ const carAddress: Procedure = {
 
 const creaditcard: Procedure = {
   title: "クレジットカードの住所変更手続き",
-  startDate: moveDate,
-  deadline: add(moveDate, { weeks: 1 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { weeks: 1 }).getTime(),
   submitDestination: "クレジットカード会社のHP、郵送、電話",
   targetPerson: "everyone",
   confirmationSource:
@@ -920,8 +920,8 @@ const creaditcard: Procedure = {
 
 const bankAccount: Procedure = {
   title: "銀行口座の住所変更",
-  startDate: moveDate,
-  deadline: add(moveDate, { days: 15 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { days: 15 }).getTime(),
   submitDestination: "銀行",
   targetPerson: "everyone",
   confirmationSource: "https://hikkoshizamurai.jp/useful/procedure/other/bank/",
@@ -943,8 +943,8 @@ const bankAccount: Procedure = {
 
 const onlineShop: Procedure = {
   title: "通販サイトの住所変更手続き",
-  startDate: moveDate,
-  deadline: add(moveDate, { weeks: 3 }),
+  startDate: moveDate.getTime(),
+  deadline: add(moveDate, { weeks: 3 }).getTime(),
   submitDestination: "各通販サイト",
   targetPerson: "everyone",
   confirmationSource: "なし",
@@ -1004,87 +1004,3 @@ export const procedures: Procedure[] = [
   bankAccount,
   onlineShop,
 ];
-
-/*
-title: string,
-startDate: Date,
-deadline: Date,
-submitDestination: string,
-targetPerson: TARGET_PERSON,
-confirmationSource: string,
-isNotEmployee: false,
-isStudent: false,
-isPet: false,
-isScooter: false,
-isCar: false,
-*/
-// ----------------------------------------------------------------
-
-// rentalCaN / gasTapStop /dummy_moveNotification /dummy_car
-// // 以下全てダミーデータ
-// export const dummy_rentalCAN: Procedure = {
-//   title: "賃貸物件の解約手続き",
-//   startDate: today,
-//   deadline: add(moveDate, { months: -1 }), // 2021/8/6
-//   submitDestination: "管理会社や不動産会社、大家など",
-//   targetPerson: "everyone",
-//   confirmationSource:
-//     "https://hikkoshizamurai.jp/useful/procedure/other/rental/",
-//   isNotEmployee: false,
-//   isStudent: false,
-//   isPet: false,
-//   isScooter: false,
-//   isCar: false,
-// };
-
-// export const dummy_gasTapStop: Procedure = {
-//   title: "ガス・水道停止の立ち合い",
-//   startDate: moveDate,
-//   deadline: moveDate, // 2021/9/6
-//   submitDestination: "ガス・水道会社",
-//   targetPerson: "everyone",
-//   confirmationSource:
-//     "https://hikkoshizamurai.jp/useful/procedure/other/rental/",
-//   isNotEmployee: false,
-//   isStudent: false,
-//   isPet: false,
-//   isScooter: false,
-//   isCar: false,
-// };
-
-// export const dummy_moveNotification: Procedure = {
-//   title: "転出届の提出",
-//   startDate: add(moveDate, { weeks: -2 }),
-//   deadline: add(moveDate, { weeks: 1 }), // 2021/9/13
-//   submitDestination: "ガス・水道会社",
-//   targetPerson: "moveToDifferentMunicipalities",
-//   confirmationSource:
-//     "https://hikkoshizamurai.jp/useful/procedure/other/rental/",
-//   isNotEmployee: false,
-//   isStudent: false,
-//   isPet: false,
-//   isScooter: false,
-//   isCar: false,
-// };
-
-// export const dummy_car: Procedure = {
-//   title: "車庫証明の取得申請",
-//   startDate: add(moveDate, { days: 1 }),
-//   deadline: add(moveDate, { days: 15 }), //2021/9/21
-//   submitDestination: "管轄の警察署",
-//   targetPerson: "everyone",
-//   confirmationSource:
-//     "https://hikkoshizamurai.jp/useful/procedure/other/rental/",
-//   isNotEmployee: false,
-//   isStudent: false,
-//   isPet: false,
-//   isScooter: false,
-//   isCar: true,
-// };
-
-// export const dummy_procedures: Procedure[] = [
-//   dummy_moveNotification,
-//   dummy_car,
-//   dummy_rentalCAN,
-//   dummy_gasTapStop,
-// ];

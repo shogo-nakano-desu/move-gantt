@@ -53,12 +53,11 @@ export default function TodosComponent(props: Props) {
   const shapedProcedures = splittedProcedures(procedures);
   // firestoreのデータに型をつける
   type DataItemType = {
-    id: string;
     title: string;
-    startDate: Date; // プロジェクト作成日か関数で計算した日付
-    deadline: Date;
+    startDate: number; // プロジェクト作成日か関数で計算した日付
+    deadline: number;
     submitDestination: string;
-    targetPerson: TARGET_PERSON;
+    targetPerson: string;
     confirmationSource: string;
     memo: string;
     complete: boolean;
@@ -78,7 +77,10 @@ export default function TodosComponent(props: Props) {
   type DataType = DataItemType[];
 
   const isValid = (data: any): data is DataItemType => {
-    if (!(data.id && typeof data.id === "string")) {
+    if (!(data.startDate && typeof data.startDate === "number")) {
+      return false;
+    }
+    if (!(data.deadline && typeof data.deadline === "number")) {
       return false;
     }
     if (!(data.title && typeof data.title === "string")) {
@@ -94,52 +96,69 @@ export default function TodosComponent(props: Props) {
     ) {
       return false;
     }
-    if (!(data.memo && typeof data.memo === "string")) {
+
+    // [TODO]以下なぜか全て落ちる。
+    if (!(data.memo != null && typeof data.memo === "string")) {
+      return false;
+    } // [TODO]この型で落ちる
+    // if (!(data.complete && typeof data.complete === "boolean")) {
+    //   return false;
+    // } // [TODO]この型で落ちる
+
+    if (
+      !(data.isNotEmployee != null && typeof data.isNotEmployee === "boolean")
+    ) {
       return false;
     }
-    if (!(data.complete && typeof data.complete === "boolean")) {
+    if (!(data.isStudent != null && typeof data.isStudent === "boolean")) {
       return false;
     }
-    if (!(data.isNotEmployee && typeof data.isNotEmployee === "boolean")) {
+    if (!(data.isPet != null && typeof data.isPet === "boolean")) {
       return false;
     }
-    if (!(data.isStudent && typeof data.isStudent === "boolean")) {
+    if (!(data.isScooter != null && typeof data.isScooter === "boolean")) {
       return false;
     }
-    if (!(data.isPet && typeof data.isPet === "boolean")) {
+    if (!(data.isCar != null && typeof data.isCar === "boolean")) {
       return false;
     }
-    if (!(data.isScooter && typeof data.isScooter === "boolean")) {
+    if (!(data.isParking != null && typeof data.isParking === "boolean")) {
       return false;
     }
-    if (!(data.isCar && typeof data.isCar === "boolean")) {
-      return false;
-    }
-    if (!(data.isParking && typeof data.isParking === "boolean")) {
-      return false;
-    }
-    if (!(data.isUnderFifteen && typeof data.isUnderFifteen === "boolean")) {
-      return false;
-    }
-    if (!(data.isFireInsurance && typeof data.isFireInsurance === "boolean")) {
-      return false;
-    }
-    if (!(data.isFixedPhone && typeof data.isFixedPhone === "boolean")) {
-      return false;
-    }
-    if (!(data.isMynumber && typeof data.isMynumber === "boolean")) {
+    if (
+      !(data.isUnderFifteen != null && typeof data.isUnderFifteen === "boolean")
+    ) {
       return false;
     }
     if (
       !(
-        data.isStampRegistration &&
+        data.isFireInsurance != null &&
+        typeof data.isFireInsurance === "boolean"
+      )
+    ) {
+      return false;
+    }
+    if (
+      !(data.isFixedPhone != null && typeof data.isFixedPhone === "boolean")
+    ) {
+      return false;
+    }
+    if (!(data.isMynumber != null && typeof data.isMynumber === "boolean")) {
+      return false;
+    }
+    if (
+      !(
+        data.isStampRegistration != null &&
         typeof data.isStampRegistration === "boolean"
       )
     ) {
       return false;
     }
     if (
-      !(data.isDrivingLicense && typeof data.isDrivingLicense === "boolean")
+      !(
+        data.isDrivingLicense != null &&
+        typeof data.isDrivingLicense === "boolean"
+      )
     ) {
       return false;
     }
@@ -149,7 +168,6 @@ export default function TodosComponent(props: Props) {
   const converter = {
     toFirestore(procedure: DataItemType): firebase.firestore.DocumentData {
       return {
-        id: procedure.id,
         title: procedure.title,
         startDate: procedure.startDate, // プロジェクト作成日か関数で計算した日付
         deadline: procedure.deadline, //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
@@ -184,7 +202,6 @@ export default function TodosComponent(props: Props) {
         throw new Error("invalid data");
       }
       return {
-        id: data.id,
         title: data.title,
         startDate: data.startDate, // プロジェクト作成日か関数で計算した日付
         deadline: data.deadline, //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
@@ -271,9 +288,9 @@ export default function TodosComponent(props: Props) {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
+                    secondary={`期限：${getMonth(
+                      new Date(procedure.deadline)
+                    )}/${getDate(new Date(procedure.deadline))}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -295,9 +312,9 @@ export default function TodosComponent(props: Props) {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
+                    secondary={`期限：${getMonth(
+                      new Date(procedure.deadline)
+                    )}/${getDate(new Date(procedure.deadline))}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -319,9 +336,9 @@ export default function TodosComponent(props: Props) {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
+                    secondary={`期限：${getMonth(
+                      new Date(procedure.deadline)
+                    )}/${getDate(new Date(procedure.deadline))}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -343,9 +360,9 @@ export default function TodosComponent(props: Props) {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
+                    secondary={`期限：${getMonth(
+                      new Date(procedure.deadline)
+                    )}/${getDate(new Date(procedure.deadline))}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -367,9 +384,9 @@ export default function TodosComponent(props: Props) {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
+                    secondary={`期限：${getMonth(
+                      new Date(procedure.deadline)
+                    )}/${getDate(new Date(procedure.deadline))}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -391,9 +408,9 @@ export default function TodosComponent(props: Props) {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
+                    secondary={`期限：${getMonth(
+                      new Date(procedure.deadline)
+                    )}/${getDate(new Date(procedure.deadline))}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -415,9 +432,9 @@ export default function TodosComponent(props: Props) {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
+                    secondary={`期限：${getMonth(
+                      new Date(procedure.deadline)
+                    )}/${getDate(new Date(procedure.deadline))}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -439,9 +456,9 @@ export default function TodosComponent(props: Props) {
                 <ListItem key={procedure.title}>
                   <ListItemText
                     primary={procedure.title}
-                    secondary={`期限：${getMonth(procedure.deadline)}/${getDate(
-                      procedure.deadline
-                    )}`}
+                    secondary={`期限：${getMonth(
+                      new Date(procedure.deadline)
+                    )}/${getDate(new Date(procedure.deadline))}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">

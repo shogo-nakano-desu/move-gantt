@@ -163,7 +163,7 @@ export default function CreateProjectComponent() {
         willMoveAddress: willMoveAddress,
         moveFromPrefecture: moveFromPrefecture,
         moveFromAddress: moveFromAddress,
-        willMoveDate: willMoveDate,
+        willMoveDate: willMoveDate!.getTime(),
         isNotEmployee: isNotEmployee,
         isStudent: isStudent,
         isPet: isPet,

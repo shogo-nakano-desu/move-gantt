@@ -11,6 +11,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import firebase from "firebase/app";
 import { db } from "../../firebaseClient";
 import { createNewProject } from "../utils/reducers";
+import CreateProjectComponent from "../pages/new-project";
 import router from "next/router";
 
 interface Props {
@@ -93,7 +94,7 @@ export default function ChoseProjectComponent(props: Props) {
           <button type="submit">送信</button>
         </form>
       ) : (
-        <div>プロジェクトがないよ</div>
+        <CreateProjectComponent />
       )}
     </>
   );

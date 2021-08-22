@@ -175,10 +175,10 @@ export interface userType {
 export interface procedureType {
   id: string;
   title: string;
-  startDate: Date; // プロジェクト作成日か関数で計算した日付
-  deadline: Date;
+  startDate: number; // プロジェクト作成日か関数で計算した日付
+  deadline: number;
   submitDestination: string;
-  targetPerson: TARGET_PERSON;
+  targetPerson: string; // [TODO]TARGET_PERSONにしたい本当は。
   confirmationSource: string;
   memo: string;
   complete: boolean;
