@@ -53,7 +53,7 @@ const TARGET_PERSON = {
   moveToDifferentMunicipalities: "moveToDifferentMunicipalities",
   everyone: "everyone",
 } as const;
-type TARGET_PERSON = typeof TARGET_PERSON[keyof typeof TARGET_PERSON];
+export type TARGET_PERSON = typeof TARGET_PERSON[keyof typeof TARGET_PERSON];
 
 // ここには本番用データを入れていく----------------------------------------------------------------
 const rentalCancellation: Procedure = {

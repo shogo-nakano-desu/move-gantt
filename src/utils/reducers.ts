@@ -2,21 +2,10 @@ import { useMemo } from "react";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
+
+import { Procedure, TARGET_PERSON } from "../info/procedures";
+
 // actions
-export const emailForm = (email: string) => ({
-  type: "CHANGE_EMAIL_FORM",
-  payload: email,
-});
-
-export const passwordForm = (password: string) => ({
-  type: "CHANGE_PASSWORD_FORM",
-  payload: password,
-});
-
-export const userNameForm = (userName: string) => ({
-  type: "CHANGE_USERNAME",
-  payload: userName,
-});
 
 export const changeAccountFlag = (flag: boolean) => ({
   type: "CHANGE_ACCOUNT_FRAG",
@@ -141,12 +130,12 @@ export const handleBack = () => ({
   payload: -1,
 });
 
+export const listenProcedures = (procedures: procedureType[]) => ({
+  type: "LISTEN_PROCEDURES",
+  payload: procedures,
+});
+
 export const initialState: stateType = {
-  authForm: {
-    formEmail: "",
-    formPassword: "",
-    formUserName: "",
-  },
   user: { uid: "", displayName: "" },
   projectForm: {
     formWillMovePrefecture: "",
@@ -173,6 +162,7 @@ export const initialState: stateType = {
   step: {
     stepNum: 0,
   },
+  procedures: [],
 };
 
 // これはinitialStateからReturnTypeで持ってこないようにあえて書いている。
@@ -182,12 +172,31 @@ export interface userType {
   displayName: string;
 }
 
+export interface procedureType {
+  id: string;
+  title: string;
+  startDate: Date; // プロジェクト作成日か関数で計算した日付
+  deadline: Date;
+  submitDestination: string;
+  targetPerson: TARGET_PERSON;
+  confirmationSource: string;
+  memo: string;
+  complete: boolean;
+  isNotEmployee: boolean;
+  isStudent: boolean;
+  isPet: boolean;
+  isScooter: boolean;
+  isCar: boolean;
+  isParking: boolean;
+  isUnderFifteen: boolean;
+  isFireInsurance: boolean;
+  isFixedPhone: boolean;
+  isMynumber: boolean;
+  isStampRegistration: boolean;
+  isDrivingLicense: boolean;
+}
+
 export interface stateType {
-  authForm: {
-    formEmail: string;
-    formPassword: string;
-    formUserName: string | null;
-  };
   user: userType;
   projectForm: {
     formWillMovePrefecture: string;
@@ -214,6 +223,7 @@ export interface stateType {
   step: {
     stepNum: number;
   };
+  procedures: procedureType[];
 }
 
 // reducer
@@ -223,21 +233,6 @@ export const reducer = (
 ) => {
   switch (action.type) {
     // sign-in form
-    case "CHANGE_EMAIL_FORM":
-      return {
-        ...state,
-        authForm: { ...state.authForm, formEmail: action.payload },
-      };
-    case "CHANGE_PASSWORD_FORM":
-      return {
-        ...state,
-        authForm: { ...state.authForm, formPassword: action.payload },
-      };
-    case "CHANGE_USERNAME":
-      return {
-        ...state,
-        authForm: { ...state.authForm, formUserName: action.payload },
-      };
     case "SET_CURRENT_USER":
       return {
         ...state,
@@ -438,6 +433,11 @@ export const reducer = (
           ...state.step,
           stepNum: state.step.stepNum - 1,
         },
+      };
+    case "LISTEN_PROCEDURES":
+      return {
+        ...state,
+        procedures: action.payload,
       };
 
     default:

@@ -1,5 +1,5 @@
 // URLを変えたかったら、dynamic routing使えばOKか
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Avatar from "@material-ui/core/Avatar";
@@ -16,12 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import {
-  emailForm,
-  passwordForm,
-  stateType,
-  setCurrentUser,
-} from "../utils/reducers";
+import { stateType, setCurrentUser } from "../utils/reducers";
 import { auth, db } from "../../firebaseClient";
 
 function Copyright() {
@@ -61,11 +56,8 @@ const SignInComponent: React.VFC = () => {
   const classes = useStyles();
   const router = useRouter();
   const dispatch = useDispatch();
-  // fetch state from global store
-  const email = useSelector((state: stateType) => state.authForm.formEmail);
-  const password = useSelector(
-    (state: stateType) => state.authForm.formPassword
-  );
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const userId = useSelector((state: stateType) => state.user.uid);
 
   useEffect(() => {
@@ -77,13 +69,14 @@ const SignInComponent: React.VFC = () => {
   const SignIn = async (e: any) => {
     e.preventDefault();
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      await auth
+        .signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          user.user && dispatch(setCurrentUser(user.user.uid));
+          user.user && console.log("user.user.uid", user.user.uid);
+        })
+        .then(() => router.push("/dashboard"));
       console.log("userId: ", userId);
-
-      // await db.collection("users").doc(userId);
-      // .set({ userId: userId }, { merge: true });
-      console.log("sign-in&createdoc");
-      router.push("/dashboard");
     } catch (err) {
       alert(err.message);
     }
@@ -118,7 +111,7 @@ const SignInComponent: React.VFC = () => {
             autoFocus
             value={email}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(emailForm(e.target.value));
+              setEmail(e.target.value);
             }}
           />
           <TextField
@@ -133,7 +126,7 @@ const SignInComponent: React.VFC = () => {
             autoComplete="current-password"
             value={password}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(passwordForm(e.target.value));
+              setPassword(e.target.value);
             }}
           />
           <FormControlLabel
