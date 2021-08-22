@@ -57,12 +57,13 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
     setOpen(false);
   };
 
-  const putTodoToFirestore = (e: React.FormEvent<HTMLFormElement>) => {
+  const putTodoToFirestore = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    db.collection("users")
+    await db
+      .collection("users")
       .doc(userId)
       .collection("projects")
-      .doc("5GsdMBBOJNrFjLSYusYI") //[TODO]仮に適当なプロジェクトに突っ込んでみる
+      .doc("5GsdMBBOJNrFjLSYusYI") //[TODO]仮に適当なプロジェクトに突っ込んでいる。プロジェクトIDをreduxでもつ必要あり
       .collection("todos")
       .add({
         title: title,

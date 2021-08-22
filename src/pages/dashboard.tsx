@@ -1,15 +1,19 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import firebase from "firebase";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
-import { setCurrentUser } from "../utils/reducers";
+import { setCurrentUser, stateType, listenProcedures } from "../utils/reducers";
 import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
-import { auth } from "../../firebaseClient";
+import ChoseProjectComponent from "../components/ChoseProject";
+import { auth, db } from "../../firebaseClient";
 import AppBarComponent from "../components/AppBar";
 import { filteredProjectData } from "../utils/fetchProjectData";
+import { TARGET_PERSON } from "../info/procedures";
+import { isValid } from "date-fns";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,24 +41,38 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const procedures = useSelector((state: stateType) => state.procedures);
+  const userId = useSelector((state: stateType) => state.user.uid);
+  const projectId = useSelector((state: stateType) => state.project.projectId);
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
+      !user && router.push("/sign-in");
     });
-  }, [router, dispatch]); // dependenciesが必要とのこと
+  }, [router]); // dependenciesが必要とのこと
 
   return (
-    <div style={{ width: "100%", height: "98%" }}>
-      <Box className={classes.appbar}>
-        <AppBarComponent />
-      </Box>
-      <Box className={classes.todos}>
-        <TodosComponent />
-      </Box>
-      <Box className={classes.addtodo} display="flex" justifyContent="flex-end">
-        <AddTodoButtonComponent />
-      </Box>
-    </div>
+    <>
+      {console.log("dashboard userId", userId)}
+      {projectId ? (
+        <div style={{ width: "100%", height: "98%" }}>
+          <Box className={classes.appbar}>
+            <AppBarComponent />
+          </Box>
+          <Box className={classes.todos}>
+            <TodosComponent userId={userId} projectId={projectId} />
+          </Box>
+          <Box
+            className={classes.addtodo}
+            display="flex"
+            justifyContent="flex-end"
+          >
+            <AddTodoButtonComponent />
+          </Box>
+        </div>
+      ) : (
+        <ChoseProjectComponent userId={userId} />
+      )}
+    </>
   );
 };
 export default Dashboard;

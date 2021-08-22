@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Avatar from "@material-ui/core/Avatar";
@@ -15,13 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import {
-  emailForm,
-  passwordForm,
-  userNameForm,
-  stateType,
-  changeAccountFlag,
-} from "../utils/reducers";
+import { stateType, setCurrentUser } from "../utils/reducers";
 import { auth } from "../../firebaseClient";
 
 function Copyright() {
@@ -61,14 +55,9 @@ export default function SignUpComponent() {
   const classes = useStyles();
   const router = useRouter();
   const dispatch = useDispatch();
-  // fetch state from global store
-  const email = useSelector((state: stateType) => state.authForm.formEmail);
-  const password = useSelector(
-    (state: stateType) => state.authForm.formPassword
-  );
-  const userName = useSelector(
-    (state: stateType) => state.authForm.formUserName
-  );
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -79,8 +68,12 @@ export default function SignUpComponent() {
   const SignUp = async (e: any) => {
     e.preventDefault();
     try {
-      await auth.createUserWithEmailAndPassword(email, password);
-      router.push("/dashboard");
+      await auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((user) => {
+          user.user && dispatch(setCurrentUser(user.user.uid));
+        })
+        .then(() => router.push("/dashboard"));
     } catch (err) {
       alert(err.message);
     }
@@ -108,7 +101,7 @@ export default function SignUpComponent() {
             autoFocus
             value={userName}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(userNameForm(e.target.value));
+              setUserName(e.target.value);
             }}
           />
 
@@ -124,7 +117,7 @@ export default function SignUpComponent() {
             autoFocus
             value={email}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(emailForm(e.target.value));
+              setEmail(e.target.value);
             }}
           />
           <TextField
@@ -139,7 +132,7 @@ export default function SignUpComponent() {
             autoComplete="current-password"
             value={password}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch(passwordForm(e.target.value));
+              setPassword(e.target.value);
             }}
           />
           <FormControlLabel

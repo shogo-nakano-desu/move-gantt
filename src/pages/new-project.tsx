@@ -18,9 +18,13 @@ import OtherFormComponent from "../components/otherForm";
 import DateForm from "../components/dateForm";
 import OtherForm from "../components/otherForm";
 import { auth, db } from "../../firebaseClient";
-import { setCurrentUser } from "../utils/reducers";
 import AppBarComponent from "../components/AppBar";
-import { stateType, refreshProjectForm } from "../utils/reducers";
+import {
+  stateType,
+  refreshProjectForm,
+  createNewProject,
+  setCurrentUser,
+} from "../utils/reducers";
 import { procedures } from "../info/procedures";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -159,7 +163,7 @@ export default function CreateProjectComponent() {
         willMoveAddress: willMoveAddress,
         moveFromPrefecture: moveFromPrefecture,
         moveFromAddress: moveFromAddress,
-        willMoveDate: willMoveDate,
+        willMoveDate: willMoveDate!.getTime(),
         isNotEmployee: isNotEmployee,
         isStudent: isStudent,
         isPet: isPet,
@@ -185,6 +189,11 @@ export default function CreateProjectComponent() {
             .add(filteredTodos[i]);
         }
         console.log("TODOS登録も完了");
+        const projectId = docRef.id;
+        return projectId;
+      })
+      .then((projectId) => {
+        dispatch(createNewProject(projectId));
       })
       .then(() => {
         dispatch(refreshProjectForm());
