@@ -59,11 +59,11 @@ export default function SignUpComponent() {
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
 
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      user && router.push("/dashboard");
-    });
-  }, []);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((user) => {
+  //     user && router.push("/dashboard");
+  //   });
+  // }, []);
 
   const SignUp = async (e: any) => {
     e.preventDefault();

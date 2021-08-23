@@ -44,11 +44,6 @@ const Dashboard = () => {
   const procedures = useSelector((state: stateType) => state.procedures);
   const userId = useSelector((state: stateType) => state.user.uid);
   const projectId = useSelector((state: stateType) => state.project.projectId);
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      !user && router.push("/sign-in");
-    });
-  }, [router]); // dependenciesが必要とのこと
 
   return (
     <>

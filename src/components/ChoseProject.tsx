@@ -46,24 +46,24 @@ export default function ChoseProjectComponent(props: Props) {
   };
 
   useEffect(() => {
-    console.log("props.userId", props.userId);
-    const unSub = db
-      .collection("users")
-      .doc(props.userId)
-      .collection("projects")
-      .orderBy("created_at", "desc")
-      .onSnapshot((snapshot) => {
-        setProjects(
-          snapshot.docs.map((doc) => ({
-            projectId: doc.id,
-            willMoveAddress: doc.data().willMoveAddress,
-            willMoveDate: doc.data().willMoveDate,
-          }))
-        );
-      });
-    return () => {
-      unSub();
-    };
+    if (props.userId) {
+      console.log("props.userId", props.userId);
+      db.collection("users")
+        .doc(props.userId)
+        .collection("projects")
+        .orderBy("created_at", "desc")
+        .onSnapshot((snapshot) => {
+          setProjects(
+            snapshot.docs.map((doc) => ({
+              projectId: doc.id,
+              willMoveAddress: doc.data().willMoveAddress,
+              willMoveDate: doc.data().willMoveDate,
+            }))
+          );
+        });
+    } else {
+      router.push("/sign-in");
+    }
   }, [props.userId]);
 
   return (

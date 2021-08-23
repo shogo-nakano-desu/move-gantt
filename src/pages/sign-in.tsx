@@ -60,11 +60,11 @@ const SignInComponent: React.VFC = () => {
   const [password, setPassword] = useState("");
   const userId = useSelector((state: stateType) => state.user.uid);
 
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      user && router.push("/dashboard"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
-    });
-  }, [dispatch, router]); // 元々は[]だったのだが、dependencies arrayを作ってとエラーなので入れた。
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((user) => {
+  //     user && router.push("/dashboard"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
+  //   });
+  // }, [dispatch, router]); // 元々は[]だったのだが、dependencies arrayを作ってとエラーなので入れた。
 
   const SignIn = async (e: any) => {
     e.preventDefault();
