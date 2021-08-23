@@ -101,7 +101,7 @@ export const refreshProjectForm = () => ({
     formWillMoveAddress: "",
     formMoveFromPrefecture: "",
     formMoveFromAddress: "",
-    formWillMoveDate: null,
+    formWillMoveDate: add(new Date(), { months: 1 }),
     formIsNotEmployee: false,
     formIsStudent: false,
     formIsPet: false,
