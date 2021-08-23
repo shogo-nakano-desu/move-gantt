@@ -1,22 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import firebase from "firebase/app";
 
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import { Link as MaterialLink } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
 import AddressFormComponent from "../components/addressForm";
 import DateFormComponent from "../components/dateForm";
 import OtherFormComponent from "../components/otherForm";
 
-import DateForm from "../components/dateForm";
-import OtherForm from "../components/otherForm";
 import { auth, db } from "../../firebaseClient";
 import AppBarComponent from "../components/AppBar";
 import {
@@ -79,7 +75,7 @@ export default function CreateProjectComponent() {
     auth.onAuthStateChanged((user) => {
       user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
     });
-  }, []); // 元は[]だった。
+  }, []);
 
   const userId = useSelector((state: stateType) => state.user.uid);
   // firestoreに新規プロジェクトを作成するための関数群
