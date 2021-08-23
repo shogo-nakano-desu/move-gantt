@@ -195,6 +195,7 @@ export default function CreateProjectComponent() {
         dispatch(refreshProjectForm());
         console.log("project stateの初期化完了");
       })
+      .then(() => router.push("/dashboard"))
       .catch((error) => {
         console.error("Error adding document: ", error);
       });

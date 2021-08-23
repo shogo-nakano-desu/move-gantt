@@ -11,19 +11,6 @@ export const moveDate = new Date(2021, 8, 6); // [TODO]登録した引越し日�
 const projectCreatedAt = new Date(2021, 7, 18); // [TODO]本当はproject作成日をとってくる
 // ----------------------------------------------------------------
 
-/*追加データ
-[done]isSelfEmployed⇨isNotEmployee
-isUnderFifteen:false,
-isFireInsurance: false,
-isFixedPhone: false,
-isMynumber: false,
-isStampRegistration:false,
-isDrivingLicense: false,
-
-
-
-*/
-
 // booleanに関しては、trueの時だけその項目がマストになる
 export interface Procedure {
   title: string;

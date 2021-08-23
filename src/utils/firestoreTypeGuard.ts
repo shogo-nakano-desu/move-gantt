@@ -36,11 +36,19 @@ const isValid = (data: any): data is DataItemType => {
   if (!(data.title && typeof data.title === "string")) {
     return false;
   }
-  if (!(data.submitDestination && typeof data.submitDestination === "string")) {
+  if (
+    !(
+      data.submitDestination != null &&
+      typeof data.submitDestination === "string"
+    )
+  ) {
     return false;
   }
   if (
-    !(data.confirmationSource && typeof data.confirmationSource === "string")
+    !(
+      data.confirmationSource != null &&
+      typeof data.confirmationSource === "string"
+    )
   ) {
     return false;
   }
@@ -49,9 +57,9 @@ const isValid = (data: any): data is DataItemType => {
   if (!(data.memo != null && typeof data.memo === "string")) {
     return false;
   } // [TODO]この型で落ちる
-  // if (!(data.complete && typeof data.complete === "boolean")) {
-  //   return false;
-  // } // [TODO]この型で落ちる
+  if (!(data.complete != null && typeof data.complete === "boolean")) {
+    return false;
+  } // [TODO]この型で落ちる
 
   if (
     !(data.isNotEmployee != null && typeof data.isNotEmployee === "boolean")
@@ -105,7 +113,7 @@ const isValid = (data: any): data is DataItemType => {
   ) {
     return false;
   }
-  if (!(data.created_at != null && typeof data.isDrivingLicense === "number")) {
+  if (!(data.created_at && typeof data.created_at === "number")) {
     return false;
   }
   return true;
