@@ -1,26 +1,25 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "firebase";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Box from "@material-ui/core/Box";
-import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { getMonth, getDate } from "date-fns";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { splittedProcedures } from "../utils/splitProcedures";
 import { TARGET_PERSON } from "../info/procedures";
 import { auth, db } from "../../firebaseClient";
-import { listenProcedures, stateType } from "../utils/reducers";
+import {
+  listenProcedures,
+  stateType,
+  isEditTodoOpen,
+  setTodoId,
+} from "../utils/reducers";
+import { OneWeekTodosComponent } from "./OneWeekTodos";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,14 +45,17 @@ interface Props {
 }
 
 export default function TodosComponent(props: Props) {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   // const userId = useSelector((state: stateType) => state.user.uid);
-  const projectId = useSelector((state: stateType) => state.project.projectId);
   const procedures = useSelector((state: stateType) => state.procedures);
+  const open = useSelector((state: stateType) => state.editTodo.isOpen);
+  const todoId = useSelector((state: stateType) => state.editTodo.todoId);
+  const todoTitle = useSelector((state: stateType) => state.editTodo.todoTitle);
 
-  const shapedProcedures = splittedProcedures(procedures);
+  const handleClose = () => {
+    dispatch(isEditTodoOpen(false));
+  };
   // firestoreのデータに型をつける
   type DataItemType = {
     title: string;
@@ -275,344 +277,67 @@ export default function TodosComponent(props: Props) {
     };
   }, []);
 
-  const handleCompleteChage = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    e.preventDefault();
+  // [TODO]削除ボタンではモーダルを出して、そこでOKを押したら以下関数が呼ばれるようにする
+  const deleteTodo = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault;
     await db
       .collection("users")
       .doc(props.userId)
       .collection("projects")
       .doc(props.projectId)
       .collection("todos")
-      .doc(e.target.id)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          if (doc.data()!.complete === true) {
-            db.collection("users")
-              .doc(props.userId)
-              .collection("projects")
-              .doc(props.projectId)
-              .collection("todos")
-              .doc(e.target.id)
-              .update({ complete: false });
-          } else if (doc.data()!.complete === false) {
-            db.collection("users")
-              .doc(props.userId)
-              .collection("projects")
-              .doc(props.projectId)
-              .collection("todos")
-              .doc(e.target.id)
-              .update({ complete: true });
-          } else {
-            console.error("該当するデータがありません");
-          }
-        }
-      })
+      .doc(todoId)
+      .delete()
+      .then(() => console.log("delete a todo"))
+      .then(() => dispatch(setTodoId("")))
+      .then(() => handleClose())
       .catch((error) => {
-        console.error("Error getting document", error);
+        console.error("Error removing document: ", error);
       });
   };
 
-  /*[TODO]同じコードをリピートしているから、抽出したい。
-  問題は、weekOneProceduresの部分をどうするか。
-  propsで渡すのは無理だから、ちゃんとリピート処理する必要がありそう。
-*/
   return (
-    <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            1ヶ月以上前まで
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {shapedProcedures.weekOneProcedures.map((procedure) => (
-                <ListItem key={procedure.id}>
-                  <Box>
-                    <ListItemText
-                      primary={procedure.title}
-                      secondary={`期限：${getMonth(
-                        new Date(procedure.deadline)
-                      )}/${getDate(new Date(procedure.deadline))}`}
-                    />
-                  </Box>
-                  <Box>
-                    <Grid container direction="column">
-                      <Checkbox
-                        id={procedure.id}
-                        checked={procedure.complete}
-                        // value={procedure.complete}
-                        name="completed"
-                        color="primary"
-                        edge="end"
-                        onChange={handleCompleteChage}
-                      />
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            3週間前まで
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {shapedProcedures.weekSixProcedures.map((procedure) => (
-                <ListItem key={procedure.id}>
-                  <Box>
-                    <ListItemText
-                      primary={procedure.title}
-                      secondary={`期限：${getMonth(
-                        new Date(procedure.deadline)
-                      )}/${getDate(new Date(procedure.deadline))}`}
-                    />
-                  </Box>
-                  <Box>
-                    <Grid container direction="column">
-                      <Checkbox
-                        id={procedure.id}
-                        checked={procedure.complete}
-                        name="completed"
-                        color="primary"
-                        edge="end"
-                        onChange={handleCompleteChage}
-                      />
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            2週間前まで
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {shapedProcedures.weekSevenProcedures.map((procedure) => (
-                <ListItem key={procedure.id}>
-                  <Box>
-                    <ListItemText
-                      primary={procedure.title}
-                      secondary={`期限：${getMonth(
-                        new Date(procedure.deadline)
-                      )}/${getDate(new Date(procedure.deadline))}`}
-                    />
-                  </Box>
-                  <Box>
-                    <Grid container direction="column">
-                      <Checkbox
-                        id={procedure.id}
-                        checked={procedure.complete}
-                        name="completed"
-                        color="primary"
-                        edge="end"
-                        onChange={handleCompleteChage}
-                      />
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            1週間前まで
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {shapedProcedures.weekEightProcedures.map((procedure) => (
-                <ListItem key={procedure.id}>
-                  <Box>
-                    <ListItemText
-                      primary={procedure.title}
-                      secondary={`期限：${getMonth(
-                        new Date(procedure.deadline)
-                      )}/${getDate(new Date(procedure.deadline))}`}
-                    />
-                  </Box>
-                  <Box>
-                    <Grid container direction="column">
-                      <Checkbox
-                        id={procedure.id}
-                        checked={procedure.complete}
-                        name="completed"
-                        color="primary"
-                        edge="end"
-                        onChange={handleCompleteChage}
-                      />
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            当日まで
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {shapedProcedures.weekNineProcedures.map((procedure) => (
-                <ListItem key={procedure.id}>
-                  <Box>
-                    <ListItemText
-                      primary={procedure.title}
-                      secondary={`期限：${getMonth(
-                        new Date(procedure.deadline)
-                      )}/${getDate(new Date(procedure.deadline))}`}
-                    />
-                  </Box>
-                  <Box>
-                    <Grid container direction="column">
-                      <Checkbox
-                        id={procedure.id}
-                        checked={procedure.complete}
-                        name="completed"
-                        color="primary"
-                        edge="end"
-                        onChange={handleCompleteChage}
-                      />
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            1週間後まで
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {shapedProcedures.weekTenProcedures.map((procedure) => (
-                <ListItem key={procedure.id}>
-                  <Box>
-                    <ListItemText
-                      primary={procedure.title}
-                      secondary={`期限：${getMonth(
-                        new Date(procedure.deadline)
-                      )}/${getDate(new Date(procedure.deadline))}`}
-                    />
-                  </Box>
-                  <Box>
-                    <Grid container direction="column">
-                      <Checkbox
-                        id={procedure.id}
-                        checked={procedure.complete}
-                        name="completed"
-                        color="primary"
-                        edge="end"
-                        onChange={handleCompleteChage}
-                      />
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <form onSubmit={deleteTodo}>
+          <DialogTitle id="alert-dialog-title">
+            {`「${todoTitle}」をTODOから削除してよろしいでしょうか？`}
+          </DialogTitle>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              戻る
+            </Button>
+            <Button
+              type="submit"
+              // onClick={handleClose}
+              color="primary"
+              autoFocus
+            >
+              削除する
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
 
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            2週間後まで
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {shapedProcedures.weekElevenProcedures.map((procedure) => (
-                <ListItem key={procedure.id}>
-                  <Box>
-                    <ListItemText
-                      primary={procedure.title}
-                      secondary={`期限：${getMonth(
-                        new Date(procedure.deadline)
-                      )}/${getDate(new Date(procedure.deadline))}`}
-                    />
-                  </Box>
-                  <Box>
-                    <Grid container direction="column">
-                      <Checkbox
-                        id={procedure.id}
-                        checked={procedure.complete}
-                        name="completed"
-                        color="primary"
-                        edge="end"
-                        onChange={handleCompleteChage}
-                      />
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
-          <Typography variant="h6" className={classes.title}>
-            3週間後まで
-          </Typography>
-          <div className={classes.demo}>
-            <List dense={false}>
-              {shapedProcedures.weekTwelveProcedures.map((procedure) => (
-                <ListItem key={procedure.id}>
-                  <Box>
-                    <ListItemText
-                      primary={procedure.title}
-                      secondary={`期限：${getMonth(
-                        new Date(procedure.deadline)
-                      )}/${getDate(new Date(procedure.deadline))}`}
-                    />
-                  </Box>
-                  <Box>
-                    <Grid container direction="column">
-                      <Checkbox
-                        id={procedure.id}
-                        checked={procedure.complete}
-                        name="completed"
-                        color="primary"
-                        edge="end"
-                        onChange={handleCompleteChage}
-                      />
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Box>
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Grid>
-      </Grid>
-    </div>
+      <OneWeekTodosComponent
+        title={[
+          "1か月以上前まで",
+          "3週間前まで",
+          "2週間前まで",
+          "1週間前まで",
+          "当日まで",
+          "1週間後まで",
+          "2週間後まで",
+          "3週間後まで",
+        ]}
+        userId={props.userId}
+        projectId={props.projectId}
+      />
+    </>
   );
 }

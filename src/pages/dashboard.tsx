@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import firebase from "firebase";
+import React from "react";
+import { useSelector } from "react-redux";
+
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
@@ -9,11 +8,9 @@ import { setCurrentUser, stateType, listenProcedures } from "../utils/reducers";
 import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
 import ChoseProjectComponent from "../components/ChoseProject";
-import { auth, db } from "../../firebaseClient";
+
 import AppBarComponent from "../components/AppBar";
 import { filteredProjectData } from "../utils/fetchProjectData";
-import { TARGET_PERSON } from "../info/procedures";
-import { isValid } from "date-fns";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,10 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Dashboard = () => {
   filteredProjectData;
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const router = useRouter();
 
-  const procedures = useSelector((state: stateType) => state.procedures);
   const userId = useSelector((state: stateType) => state.user.uid);
   const projectId = useSelector((state: stateType) => state.project.projectId);
 

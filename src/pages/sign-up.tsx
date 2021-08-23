@@ -145,18 +145,6 @@ export default function SignUpComponent() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            // onClick={
-            //   hasAccount
-            //     ? // sign-in mode
-            //       async () => {
-            //         console.log("ログインしようとしているユーザーがいる");
-            //         await SignIn(email, password);
-            //       }
-            //     : // sign-up mode
-            //       async () => {
-            //         await SignUp(email, password, userName);
-            //       }
-            // }
           >
             登録
           </Button>
