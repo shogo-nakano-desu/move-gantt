@@ -10,7 +10,6 @@ import AddTodoButtonComponent from "../components/AddTodoButton";
 import ChoseProjectComponent from "../components/ChoseProject";
 
 import AppBarComponent from "../components/AppBar";
-import { filteredProjectData } from "../utils/fetchProjectData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Dashboard = () => {
-  filteredProjectData;
   const classes = useStyles();
 
   const userId = useSelector((state: stateType) => state.user.uid);

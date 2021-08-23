@@ -1,5 +1,4 @@
 import { add } from "date-fns";
-import { filteredProjectData } from "./fetchProjectData";
 import { moveDate, Procedure } from "../info/procedures";
 import { procedureType } from "../utils/reducers";
 
