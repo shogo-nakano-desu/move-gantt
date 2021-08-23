@@ -67,14 +67,14 @@ export const splittedProcedures = (procedures: procedureType[]) => {
     //   throw new Error("week16以降のTODOがあります。実装を確認しましょう！");
     // }
   });
-  return {
-    weekOneProcedures: weekOneProcedures,
-    weekSixProcedures: weekSixProcedures,
-    weekSevenProcedures: weekSevenProcedures,
-    weekEightProcedures: weekEightProcedures,
-    weekNineProcedures: weekNineProcedures,
-    weekTenProcedures: weekTenProcedures,
-    weekElevenProcedures: weekElevenProcedures,
-    weekTwelveProcedures: weekTwelveProcedures,
-  };
+  return [
+    weekOneProcedures,
+    weekSixProcedures,
+    weekSevenProcedures,
+    weekEightProcedures,
+    weekNineProcedures,
+    weekTenProcedures,
+    weekElevenProcedures,
+    weekTwelveProcedures,
+  ];
 };

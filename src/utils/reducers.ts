@@ -135,6 +135,21 @@ export const listenProcedures = (procedures: procedureType[]) => ({
   payload: procedures,
 });
 
+export const isEditTodoOpen = (is: boolean) => ({
+  type: "IS_EDIT_TODO_OPEN",
+  payload: is,
+});
+
+export const setTodoId = (id: string) => ({
+  type: "SET_TODO_ID",
+  payload: id,
+});
+
+export const setTodoTitle = (title: string) => ({
+  type: "SET_TODO_TITLE",
+  payload: title,
+});
+
 export const initialState: stateType = {
   user: { uid: "", displayName: "" },
   projectForm: {
@@ -163,6 +178,11 @@ export const initialState: stateType = {
     stepNum: 0,
   },
   procedures: [],
+  editTodo: {
+    isOpen: false,
+    todoId: "",
+    todoTitle: "",
+  },
 };
 
 // これはinitialStateからReturnTypeで持ってこないようにあえて書いている。
@@ -224,6 +244,11 @@ export interface stateType {
     stepNum: number;
   };
   procedures: procedureType[];
+  editTodo: {
+    isOpen: boolean;
+    todoId: string;
+    todoTitle: string;
+  };
 }
 
 // reducer
@@ -438,6 +463,30 @@ export const reducer = (
       return {
         ...state,
         procedures: action.payload,
+      };
+    case "IS_EDIT_TODO_OPEN":
+      return {
+        ...state,
+        editTodo: {
+          ...state.editTodo,
+          isOpen: action.payload,
+        },
+      };
+    case "SET_TODO_ID":
+      return {
+        ...state,
+        editTodo: {
+          ...state.editTodo,
+          todoId: action.payload,
+        },
+      };
+    case "SET_TODO_TITLE":
+      return {
+        ...state,
+        editTodo: {
+          ...state.editTodo,
+          todoTitle: action.payload,
+        },
       };
 
     default:

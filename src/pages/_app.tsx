@@ -26,8 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     auth.onAuthStateChanged((user) => {
       !user && router.push("/sign-in"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
     });
-  }, []); // 元々は[]だったのだが、dependencies arrayを作ってとエラーなので入れた。
-
+  }, []);
   // activate Redux
   const store = useStore(pageProps.initialReduxState);
 
