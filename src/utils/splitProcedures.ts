@@ -54,10 +54,7 @@ export const splittedProcedures = (procedures: procedureType[]) => {
       deadlineDate < add(firstWeek, { weeks: 11 })
     ) {
       weekElevenProcedures.push(procedure);
-    } else if (
-      deadlineDate >= add(firstWeek, { weeks: 11 }) &&
-      deadlineDate < add(firstWeek, { weeks: 12 })
-    ) {
+    } else if (deadlineDate >= add(firstWeek, { weeks: 11 })) {
       weekTwelveProcedures.push(procedure);
     } else {
       new Error("想定外の予定が入っているかも！");

@@ -148,7 +148,7 @@ export default function TodosComponent(props: Props) {
           "当日まで",
           "1週間後まで",
           "2週間後まで",
-          "3週間後まで",
+          "2週間後以降",
         ]}
         userId={props.userId}
         projectId={props.projectId}
