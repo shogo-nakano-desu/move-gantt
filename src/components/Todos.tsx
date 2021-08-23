@@ -8,6 +8,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Box from "@material-ui/core/Box";
+import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -41,7 +45,6 @@ interface Props {
   projectId: string;
 }
 
-// あとは中にデータ入れれば完成
 export default function TodosComponent(props: Props) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -238,7 +241,7 @@ export default function TodosComponent(props: Props) {
       .withConverter(converter)
       .orderBy("deadline", "desc")
       .orderBy("startDate", "desc")
-      .onSnapshot((snapshot) => {
+      .onSnapshot({ includeMetadataChanges: true }, (snapshot) => {
         dispatch(
           listenProcedures(
             snapshot.docs.map((doc) => ({
@@ -270,11 +273,52 @@ export default function TodosComponent(props: Props) {
     return () => {
       unSub();
     };
-  }, [props.projectId, props.userId]);
-  // console.log(filteredProjectData);
-  //const firstTitleRef = useRef<HTMLDivElement>(null);
+  }, []);
 
-  // firestoreから直ゲットトライ
+  const handleCompleteChage = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault();
+    await db
+      .collection("users")
+      .doc(props.userId)
+      .collection("projects")
+      .doc(props.projectId)
+      .collection("todos")
+      .doc(e.target.id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          if (doc.data()!.complete === true) {
+            db.collection("users")
+              .doc(props.userId)
+              .collection("projects")
+              .doc(props.projectId)
+              .collection("todos")
+              .doc(e.target.id)
+              .update({ complete: false });
+          } else if (doc.data()!.complete === false) {
+            db.collection("users")
+              .doc(props.userId)
+              .collection("projects")
+              .doc(props.projectId)
+              .collection("todos")
+              .doc(e.target.id)
+              .update({ complete: true });
+          } else {
+            console.error("該当するデータがありません");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting document", error);
+      });
+  };
+
+  /*[TODO]同じコードをリピートしているから、抽出したい。
+  問題は、weekOneProceduresの部分をどうするか。
+  propsで渡すのは無理だから、ちゃんとリピート処理する必要がありそう。
+*/
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
@@ -285,18 +329,31 @@ export default function TodosComponent(props: Props) {
           <div className={classes.demo}>
             <List dense={false}>
               {shapedProcedures.weekOneProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(
-                      new Date(procedure.deadline)
-                    )}/${getDate(new Date(procedure.deadline))}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <ListItem key={procedure.id}>
+                  <Box>
+                    <ListItemText
+                      primary={procedure.title}
+                      secondary={`期限：${getMonth(
+                        new Date(procedure.deadline)
+                      )}/${getDate(new Date(procedure.deadline))}`}
+                    />
+                  </Box>
+                  <Box>
+                    <Grid container direction="column">
+                      <Checkbox
+                        id={procedure.id}
+                        checked={procedure.complete}
+                        // value={procedure.complete}
+                        name="completed"
+                        color="primary"
+                        edge="end"
+                        onChange={handleCompleteChage}
+                      />
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Box>
                 </ListItem>
               ))}
             </List>
@@ -309,18 +366,30 @@ export default function TodosComponent(props: Props) {
           <div className={classes.demo}>
             <List dense={false}>
               {shapedProcedures.weekSixProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(
-                      new Date(procedure.deadline)
-                    )}/${getDate(new Date(procedure.deadline))}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <ListItem key={procedure.id}>
+                  <Box>
+                    <ListItemText
+                      primary={procedure.title}
+                      secondary={`期限：${getMonth(
+                        new Date(procedure.deadline)
+                      )}/${getDate(new Date(procedure.deadline))}`}
+                    />
+                  </Box>
+                  <Box>
+                    <Grid container direction="column">
+                      <Checkbox
+                        id={procedure.id}
+                        checked={procedure.complete}
+                        name="completed"
+                        color="primary"
+                        edge="end"
+                        onChange={handleCompleteChage}
+                      />
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Box>
                 </ListItem>
               ))}
             </List>
@@ -333,18 +402,30 @@ export default function TodosComponent(props: Props) {
           <div className={classes.demo}>
             <List dense={false}>
               {shapedProcedures.weekSevenProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(
-                      new Date(procedure.deadline)
-                    )}/${getDate(new Date(procedure.deadline))}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <ListItem key={procedure.id}>
+                  <Box>
+                    <ListItemText
+                      primary={procedure.title}
+                      secondary={`期限：${getMonth(
+                        new Date(procedure.deadline)
+                      )}/${getDate(new Date(procedure.deadline))}`}
+                    />
+                  </Box>
+                  <Box>
+                    <Grid container direction="column">
+                      <Checkbox
+                        id={procedure.id}
+                        checked={procedure.complete}
+                        name="completed"
+                        color="primary"
+                        edge="end"
+                        onChange={handleCompleteChage}
+                      />
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Box>
                 </ListItem>
               ))}
             </List>
@@ -357,18 +438,30 @@ export default function TodosComponent(props: Props) {
           <div className={classes.demo}>
             <List dense={false}>
               {shapedProcedures.weekEightProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(
-                      new Date(procedure.deadline)
-                    )}/${getDate(new Date(procedure.deadline))}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <ListItem key={procedure.id}>
+                  <Box>
+                    <ListItemText
+                      primary={procedure.title}
+                      secondary={`期限：${getMonth(
+                        new Date(procedure.deadline)
+                      )}/${getDate(new Date(procedure.deadline))}`}
+                    />
+                  </Box>
+                  <Box>
+                    <Grid container direction="column">
+                      <Checkbox
+                        id={procedure.id}
+                        checked={procedure.complete}
+                        name="completed"
+                        color="primary"
+                        edge="end"
+                        onChange={handleCompleteChage}
+                      />
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Box>
                 </ListItem>
               ))}
             </List>
@@ -381,18 +474,30 @@ export default function TodosComponent(props: Props) {
           <div className={classes.demo}>
             <List dense={false}>
               {shapedProcedures.weekNineProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(
-                      new Date(procedure.deadline)
-                    )}/${getDate(new Date(procedure.deadline))}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <ListItem key={procedure.id}>
+                  <Box>
+                    <ListItemText
+                      primary={procedure.title}
+                      secondary={`期限：${getMonth(
+                        new Date(procedure.deadline)
+                      )}/${getDate(new Date(procedure.deadline))}`}
+                    />
+                  </Box>
+                  <Box>
+                    <Grid container direction="column">
+                      <Checkbox
+                        id={procedure.id}
+                        checked={procedure.complete}
+                        name="completed"
+                        color="primary"
+                        edge="end"
+                        onChange={handleCompleteChage}
+                      />
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Box>
                 </ListItem>
               ))}
             </List>
@@ -405,23 +510,36 @@ export default function TodosComponent(props: Props) {
           <div className={classes.demo}>
             <List dense={false}>
               {shapedProcedures.weekTenProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(
-                      new Date(procedure.deadline)
-                    )}/${getDate(new Date(procedure.deadline))}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <ListItem key={procedure.id}>
+                  <Box>
+                    <ListItemText
+                      primary={procedure.title}
+                      secondary={`期限：${getMonth(
+                        new Date(procedure.deadline)
+                      )}/${getDate(new Date(procedure.deadline))}`}
+                    />
+                  </Box>
+                  <Box>
+                    <Grid container direction="column">
+                      <Checkbox
+                        id={procedure.id}
+                        checked={procedure.complete}
+                        name="completed"
+                        color="primary"
+                        edge="end"
+                        onChange={handleCompleteChage}
+                      />
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Box>
                 </ListItem>
               ))}
             </List>
           </div>
         </Grid>
+
         <Grid item xs={2} md={2} lg={2} xl={2} className={classes.container}>
           <Typography variant="h6" className={classes.title}>
             2週間後まで
@@ -429,18 +547,30 @@ export default function TodosComponent(props: Props) {
           <div className={classes.demo}>
             <List dense={false}>
               {shapedProcedures.weekElevenProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(
-                      new Date(procedure.deadline)
-                    )}/${getDate(new Date(procedure.deadline))}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <ListItem key={procedure.id}>
+                  <Box>
+                    <ListItemText
+                      primary={procedure.title}
+                      secondary={`期限：${getMonth(
+                        new Date(procedure.deadline)
+                      )}/${getDate(new Date(procedure.deadline))}`}
+                    />
+                  </Box>
+                  <Box>
+                    <Grid container direction="column">
+                      <Checkbox
+                        id={procedure.id}
+                        checked={procedure.complete}
+                        name="completed"
+                        color="primary"
+                        edge="end"
+                        onChange={handleCompleteChage}
+                      />
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Box>
                 </ListItem>
               ))}
             </List>
@@ -453,18 +583,30 @@ export default function TodosComponent(props: Props) {
           <div className={classes.demo}>
             <List dense={false}>
               {shapedProcedures.weekTwelveProcedures.map((procedure) => (
-                <ListItem key={procedure.title}>
-                  <ListItemText
-                    primary={procedure.title}
-                    secondary={`期限：${getMonth(
-                      new Date(procedure.deadline)
-                    )}/${getDate(new Date(procedure.deadline))}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <ListItem key={procedure.id}>
+                  <Box>
+                    <ListItemText
+                      primary={procedure.title}
+                      secondary={`期限：${getMonth(
+                        new Date(procedure.deadline)
+                      )}/${getDate(new Date(procedure.deadline))}`}
+                    />
+                  </Box>
+                  <Box>
+                    <Grid container direction="column">
+                      <Checkbox
+                        id={procedure.id}
+                        checked={procedure.complete}
+                        name="completed"
+                        color="primary"
+                        edge="end"
+                        onChange={handleCompleteChage}
+                      />
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Box>
                 </ListItem>
               ))}
             </List>
