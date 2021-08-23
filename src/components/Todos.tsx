@@ -43,7 +43,6 @@ interface Props {
 
 export default function TodosComponent(props: Props) {
   const dispatch = useDispatch();
-  const router = useRouter();
 
   // const userId = useSelector((state: stateType) => state.user.uid);
   const open = useSelector((state: stateType) => state.editTodo.isOpen);
@@ -148,7 +147,7 @@ export default function TodosComponent(props: Props) {
           "当日まで",
           "1週間後まで",
           "2週間後まで",
-          "3週間後まで",
+          "2週間後以降",
         ]}
         userId={props.userId}
         projectId={props.projectId}

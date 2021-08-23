@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
+import { add } from "date-fns";
 
 import { Procedure, TARGET_PERSON } from "../info/procedures";
 
@@ -100,7 +101,7 @@ export const refreshProjectForm = () => ({
     formWillMoveAddress: "",
     formMoveFromPrefecture: "",
     formMoveFromAddress: "",
-    formWillMoveDate: null,
+    formWillMoveDate: add(new Date(), { months: 1 }),
     formIsNotEmployee: false,
     formIsStudent: false,
     formIsPet: false,
@@ -157,7 +158,7 @@ export const initialState: stateType = {
     formWillMoveAddress: "",
     formMoveFromPrefecture: "",
     formMoveFromAddress: "",
-    formWillMoveDate: null,
+    formWillMoveDate: add(new Date(), { months: 1 }),
     formIsNotEmployee: false,
     formIsStudent: false,
     formIsPet: false,
@@ -223,7 +224,7 @@ export interface stateType {
     formWillMoveAddress: string;
     formMoveFromPrefecture: string;
     formMoveFromAddress: string;
-    formWillMoveDate: Date | null;
+    formWillMoveDate: Date;
     formIsNotEmployee: boolean;
     formIsStudent: boolean;
     formIsPet: boolean;

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import firebase from "firebase/app";
+import { add } from "date-fns";
 
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -21,7 +22,6 @@ import {
   createNewProject,
   setCurrentUser,
 } from "../utils/reducers";
-import { procedures } from "../info/procedures";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -76,6 +76,9 @@ export default function CreateProjectComponent() {
       user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
     });
   }, []);
+  useEffect(() => {
+    dispatch(refreshProjectForm());
+  }, []);
 
   const userId = useSelector((state: stateType) => state.user.uid);
   // firestoreに新規プロジェクトを作成するための関数群
@@ -126,32 +129,12 @@ export default function CreateProjectComponent() {
 
   // 最後にstateを空にする処理を忘れずに書く
   // この前に、usercollectionを作成して、そこに入れるようにしたほうが良さげ
-  const putProjectToFirestore = (e: React.FormEvent<HTMLFormElement>) => {
+  const putProjectToFirestore = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const filteredTodos = procedures.filter((procedure) => {
-      // ロジックはOK
-      if (
-        !(isCar === false && procedure.isCar === true) &&
-        !(isDrivingLicense === false && procedure.isDrivingLicense === true) &&
-        !(isFireInsurance === false && procedure.isFireInsurance === true) &&
-        !(isFixedPhone === false && procedure.isFixedPhone === true) &&
-        !(isMynumber === false && procedure.isMynumber === true) &&
-        !(isPet === false && procedure.isPet === true) &&
-        !(isScooter === false && procedure.isScooter === true) &&
-        !(isNotEmployee === false && procedure.isNotEmployee === true) &&
-        !(
-          isStampRegistration === false &&
-          procedure.isStampRegistration === true
-        ) &&
-        !(isStudent === false && procedure.isStudent === true) &&
-        !(isUnderFifteen === false && procedure.isUnderFifteen === true)
-      ) {
-        return true;
-      }
-    });
-    console.log("filteredTodos:", filteredTodos);
+
     console.log("firestoreに登録開始");
-    db.collection("users")
+    await db
+      .collection("users")
       .doc(userId)
       .collection("projects")
       .add({
@@ -174,30 +157,8 @@ export default function CreateProjectComponent() {
         created_at: Date.now(),
       })
       .then((docRef) => {
-        console.log("ループ前のprojectId", docRef.id);
-        for (let i = 0; i < filteredTodos.length; i++) {
-          console.log(i);
-          db.collection("users")
-            .doc(userId)
-            .collection("projects")
-            .doc(docRef.id)
-            .collection("todos")
-            .add(filteredTodos[i]);
-        }
-        console.log("TODOS登録も完了");
-        const projectId = docRef.id;
-        return projectId;
-      })
-      .then((projectId) => {
-        dispatch(createNewProject(projectId));
-      })
-      .then(() => {
-        dispatch(refreshProjectForm());
-        console.log("project stateの初期化完了");
-      })
-      .then(() => router.push("/dashboard"))
-      .catch((error) => {
-        console.error("Error adding document: ", error);
+        dispatch(createNewProject(docRef.id));
+        router.push("/loading");
       });
   };
 
