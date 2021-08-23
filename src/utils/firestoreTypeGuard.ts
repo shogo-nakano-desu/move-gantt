@@ -22,6 +22,7 @@ type DataItemType = {
   isMynumber: boolean;
   isStampRegistration: boolean;
   isDrivingLicense: boolean;
+  created_at: number;
 };
 type DataType = DataItemType[];
 
@@ -104,6 +105,9 @@ const isValid = (data: any): data is DataItemType => {
   ) {
     return false;
   }
+  if (!(data.created_at != null && typeof data.isDrivingLicense === "number")) {
+    return false;
+  }
   return true;
 };
 
@@ -130,6 +134,7 @@ export const converter = {
       isMynumber: procedure.isMynumber,
       isStampRegistration: procedure.isStampRegistration,
       isDrivingLicense: procedure.isDrivingLicense,
+      created_at: procedure.created_at,
     };
   },
   fromFirestore(
@@ -164,6 +169,7 @@ export const converter = {
       isMynumber: data.isMynumber,
       isStampRegistration: data.isStampRegistration,
       isDrivingLicense: data.isDrivingLicense,
+      created_at: data.created_at,
     };
   },
 };

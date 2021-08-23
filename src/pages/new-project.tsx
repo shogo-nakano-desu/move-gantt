@@ -171,7 +171,7 @@ export default function CreateProjectComponent() {
         isMynumber: isMynumber,
         isStampRegistration: isStampRegistration,
         isDrivingLicense: isDrivingLicense,
-        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        created_at: Date.now(),
       })
       .then((docRef) => {
         console.log("ループ前のprojectId", docRef.id);
