@@ -76,6 +76,9 @@ export default function CreateProjectComponent() {
       user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
     });
   }, []);
+  useEffect(() => {
+    dispatch(refreshProjectForm());
+  }, []);
 
   const userId = useSelector((state: stateType) => state.user.uid);
   // firestoreに新規プロジェクトを作成するための関数群
@@ -158,49 +161,6 @@ export default function CreateProjectComponent() {
         router.push("/loading");
       });
   };
-  //     .then(async (docRef) => {
-  //       // [TODO]大量に追加する
-  //       const createdProject = await db
-  //         .collection("users")
-  //         .doc(userId)
-  //         .collection("projects")
-  //         .doc(docRef.id)
-  //         .get();
-  //       const moveDate = createdProject!.data()!.willMoveDate;
-  //       return { projectId: docRef.id, moveDate: moveDate };
-  //     })
-  //     .then((data) => {
-  //       const moveDate = data.moveDate;
-
-  //
-  //
-
-  //       console.log("ループ前のprojectId", data.projectId);
-  //       for (let i = 0; i < filteredTodos.length; i++) {
-  //         console.log(i);
-  //         db.collection("users")
-  //           .doc(userId)
-  //           .collection("projects")
-  //           .doc(data.projectId)
-  //           .collection("todos")
-  //           .add(filteredTodos[i]);
-  //       }
-  //       console.log("TODOS登録も完了");
-  //       const projectId = data.projectId;
-  //       return projectId;
-  //     })
-  //     .then((projectId) => {
-  //       dispatch(createNewProject(projectId));
-  //     })
-  //     .then(() => {
-  //       dispatch(refreshProjectForm());
-  //       console.log("project stateの初期化完了");
-  //     })
-  //     .then(() => router.push("/dashboard"))
-  //     .catch((error) => {
-  //       console.error("Error adding document: ", error);
-  //     });
-  // };
 
   return (
     <React.Fragment>

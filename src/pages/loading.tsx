@@ -1110,30 +1110,6 @@ export default function LoadingComponent() {
     }
   });
 
-  // useEffect(() => {(
-  //   async function putTodos() {
-  //     for  (let i = 0; i < filteredTodos.length; i++) {
-  //       db.collection("users")
-  //         .doc(userId)
-  //         .collection("projects")
-  //         .doc(projectId)
-  //         .collection("todos")
-  //         .add(filteredTodos[i]);
-  //     }
-  //   }
-  //   console.log("TODOS登録も完了");
-  //   return putTodos();
-  // ).then(() => {
-  //       dispatch(createNewProject(projectId));
-  //     })
-  //     .then(() => {
-  //       dispatch(refreshProjectForm());
-  //       console.log("project stateの初期化完了");
-  //     })
-  //     .then(() => router.push("/dashboard"))
-  //     .catch((error) => {
-  //       console.error("Error adding document: ", error);
-  //     });},[])
   useEffect(() => {
     async function putAlltodos() {
       for (let i = 0; i < filteredTodos.length; i++) {
@@ -1148,11 +1124,11 @@ export default function LoadingComponent() {
           });
       }
     }
+    putAlltodos();
     dispatch(createNewProject(projectId));
     dispatch(refreshProjectForm());
     console.log("project stateの初期化完了");
     router.push("/dashboard");
-    putAlltodos();
   }, []);
 
   return <div>Loading</div>;

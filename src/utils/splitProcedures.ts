@@ -1,5 +1,4 @@
 import { add } from "date-fns";
-import { moveDate } from "../info/procedures";
 import { procedureType } from "../utils/reducers";
 
 //[TODO]数字がそのままでややこしいのでリファクタリングする必要あり
@@ -7,7 +6,10 @@ import { procedureType } from "../utils/reducers";
 // sortedProceduresで並び替えたProcedure[] typeの配列を週ごとに切り分ける関数
 // trelloのようにレンダリングする際に、該当週の配列だけレンダリングしやすいようにする
 // 現在week8までしか実装していないので、week9以降のtodoが見つかった場合には、別途実装する必要がある。いったんエラーを投げるようにしておこう
-export const splittedProcedures = (procedures: procedureType[]) => {
+export const splittedProcedures = (
+  procedures: procedureType[],
+  moveDate: Date
+) => {
   const weekOneProcedures: procedureType[] = [];
   const weekSixProcedures: procedureType[] = [];
   const weekSevenProcedures: procedureType[] = [];

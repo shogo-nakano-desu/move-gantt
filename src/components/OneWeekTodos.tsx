@@ -58,7 +58,11 @@ export const OneWeekTodosComponent = (props: Props) => {
   const dispatch = useDispatch();
 
   const procedures = useSelector((state: stateType) => state.procedures);
-  const shapedProcedures = splittedProcedures(procedures);
+  const moveDate = useSelector(
+    (state: stateType) => state.projectForm.formWillMoveDate
+  );
+
+  const shapedProcedures = splittedProcedures(procedures, moveDate);
 
   const handleCompleteChage = async (
     e: React.ChangeEvent<HTMLInputElement>
