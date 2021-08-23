@@ -91,6 +91,7 @@ export default function TodosComponent(props: Props) {
               isMynumber: doc.data().isMynumber,
               isStampRegistration: doc.data().isStampRegistration,
               isDrivingLicense: doc.data().isDrivingLicense,
+              created_at: doc.data().created_at,
             }))
           )
         );

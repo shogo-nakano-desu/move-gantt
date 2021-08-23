@@ -13,7 +13,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import { dateParser } from "../utils/dateParser";
-import { auth, db } from "../../firebaseClient";
+import { db } from "../../firebaseClient";
 import { stateType } from "../utils/reducers";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,10 +44,11 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState<undefined | Date>(undefined);
-  const [endDate, setEndDate] = useState<undefined | Date>(undefined);
+  const [deadline, setDeadline] = useState<undefined | Date>(undefined);
   const [memo, setMemo] = useState("");
 
   const userId = useSelector((state: stateType) => state.user.uid);
+  const projectId = useSelector((state: stateType) => state.project.projectId);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -63,23 +64,62 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
       .collection("users")
       .doc(userId)
       .collection("projects")
-      .doc("5GsdMBBOJNrFjLSYusYI") //[TODO]仮に適当なプロジェクトに突っ込んでいる。プロジェクトIDをreduxでもつ必要あり
+      .doc(projectId)
       .collection("todos")
       .add({
         title: title,
-        startDate: startDate,
-        endDate: endDate,
+        startDate: startDate!.getTime(),
+        deadline: deadline!.getTime(),
+        submitDestination: "",
+        targetPerson: "everyone",
+        confirmationSource: "",
         memo: memo,
-        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        complete: false,
+        isNotEmployee: false,
+        isStudent: false,
+        isPet: false,
+        isScooter: false,
+        isCar: false,
+        isParking: false,
+        isUnderFifteen: false,
+        isFireInsurance: false,
+        isFixedPhone: false,
+        isMynumber: false,
+        isStampRegistration: false,
+        isDrivingLicense: false,
+        created_at: Date.now(),
       })
       .then(() => {
         setOpen(false);
         setTitle("");
         setStartDate(undefined);
-        setEndDate(undefined);
+        setDeadline(undefined);
         setMemo("");
       });
   };
+
+  /*
+  title: "賃貸物件の解約手続き",
+  startDate: projectCreatedAt.getTime(), // プロジェクト作成日か関数で計算した日付
+  deadline: add(moveDate, { months: -2 }).getTime(), //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
+  submitDestination: "管理会社や不動産会社、大家など",
+  targetPerson: "everyone",
+  confirmationSource:
+    "管理会社や不動産会社、大家などに問い合わせ、契約内容を確認する",
+  memo: "",
+  complete: false,
+  isNotEmployee: false,
+  isStudent: false,
+  isPet: false,
+  isScooter: false,
+  isCar: false,
+  isParking: false,
+  isUnderFifteen: false,
+  isFireInsurance: false,
+  isFixedPhone: false,
+  isMynumber: false,
+  isStampRegistration: false,
+  isDrivingLicense: false, */
   return (
     <>
       <Button
@@ -141,7 +181,7 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
                   shrink: true,
                 }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setEndDate(dateParser(e.target.value));
+                  setDeadline(dateParser(e.target.value));
                 }}
               />
             </span>

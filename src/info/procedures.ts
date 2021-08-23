@@ -11,19 +11,6 @@ export const moveDate = new Date(2021, 8, 6); // [TODO]登録した引越し日�
 const projectCreatedAt = new Date(2021, 7, 18); // [TODO]本当はproject作成日をとってくる
 // ----------------------------------------------------------------
 
-/*追加データ
-[done]isSelfEmployed⇨isNotEmployee
-isUnderFifteen:false,
-isFireInsurance: false,
-isFixedPhone: false,
-isMynumber: false,
-isStampRegistration:false,
-isDrivingLicense: false,
-
-
-
-*/
-
 // booleanに関しては、trueの時だけその項目がマストになる
 export interface Procedure {
   title: string;
@@ -46,6 +33,7 @@ export interface Procedure {
   isMynumber: boolean;
   isStampRegistration: boolean;
   isDrivingLicense: boolean;
+  created_at: number;
 }
 
 const TARGET_PERSON = {
@@ -78,6 +66,7 @@ const rentalCancellation: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const parkingCancellation: Procedure = {
@@ -101,6 +90,7 @@ const parkingCancellation: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const moverContraction: Procedure = {
@@ -125,6 +115,7 @@ const moverContraction: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const schoolChanging: Procedure = {
@@ -149,6 +140,7 @@ const schoolChanging: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const internet: Procedure = {
@@ -173,6 +165,7 @@ const internet: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const largeGarbage: Procedure = {
@@ -196,6 +189,7 @@ const largeGarbage: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const fireInsurance: Procedure = {
@@ -220,6 +214,7 @@ const fireInsurance: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const movingOutNotification: Procedure = {
@@ -244,6 +239,7 @@ const movingOutNotification: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const NationalHealthInsuranceCancellation: Procedure = {
@@ -268,6 +264,7 @@ const NationalHealthInsuranceCancellation: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const stampDeletion: Procedure = {
@@ -292,6 +289,7 @@ const stampDeletion: Procedure = {
   isMynumber: false,
   isStampRegistration: true,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const scooterDeletion: Procedure = {
@@ -316,6 +314,7 @@ const scooterDeletion: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const childAllowance: Procedure = {
@@ -341,6 +340,7 @@ const childAllowance: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const electricity: Procedure = {
@@ -365,6 +365,7 @@ const electricity: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const gasTap: Procedure = {
@@ -389,6 +390,7 @@ const gasTap: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const tapwaterCancellation: Procedure = {
@@ -413,6 +415,7 @@ const tapwaterCancellation: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const tapwaterStart: Procedure = {
@@ -437,6 +440,7 @@ const tapwaterStart: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const postofficeChangeAddress: Procedure = {
@@ -461,6 +465,7 @@ const postofficeChangeAddress: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 // [TODO]固定電話を持っているかどうか
@@ -486,6 +491,7 @@ const fixedPhone: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const mobilePhone: Procedure = {
@@ -510,6 +516,7 @@ const mobilePhone: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const pet: Procedure = {
@@ -534,6 +541,7 @@ const pet: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const gasPrecense: Procedure = {
@@ -558,6 +566,7 @@ const gasPrecense: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const tapPrecense: Procedure = {
@@ -582,6 +591,7 @@ const tapPrecense: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const moveOutPrecense: Procedure = {
@@ -605,6 +615,7 @@ const moveOutPrecense: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const gasStartPrecense: Procedure = {
@@ -629,6 +640,7 @@ const gasStartPrecense: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const movingNotification: Procedure = {
@@ -653,6 +665,7 @@ const movingNotification: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const transferNotification: Procedure = {
@@ -677,6 +690,7 @@ const transferNotification: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const mynumber: Procedure = {
@@ -701,6 +715,7 @@ const mynumber: Procedure = {
   isMynumber: true,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const stampRegistration: Procedure = {
@@ -725,6 +740,7 @@ const stampRegistration: Procedure = {
   isMynumber: false,
   isStampRegistration: true,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const compensation: Procedure = {
@@ -749,6 +765,7 @@ const compensation: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 // [TODO]個人事業主、フリーターだけ必要＝会社員以外必要
 const nationalHealthInsuranceRegistration: Procedure = {
@@ -773,6 +790,7 @@ const nationalHealthInsuranceRegistration: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 // [TODO]個人事業主、フリーターだけ必要＝会社員以外必要
 const nationalHealthInsuranceChange: Procedure = {
@@ -797,6 +815,7 @@ const nationalHealthInsuranceChange: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 const company: Procedure = {
   title: "会社の健康保険と厚生年金の変更手続き",
@@ -819,6 +838,7 @@ const company: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const parkingCertification: Procedure = {
@@ -843,6 +863,7 @@ const parkingCertification: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 // [TODO]免許を持っているかどうか
 const drivingLicense: Procedure = {
@@ -868,6 +889,7 @@ const drivingLicense: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: true,
+  created_at: Date.now(),
 };
 
 const carAddress: Procedure = {
@@ -892,6 +914,7 @@ const carAddress: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const creaditcard: Procedure = {
@@ -916,6 +939,7 @@ const creaditcard: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const bankAccount: Procedure = {
@@ -939,6 +963,7 @@ const bankAccount: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 const onlineShop: Procedure = {
@@ -962,6 +987,7 @@ const onlineShop: Procedure = {
   isMynumber: false,
   isStampRegistration: false,
   isDrivingLicense: false,
+  created_at: Date.now(),
 };
 
 export const procedures: Procedure[] = [

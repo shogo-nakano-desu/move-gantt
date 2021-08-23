@@ -171,7 +171,7 @@ export default function CreateProjectComponent() {
         isMynumber: isMynumber,
         isStampRegistration: isStampRegistration,
         isDrivingLicense: isDrivingLicense,
-        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        created_at: Date.now(),
       })
       .then((docRef) => {
         console.log("ループ前のprojectId", docRef.id);
@@ -195,6 +195,7 @@ export default function CreateProjectComponent() {
         dispatch(refreshProjectForm());
         console.log("project stateの初期化完了");
       })
+      .then(() => router.push("/dashboard"))
       .catch((error) => {
         console.error("Error adding document: ", error);
       });
