@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
-import { setCurrentUser, stateType, listenProcedures } from "../utils/reducers";
+import { stateType } from "../utils/reducers";
 import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
 import ChoseProjectComponent from "../components/ChoseProject";

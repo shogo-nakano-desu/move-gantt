@@ -164,7 +164,6 @@ export const OneWeekTodosComponent = (props: Props) => {
             </div>
           </Grid>
         ))}
-        )
       </Grid>
     </div>
   );
