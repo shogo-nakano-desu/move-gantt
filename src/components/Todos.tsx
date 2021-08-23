@@ -43,7 +43,6 @@ interface Props {
 
 export default function TodosComponent(props: Props) {
   const dispatch = useDispatch();
-  const router = useRouter();
 
   // const userId = useSelector((state: stateType) => state.user.uid);
   const open = useSelector((state: stateType) => state.editTodo.isOpen);

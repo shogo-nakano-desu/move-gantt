@@ -1,5 +1,5 @@
 import { add } from "date-fns";
-import { moveDate, Procedure } from "../info/procedures";
+import { moveDate } from "../info/procedures";
 import { procedureType } from "../utils/reducers";
 
 //[TODO]数字がそのままでややこしいのでリファクタリングする必要あり
