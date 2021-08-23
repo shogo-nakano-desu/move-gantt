@@ -71,12 +71,14 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
         endDate: endDate,
         memo: memo,
         created_at: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        setOpen(false);
+        setTitle("");
+        setStartDate(undefined);
+        setEndDate(undefined);
+        setMemo("");
       });
-    setOpen(false);
-    setTitle("");
-    setStartDate(undefined);
-    setEndDate(undefined);
-    setMemo("");
   };
   return (
     <>

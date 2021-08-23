@@ -79,7 +79,7 @@ export default function CreateProjectComponent() {
     auth.onAuthStateChanged((user) => {
       user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
     });
-  }, [dispatch, router]); // 元は[]だった。
+  }, []); // 元は[]だった。
 
   const userId = useSelector((state: stateType) => state.user.uid);
   // firestoreに新規プロジェクトを作成するための関数群

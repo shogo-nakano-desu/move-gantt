@@ -270,7 +270,7 @@ export default function TodosComponent(props: Props) {
     return () => {
       unSub();
     };
-  }, []);
+  }, [props.projectId, props.userId]);
   // console.log(filteredProjectData);
   //const firstTitleRef = useRef<HTMLDivElement>(null);
 
