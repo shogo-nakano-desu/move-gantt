@@ -42,7 +42,6 @@ const Dashboard = () => {
 
   return (
     <>
-      {console.log("dashboard userId")}
       {projectId && currentUser.currentUser ? (
         <div style={{ width: "100%", height: "98%" }}>
           <Box className={classes.appbar}>

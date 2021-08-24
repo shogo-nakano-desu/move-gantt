@@ -92,7 +92,7 @@ export default function ChoseProjectComponent(props: Props) {
     } else {
       router.push("/sign-in");
     }
-  }, [props.userId]);
+  }, []);
 
   return (
     <div style={{ width: "100%", height: "98%" }}>

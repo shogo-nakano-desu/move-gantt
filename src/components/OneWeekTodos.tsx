@@ -62,9 +62,8 @@ export const OneWeekTodosComponent = (props: Props) => {
   const [shapedProcedures, setShapedProcedures] = useState<procedureType[][]>(
     []
   );
-
+  // [TODO]proceduresは何かあるとアップデートされるはずだが、これのアップデートが削除とかした時にうまくいっていない
   const procedures = useSelector((state: stateType) => state.procedures);
-  // [TODO] 初回プロジェクト登録時にこの処理が走らない。
   useEffect(() => {
     console.log("oneWeekTodos 処理開始");
     db.collection("users")
@@ -75,7 +74,9 @@ export const OneWeekTodosComponent = (props: Props) => {
       .then((doc) => {
         if (doc) {
           const moveDate = doc.data()!.willMoveDate;
+          console.log("before split procedures");
           setShapedProcedures(splittedProcedures(procedures, moveDate));
+          console.log("after split procedures");
         } else {
           console.log("there is no todos");
         }
@@ -83,11 +84,11 @@ export const OneWeekTodosComponent = (props: Props) => {
       .catch((error) => {
         console.error("Error happend when renderign todos", error);
       });
-  }, [procedures]);
+  }, [procedures, props.projectId, props.userId, currentUser.currentUser]);
 
-  // const moveDate = useSelector(
-  //   (state: stateType) => state.projectForm.formWillMoveDate
-  // );
+  const moveDate = useSelector(
+    (state: stateType) => state.projectForm.formWillMoveDate
+  );
 
   const handleCompleteChage = async (
     e: React.ChangeEvent<HTMLInputElement>
