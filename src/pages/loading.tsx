@@ -4,11 +4,7 @@ import { useRouter } from "next/router";
 import { add } from "date-fns";
 
 import { db } from "../../firebaseClient";
-import {
-  stateType,
-  createNewProject,
-  refreshProjectForm,
-} from "../utils/reducers";
+import { stateType, createNewProject } from "../utils/reducers";
 import { AuthContext } from "../utils/authProvider";
 
 export default function LoadingComponent() {

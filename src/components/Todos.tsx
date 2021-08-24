@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -18,24 +17,6 @@ import {
 import { converter } from "../utils/firestoreTypeGuard";
 import { OneWeekTodosComponent } from "./OneWeekTodos";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      maxWidth: 2000,
-    },
-    demo: {
-      backgroundColor: theme.palette.background.paper,
-    },
-    title: {
-      margin: theme.spacing(4, 0, 2),
-    },
-    container: {
-      maxWidth: "12%",
-    },
-  })
-);
-
 interface Props {
   userId: string;
   projectId: string;
@@ -44,7 +25,6 @@ interface Props {
 export default function TodosComponent(props: Props) {
   const dispatch = useDispatch();
 
-  // const userId = useSelector((state: stateType) => state.user.uid);
   const open = useSelector((state: stateType) => state.editTodo.isOpen);
   const todoId = useSelector((state: stateType) => state.editTodo.todoId);
   const todoTitle = useSelector((state: stateType) => state.editTodo.todoTitle);
@@ -56,8 +36,6 @@ export default function TodosComponent(props: Props) {
   useEffect(() => {
     console.log("Todos.tsx props.userId", props.userId);
     console.log("props.projectId", props.projectId);
-    // DBに入っているTODOをここでlistenしている
-    // [TODO]DBの中身が変わった際にうまくリッスンできていない
     const unSub = () => console.log("Todos subscribe start");
     db.collection("users")
       .doc(props.userId)
@@ -74,7 +52,7 @@ export default function TodosComponent(props: Props) {
               id: doc.id,
               title: doc.data().title,
               startDate: doc.data().startDate, // プロジェクト作成日か関数で計算した日付
-              deadline: doc.data().deadline, //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
+              deadline: doc.data().deadline,
               submitDestination: doc.data().submitDestination, //
               targetPerson: doc.data().targetPerson,
               confirmationSource: doc.data().confirmationSource,

@@ -1,8 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import firebase from "firebase/app";
-import { add } from "date-fns";
 
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,13 +12,12 @@ import AddressFormComponent from "../components/addressForm";
 import DateFormComponent from "../components/dateForm";
 import OtherFormComponent from "../components/otherForm";
 
-import { auth, db } from "../../firebaseClient";
-import AppBarComponent from "../components/AppBar";
+import { db } from "../../firebaseClient";
+
 import {
   stateType,
   refreshProjectForm,
   createNewProject,
-  setCurrentUser,
 } from "../utils/reducers";
 import { AuthContext } from "../utils/authProvider";
 

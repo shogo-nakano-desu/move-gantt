@@ -1,5 +1,5 @@
 // URLを変えたかったら、dynamic routing使えばOKか
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Avatar from "@material-ui/core/Avatar";
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -81,7 +81,6 @@ const SignInComponent: React.VFC = () => {
               .get()
               .then((qs) => {
                 if (qs.docs[0]) {
-                  //[changed]qs.docs[0].exists=>qs.doc[0]
                   dispatch(createNewProject(qs.docs[0].id));
                   router.push("/dashboard");
                 } else {
@@ -92,11 +91,6 @@ const SignInComponent: React.VFC = () => {
     } catch (err) {
       alert(err.message);
     }
-  };
-
-  const createUserCollection = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    db.collection("users").doc(userId);
   };
 
   return (

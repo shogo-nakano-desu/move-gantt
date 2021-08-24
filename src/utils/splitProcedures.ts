@@ -65,9 +65,6 @@ export const splittedProcedures = (
       new Error("想定外の予定が入っているかも！");
     }
     console.log("proceduresのsplit完了");
-    //else {
-    //   throw new Error("week16以降のTODOがあります。実装を確認しましょう！");
-    // }
   });
   return [
     weekOneProcedures,

@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 
 import Theme from "../components/Theme";
 import { useStore } from "../utils/reducers";
-import { auth } from "../../firebaseClient";
 import { AuthProvider } from "../utils/authProvider";
 import "./styles.css";
 
@@ -23,11 +22,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   auth.onAuthStateChanged((user) => {
-  //     !user && router.push("/sign-in"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
-  //   });
-  // }, []);
   // activate Redux
   const store = useStore(pageProps.initialReduxState);
 
@@ -43,7 +37,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <Provider store={store}>
         <AuthProvider>
-          {/* <AuthComponent /> */}
           <ThemeProvider theme={Theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />

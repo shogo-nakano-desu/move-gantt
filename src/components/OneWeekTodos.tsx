@@ -1,28 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import firebase from "firebase";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Dialog from "@material-ui/core/Dialog";
 import { getMonth, getDate } from "date-fns";
 
 import { splittedProcedures } from "../utils/splitProcedures";
-import { auth, db } from "../../firebaseClient";
+import { db } from "../../firebaseClient";
 import { AuthContext } from "../utils/authProvider";
 import {
-  listenProcedures,
   stateType,
   isEditTodoOpen,
   setTodoId,
@@ -61,7 +55,7 @@ export const OneWeekTodosComponent = (props: Props) => {
   const [shapedProcedures, setShapedProcedures] = useState<procedureType[][]>(
     []
   );
-  // [TODO]proceduresは何かあるとアップデートされるはずだが、これのアップデートが削除とかした時にうまくいっていない
+
   const procedures = useSelector((state: stateType) => state.procedures);
   useEffect(() => {
     console.log("oneWeekTodos 処理開始");
@@ -84,10 +78,6 @@ export const OneWeekTodosComponent = (props: Props) => {
         console.error("Error happend when renderign todos", error);
       });
   }, [procedures, props.projectId, props.userId, currentUser.currentUser]);
-
-  const moveDate = useSelector(
-    (state: stateType) => state.projectForm.formWillMoveDate
-  );
 
   const handleCompleteChage = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -153,7 +143,6 @@ export const OneWeekTodosComponent = (props: Props) => {
           >
             <Typography variant="h6" className={classes.title}>
               {props.title[index]}
-              {/*[TODO]ここだけ可変にする必要がある */}
             </Typography>
             <div className={classes.demo}>
               <List dense={false}>
