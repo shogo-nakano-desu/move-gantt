@@ -6,7 +6,7 @@ import Box from "@material-ui/core/Box";
 
 import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
-import ChoseProjectComponent from "./ChoseProject";
+import ChoseProjectComponent from "./chose-project";
 import AppBarComponent from "../components/AppBar";
 import { AuthContext } from "../utils/authProvider";
 import { stateType } from "../utils/reducers";

@@ -116,6 +116,9 @@ export default function AppBarComponent() {
               <LinkMenuItem href="/new-project">
                 新規プロジェクト作成
               </LinkMenuItem>
+              <LinkMenuItem href="/chose-project">
+                管理するプロジェクトを選択
+              </LinkMenuItem>
               <MenuItem onClick={handleDialogOpen}>ログアウト</MenuItem>
               <Dialog
                 open={dialogOpen}
