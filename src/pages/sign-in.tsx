@@ -80,7 +80,8 @@ const SignInComponent: React.VFC = () => {
               .limit(1)
               .get()
               .then((qs) => {
-                if (qs.docs[0].exists) {
+                if (qs.docs[0]) {
+                  //[changed]qs.docs[0].exists=>qs.doc[0]
                   dispatch(createNewProject(qs.docs[0].id));
                   router.push("/dashboard");
                 } else {

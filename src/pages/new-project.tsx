@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import firebase from "firebase/app";
@@ -22,6 +22,7 @@ import {
   createNewProject,
   setCurrentUser,
 } from "../utils/reducers";
+import { AuthContext } from "../utils/authProvider";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -71,16 +72,17 @@ export default function CreateProjectComponent() {
   const classes = useStyles();
   const router = useRouter();
   // const activeStep = useSelector((state: stateType) => state.step.stepNum);
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
-    });
-  }, []);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((user) => {
+  //     user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
+  //   });
+  // }, []);
   useEffect(() => {
     dispatch(refreshProjectForm());
   }, []);
+  const currentUser = useContext(AuthContext);
 
-  const userId = useSelector((state: stateType) => state.user.uid);
+  const userId = currentUser.currentUser!.uid;
   // firestoreに新規プロジェクトを作成するための関数群
   const willMovePrefecture = useSelector(
     (state: stateType) => state.projectForm.formWillMovePrefecture

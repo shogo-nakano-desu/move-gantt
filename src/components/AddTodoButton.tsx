@@ -1,5 +1,5 @@
 // [TODO] ダイアログからTODOを追加できるようにする必要あり
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import firebase from "firebase/app";
 import AddTaskIcon from "@material-ui/icons/AddTask";
@@ -15,6 +15,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { dateParser } from "../utils/dateParser";
 import { db } from "../../firebaseClient";
 import { stateType } from "../utils/reducers";
+import { AuthContext } from "../utils/authProvider";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,7 +48,8 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
   const [deadline, setDeadline] = useState<undefined | Date>(undefined);
   const [memo, setMemo] = useState("");
 
-  const userId = useSelector((state: stateType) => state.user.uid);
+  const currentUser = useContext(AuthContext);
+  const userId = currentUser.currentUser!.uid;
   const projectId = useSelector((state: stateType) => state.project.projectId);
 
   const handleClickOpen = () => {
