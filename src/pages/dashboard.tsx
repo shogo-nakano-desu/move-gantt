@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
 import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
-import ChoseProjectComponent from "./chose-project";
 import AppBarComponent from "../components/AppBar";
+import ChoseProjectComponent from "./chose-project";
 import { AuthContext } from "../utils/authProvider";
-import { stateType } from "../utils/reducers";
+import { stateType, createNewProject } from "../utils/reducers";
+import { db } from "../../firebaseClient";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const currentUser = useContext(AuthContext);
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { add } from "date-fns";
@@ -9,6 +9,7 @@ import {
   createNewProject,
   refreshProjectForm,
 } from "../utils/reducers";
+import { AuthContext } from "../utils/authProvider";
 
 export default function LoadingComponent() {
   const dispatch = useDispatch();
@@ -1041,7 +1042,8 @@ export default function LoadingComponent() {
     onlineShop,
   ];
 
-  const userId = useSelector((state: stateType) => state.user.uid);
+  const currentUser = useContext(AuthContext);
+  const userId = currentUser.currentUser!.uid;
   // firestoreに新規プロジェクトを作成するための関数群
   const willMovePrefecture = useSelector(
     (state: stateType) => state.projectForm.formWillMovePrefecture
