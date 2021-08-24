@@ -27,36 +27,36 @@ export const splittedProcedures = (
     if (deadlineDate >= firstWeek && deadlineDate < oneMonthBeforeMove) {
       weekOneProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(firstWeek, { weeks: 5 }) &&
-      deadlineDate < add(firstWeek, { weeks: 6 })
+      deadlineDate >= oneMonthBeforeMove &&
+      deadlineDate < add(oneMonthBeforeMove, { weeks: 1 })
     ) {
       weekSixProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(firstWeek, { weeks: 6 }) &&
-      deadlineDate < add(firstWeek, { weeks: 7 })
+      deadlineDate >= add(oneMonthBeforeMove, { weeks: 1 }) &&
+      deadlineDate < add(oneMonthBeforeMove, { weeks: 2 })
     ) {
       weekSevenProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(firstWeek, { weeks: 7 }) &&
-      deadlineDate < add(firstWeek, { weeks: 8 })
+      deadlineDate >= add(oneMonthBeforeMove, { weeks: 2 }) &&
+      deadlineDate < add(oneMonthBeforeMove, { weeks: 3 })
     ) {
       weekEightProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(firstWeek, { weeks: 8 }) &&
-      deadlineDate < add(firstWeek, { weeks: 9 })
+      deadlineDate >= add(oneMonthBeforeMove, { weeks: 3 }) &&
+      deadlineDate < add(oneMonthBeforeMove, { weeks: 4 })
     ) {
       weekNineProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(firstWeek, { weeks: 9 }) &&
-      deadlineDate < add(firstWeek, { weeks: 10 })
+      deadlineDate >= add(oneMonthBeforeMove, { weeks: 4 }) &&
+      deadlineDate < add(oneMonthBeforeMove, { weeks: 5 })
     ) {
       weekTenProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(firstWeek, { weeks: 10 }) &&
-      deadlineDate < add(firstWeek, { weeks: 11 })
+      deadlineDate >= add(oneMonthBeforeMove, { weeks: 5 }) &&
+      deadlineDate < add(oneMonthBeforeMove, { weeks: 6 })
     ) {
       weekElevenProcedures.push(procedure);
-    } else if (deadlineDate >= add(firstWeek, { weeks: 11 })) {
+    } else if (deadlineDate >= add(oneMonthBeforeMove, { weeks: 6 })) {
       weekTwelveProcedures.push(procedure);
     } else {
       new Error("想定外の予定が入っているかも！");
