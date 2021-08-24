@@ -24,44 +24,43 @@ export const splittedProcedures = (
   const weekElevenProcedures: procedureType[] = [];
   const weekTwelveProcedures: procedureType[] = [];
   // これはどのイベントを一番最初にするかによって変わってくる
-  const firstWeek = add(moveDate, { months: -2 });
-  const oneMonthBeforeMove = add(moveDate, { months: -1, weeks: 1 });
+  const fourWeeksBeforeMove = add(moveDate, { weeks: -4 });
   // procedureがどの週にマッピングされるべきか決まる
   procedures.map((procedure: procedureType) => {
     const deadlineDate = new Date(procedure.deadline);
-    if (deadlineDate >= firstWeek && deadlineDate < oneMonthBeforeMove) {
+    if (deadlineDate <= fourWeeksBeforeMove) {
       weekOneProcedures.push(procedure);
     } else if (
-      deadlineDate >= oneMonthBeforeMove &&
-      deadlineDate < add(oneMonthBeforeMove, { weeks: 1 })
+      deadlineDate > fourWeeksBeforeMove &&
+      deadlineDate <= add(fourWeeksBeforeMove, { weeks: 1 })
     ) {
       weekSixProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(oneMonthBeforeMove, { weeks: 1 }) &&
-      deadlineDate < add(oneMonthBeforeMove, { weeks: 2 })
+      deadlineDate > add(fourWeeksBeforeMove, { weeks: 1 }) &&
+      deadlineDate <= add(fourWeeksBeforeMove, { weeks: 2 })
     ) {
       weekSevenProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(oneMonthBeforeMove, { weeks: 2 }) &&
-      deadlineDate < add(oneMonthBeforeMove, { weeks: 3 })
+      deadlineDate > add(fourWeeksBeforeMove, { weeks: 2 }) &&
+      deadlineDate <= add(fourWeeksBeforeMove, { weeks: 3 })
     ) {
       weekEightProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(oneMonthBeforeMove, { weeks: 3 }) &&
-      deadlineDate < add(oneMonthBeforeMove, { weeks: 4 })
+      deadlineDate > add(fourWeeksBeforeMove, { weeks: 3 }) &&
+      deadlineDate <= add(fourWeeksBeforeMove, { weeks: 4 })
     ) {
       weekNineProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(oneMonthBeforeMove, { weeks: 4 }) &&
-      deadlineDate < add(oneMonthBeforeMove, { weeks: 5 })
+      deadlineDate > add(fourWeeksBeforeMove, { weeks: 4 }) &&
+      deadlineDate <= add(fourWeeksBeforeMove, { weeks: 5 })
     ) {
       weekTenProcedures.push(procedure);
     } else if (
-      deadlineDate >= add(oneMonthBeforeMove, { weeks: 5 }) &&
-      deadlineDate < add(oneMonthBeforeMove, { weeks: 6 })
+      deadlineDate > add(fourWeeksBeforeMove, { weeks: 5 }) &&
+      deadlineDate <= add(fourWeeksBeforeMove, { weeks: 6 })
     ) {
       weekElevenProcedures.push(procedure);
-    } else if (deadlineDate >= add(oneMonthBeforeMove, { weeks: 6 })) {
+    } else if (deadlineDate > add(fourWeeksBeforeMove, { weeks: 6 })) {
       weekTwelveProcedures.push(procedure);
     } else {
       new Error("想定外の予定が入っているかも！");
