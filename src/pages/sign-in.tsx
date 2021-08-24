@@ -16,7 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { stateType, setCurrentUser } from "../utils/reducers";
+import { stateType, setCurrentUser, createNewProject } from "../utils/reducers";
 import { auth, db } from "../../firebaseClient";
 
 function Copyright() {
@@ -60,12 +60,6 @@ const SignInComponent: React.VFC = () => {
   const [password, setPassword] = useState("");
   const userId = useSelector((state: stateType) => state.user.uid);
 
-  // useEffect(() => {
-  //   auth.onAuthStateChanged((user) => {
-  //     user && router.push("/dashboard"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
-  //   });
-  // }, [dispatch, router]); // 元々は[]だったのだが、dependencies arrayを作ってとエラーなので入れた。
-
   const SignIn = async (e: any) => {
     e.preventDefault();
     try {
@@ -74,9 +68,26 @@ const SignInComponent: React.VFC = () => {
         .then((user) => {
           user.user && dispatch(setCurrentUser(user.user.uid));
           user.user && console.log("user.user.uid", user.user.uid);
+          return user.user;
         })
-        .then(() => router.push("/dashboard"));
-      console.log("userId: ", userId);
+        .then((user) => {
+          user &&
+            db
+              .collection("users")
+              .doc(user.uid)
+              .collection("projects")
+              .orderBy("created_at", "desc")
+              .limit(1)
+              .get()
+              .then((qs) => {
+                if (qs.docs[0].exists) {
+                  dispatch(createNewProject(qs.docs[0].id));
+                  router.push("/dashboard");
+                } else {
+                  router.push("/new-project");
+                }
+              });
+        });
     } catch (err) {
       alert(err.message);
     }

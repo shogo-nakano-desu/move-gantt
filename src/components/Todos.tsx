@@ -98,7 +98,7 @@ export default function TodosComponent(props: Props) {
     return () => {
       unSub();
     };
-  }, []);
+  }, [props.projectId]);
 
   const deleteTodo = () => {
     db.collection("users")

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import Box from "@material-ui/core/Box";
 
 import firebase from "firebase/app";
 import { db } from "../../firebaseClient";
 import { createNewProject } from "../utils/reducers";
 import CreateProjectComponent from "./new-project";
 import router from "next/router";
+import AppBarComponent from "../components/AppBar";
 
 interface Props {
   userId: string;
@@ -23,7 +26,28 @@ interface Project {
   willMoveDate: Date | null;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: { height: "100%", width: "100%" },
+    appbar: {
+      height: "9%",
+      width: "100%",
+    },
+    todos: {
+      height: "83%",
+      width: "100%",
+      marginLeft: "5px",
+      marginRight: "5px",
+    },
+    addtodo: {
+      height: "8%",
+      width: "100%",
+    },
+  })
+);
+
 export default function ChoseProjectComponent(props: Props) {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
 
@@ -67,7 +91,10 @@ export default function ChoseProjectComponent(props: Props) {
   }, [props.userId]);
 
   return (
-    <>
+    <div style={{ width: "100%", height: "98%" }}>
+      <Box className={classes.appbar}>
+        <AppBarComponent />
+      </Box>
       {projects[0] ? (
         <form onSubmit={submitProjectId}>
           <FormControl component="fieldset">
@@ -96,6 +123,6 @@ export default function ChoseProjectComponent(props: Props) {
       ) : (
         <CreateProjectComponent />
       )}
-    </>
+    </div>
   );
 }

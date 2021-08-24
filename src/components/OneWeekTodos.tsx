@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "firebase";
 
@@ -21,12 +21,14 @@ import { getMonth, getDate } from "date-fns";
 import { splittedProcedures } from "../utils/splitProcedures";
 import { TARGET_PERSON } from "../info/procedures";
 import { auth, db } from "../../firebaseClient";
+import { AuthContext } from "../utils/authProvider";
 import {
   listenProcedures,
   stateType,
   isEditTodoOpen,
   setTodoId,
   setTodoTitle,
+  procedureType,
 } from "../utils/reducers";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -56,13 +58,35 @@ interface Props {
 export const OneWeekTodosComponent = (props: Props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const procedures = useSelector((state: stateType) => state.procedures);
-  const moveDate = useSelector(
-    (state: stateType) => state.projectForm.formWillMoveDate
+  const currentUser = useContext(AuthContext);
+  const [shapedProcedures, setShapedProcedures] = useState<procedureType[][]>(
+    []
   );
 
-  const shapedProcedures = splittedProcedures(procedures, moveDate);
+  const procedures = useSelector((state: stateType) => state.procedures);
+  // [TODO] ログアウトしてログインすると、moveDateが今日になってしまうからおかしい。常にDBからデータをとってくるようにするべき。
+  useEffect(() => {
+    db.collection("users")
+      .doc(currentUser.currentUser!.uid)
+      .collection("projects")
+      .doc(props.projectId)
+      .get()
+      .then((doc) => {
+        if (doc) {
+          const moveDate = doc.data()!.willMoveDate;
+          setShapedProcedures(splittedProcedures(procedures, moveDate));
+        } else {
+          console.log("there is no todos");
+        }
+      })
+      .catch((error) => {
+        console.error("Error happend when renderign todos", error);
+      });
+  }, []);
+
+  // const moveDate = useSelector(
+  //   (state: stateType) => state.projectForm.formWillMoveDate
+  // );
 
   const handleCompleteChage = async (
     e: React.ChangeEvent<HTMLInputElement>
