@@ -14,6 +14,7 @@ import { db } from "../../firebaseClient";
 import { createNewProject } from "../utils/reducers";
 import CreateProjectComponent from "./new-project";
 import AppBarComponent from "../components/AppBar";
+import { ContentCutOutlined } from "@material-ui/icons";
 
 interface Props {
   userId: string;
@@ -75,15 +76,20 @@ export default function ChoseProjectComponent(props: Props) {
         .doc(props.userId)
         .collection("projects")
         .orderBy("created_at", "desc")
-        .onSnapshot((snapshot) => {
-          setProjects(
-            snapshot.docs.map((doc) => ({
-              projectId: doc.id,
-              willMoveAddress: doc.data().willMoveAddress,
-              willMoveDate: doc.data().willMoveDate,
-            }))
-          );
-        });
+        .onSnapshot(
+          (snapshot) => {
+            setProjects(
+              snapshot.docs.map((doc) => ({
+                projectId: doc.id,
+                willMoveAddress: doc.data().willMoveAddress,
+                willMoveDate: doc.data().willMoveDate,
+              }))
+            );
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
       return () => {
         unSub();
       };
