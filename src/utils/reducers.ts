@@ -4,8 +4,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 import { add } from "date-fns";
 
-import { Procedure, TARGET_PERSON } from "../info/procedures";
-
 // actions
 
 export const changeAccountFlag = (flag: boolean) => ({

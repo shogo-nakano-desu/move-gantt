@@ -129,8 +129,6 @@ export default function CreateProjectComponent() {
     (state: stateType) => state.projectForm.formIsDrivingLicense
   );
 
-  // 最後にstateを空にする処理を忘れずに書く
-  // この前に、usercollectionを作成して、そこに入れるようにしたほうが良さげ
   const putProjectToFirestore = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -167,7 +165,6 @@ export default function CreateProjectComponent() {
   return (
     <React.Fragment>
       <CssBaseline />
-      {/* <AppBarComponent></AppBarComponent> */}
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography

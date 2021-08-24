@@ -109,7 +109,6 @@ const SignInComponent: React.VFC = () => {
         <Typography component="h1" variant="h5">
           ログイン
         </Typography>
-        {/* ここで２つの関数を呼んでいるのはちょっと怪しい */}
         <form className={classes.form} noValidate onSubmit={SignIn}>
           <TextField
             variant="outlined"

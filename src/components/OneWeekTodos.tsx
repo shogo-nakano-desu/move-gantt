@@ -19,7 +19,6 @@ import Dialog from "@material-ui/core/Dialog";
 import { getMonth, getDate } from "date-fns";
 
 import { splittedProcedures } from "../utils/splitProcedures";
-import { TARGET_PERSON } from "../info/procedures";
 import { auth, db } from "../../firebaseClient";
 import { AuthContext } from "../utils/authProvider";
 import {
