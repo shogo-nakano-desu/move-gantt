@@ -64,7 +64,6 @@ export const OneWeekTodosComponent = (props: Props) => {
   );
   // [TODO]proceduresは何かあるとアップデートされるはずだが、これのアップデートが削除とかした時にうまくいっていない
   const procedures = useSelector((state: stateType) => state.procedures);
-  // [TODO] 初回プロジェクト登録時にこの処理が走らない。
   useEffect(() => {
     console.log("oneWeekTodos 処理開始");
     db.collection("users")
@@ -87,9 +86,9 @@ export const OneWeekTodosComponent = (props: Props) => {
       });
   }, [procedures, props.projectId, props.userId, currentUser.currentUser]);
 
-  // const moveDate = useSelector(
-  //   (state: stateType) => state.projectForm.formWillMoveDate
-  // );
+  const moveDate = useSelector(
+    (state: stateType) => state.projectForm.formWillMoveDate
+  );
 
   const handleCompleteChage = async (
     e: React.ChangeEvent<HTMLInputElement>
