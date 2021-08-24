@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
-import { stateType } from "../utils/reducers";
 import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
-import ChoseProjectComponent from "../components/ChoseProject";
-
+import ChoseProjectComponent from "./ChoseProject";
 import AppBarComponent from "../components/AppBar";
+import { AuthContext } from "../utils/authProvider";
+import { stateType } from "../utils/reducers";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,20 +33,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Dashboard = () => {
   const classes = useStyles();
+  const currentUser = useContext(AuthContext);
 
-  const userId = useSelector((state: stateType) => state.user.uid);
+  // const userId = useSelector((state: stateType) => state.user.uid);
   const projectId = useSelector((state: stateType) => state.project.projectId);
 
   return (
     <>
-      {console.log("dashboard userId", userId)}
-      {projectId ? (
+      {console.log("dashboard userId")}
+      {projectId && currentUser.currentUser ? (
         <div style={{ width: "100%", height: "98%" }}>
           <Box className={classes.appbar}>
             <AppBarComponent />
           </Box>
           <Box className={classes.todos}>
-            <TodosComponent userId={userId} projectId={projectId} />
+            <TodosComponent
+              userId={currentUser.currentUser!.uid}
+              projectId={projectId}
+            />
           </Box>
           <Box
             className={classes.addtodo}
@@ -56,8 +60,10 @@ const Dashboard = () => {
             <AddTodoButtonComponent />
           </Box>
         </div>
+      ) : currentUser.currentUser ? (
+        <ChoseProjectComponent userId={currentUser.currentUser!.uid} />
       ) : (
-        <ChoseProjectComponent userId={userId} />
+        <div>ログアウトします</div>
       )}
     </>
   );

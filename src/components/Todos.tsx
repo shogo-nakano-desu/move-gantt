@@ -63,8 +63,8 @@ export default function TodosComponent(props: Props) {
       .doc(props.projectId)
       .collection("todos")
       .withConverter(converter)
-      .orderBy("deadline", "desc")
-      .orderBy("startDate", "desc")
+      .orderBy("deadline", "asc")
+      .orderBy("startDate", "asc")
       .onSnapshot({ includeMetadataChanges: true }, (snapshot) => {
         dispatch(
           listenProcedures(
