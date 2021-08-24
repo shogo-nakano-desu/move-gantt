@@ -1,9 +1,8 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { dateGenerator } from "../utils/dateGenerator";
-import { willMoveDateForm, stateType } from "../utils/reducers";
+import { willMoveDateForm } from "../utils/reducers";
 import { dateParser } from "../utils/dateParser";
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -1,12 +1,9 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import DatePickers from "./Datepickers";
 
 export default function DateFormComponent() {
-  const dispatch = useDispatch();
-
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>

@@ -1,7 +1,6 @@
 // [TODO] ダイアログからTODOを追加できるようにする必要あり
 import React, { useState, useContext } from "react";
 import { useSelector } from "react-redux";
-import firebase from "firebase/app";
 import AddTaskIcon from "@material-ui/icons/AddTask";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";

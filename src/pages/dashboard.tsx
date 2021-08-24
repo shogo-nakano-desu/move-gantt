@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -9,8 +9,7 @@ import AddTodoButtonComponent from "../components/AddTodoButton";
 import AppBarComponent from "../components/AppBar";
 import ChoseProjectComponent from "./chose-project";
 import { AuthContext } from "../utils/authProvider";
-import { stateType, createNewProject } from "../utils/reducers";
-import { db } from "../../firebaseClient";
+import { stateType } from "../utils/reducers";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,11 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
   const classes = useStyles();
   const currentUser = useContext(AuthContext);
 
-  // const userId = useSelector((state: stateType) => state.user.uid);
   const projectId = useSelector((state: stateType) => state.project.projectId);
 
   return (
