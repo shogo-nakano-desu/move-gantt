@@ -71,8 +71,9 @@ export default function ChoseProjectComponent(props: Props) {
 
   useEffect(() => {
     if (props.userId) {
-      console.log("props.userId", props.userId);
-      db.collection("users")
+      console.log("chose-project props.userId", props.userId);
+      const unSub = db
+        .collection("users")
         .doc(props.userId)
         .collection("projects")
         .orderBy("created_at", "desc")
@@ -85,6 +86,9 @@ export default function ChoseProjectComponent(props: Props) {
             }))
           );
         });
+      return () => {
+        unSub();
+      };
     } else {
       router.push("/sign-in");
     }
