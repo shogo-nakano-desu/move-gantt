@@ -95,31 +95,12 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
         setStartDate(undefined);
         setDeadline(undefined);
         setMemo("");
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 
-  /*
-  title: "賃貸物件の解約手続き",
-  startDate: projectCreatedAt.getTime(), // プロジェクト作成日か関数で計算した日付
-  deadline: add(moveDate, { months: -2 }).getTime(), //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
-  submitDestination: "管理会社や不動産会社、大家など",
-  targetPerson: "everyone",
-  confirmationSource:
-    "管理会社や不動産会社、大家などに問い合わせ、契約内容を確認する",
-  memo: "",
-  complete: false,
-  isNotEmployee: false,
-  isStudent: false,
-  isPet: false,
-  isScooter: false,
-  isCar: false,
-  isParking: false,
-  isUnderFifteen: false,
-  isFireInsurance: false,
-  isFixedPhone: false,
-  isMynumber: false,
-  isStampRegistration: false,
-  isDrivingLicense: false, */
   return (
     <>
       <Button

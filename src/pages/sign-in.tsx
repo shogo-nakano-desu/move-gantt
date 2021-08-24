@@ -58,7 +58,6 @@ const SignInComponent: React.VFC = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const userId = useSelector((state: stateType) => state.user.uid);
 
   const SignIn = async (e: any) => {
     e.preventDefault();
@@ -87,6 +86,9 @@ const SignInComponent: React.VFC = () => {
                   router.push("/new-project");
                 }
               });
+        })
+        .catch((err) => {
+          console.error(err);
         });
     } catch (err) {
       alert(err.message);

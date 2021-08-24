@@ -68,12 +68,6 @@ export default function CreateProjectComponent() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const router = useRouter();
-  // const activeStep = useSelector((state: stateType) => state.step.stepNum);
-  // useEffect(() => {
-  //   auth.onAuthStateChanged((user) => {
-  //     user ? dispatch(setCurrentUser(user.uid)) : router.push("/sign-in");
-  //   });
-  // }, []);
   useEffect(() => {
     dispatch(refreshProjectForm());
   }, []);
@@ -156,6 +150,9 @@ export default function CreateProjectComponent() {
       .then((docRef) => {
         dispatch(createNewProject(docRef.id));
         router.push("/loading");
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 

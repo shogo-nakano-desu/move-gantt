@@ -45,36 +45,42 @@ export default function TodosComponent(props: Props) {
       .withConverter(converter)
       .orderBy("deadline", "asc")
       .orderBy("startDate", "asc")
-      .onSnapshot({ includeMetadataChanges: true }, (snapshot) => {
-        dispatch(
-          listenProcedures(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              title: doc.data().title,
-              startDate: doc.data().startDate, // プロジェクト作成日か関数で計算した日付
-              deadline: doc.data().deadline,
-              submitDestination: doc.data().submitDestination, //
-              targetPerson: doc.data().targetPerson,
-              confirmationSource: doc.data().confirmationSource,
-              memo: doc.data().memo,
-              complete: doc.data().complete,
-              isNotEmployee: doc.data().isNotEmployee,
-              isStudent: doc.data().isStudent,
-              isPet: doc.data().isPet,
-              isScooter: doc.data().isScooter,
-              isCar: doc.data().isCar,
-              isParking: doc.data().isParking,
-              isUnderFifteen: doc.data().isUnderFifteen,
-              isFireInsurance: doc.data().isFireInsurance,
-              isFixedPhone: doc.data().isFixedPhone,
-              isMynumber: doc.data().isMynumber,
-              isStampRegistration: doc.data().isStampRegistration,
-              isDrivingLicense: doc.data().isDrivingLicense,
-              created_at: doc.data().created_at,
-            }))
-          )
-        );
-      });
+      .onSnapshot(
+        { includeMetadataChanges: true },
+        (snapshot) => {
+          dispatch(
+            listenProcedures(
+              snapshot.docs.map((doc) => ({
+                id: doc.id,
+                title: doc.data().title,
+                startDate: doc.data().startDate, // プロジェクト作成日か関数で計算した日付
+                deadline: doc.data().deadline,
+                submitDestination: doc.data().submitDestination, //
+                targetPerson: doc.data().targetPerson,
+                confirmationSource: doc.data().confirmationSource,
+                memo: doc.data().memo,
+                complete: doc.data().complete,
+                isNotEmployee: doc.data().isNotEmployee,
+                isStudent: doc.data().isStudent,
+                isPet: doc.data().isPet,
+                isScooter: doc.data().isScooter,
+                isCar: doc.data().isCar,
+                isParking: doc.data().isParking,
+                isUnderFifteen: doc.data().isUnderFifteen,
+                isFireInsurance: doc.data().isFireInsurance,
+                isFixedPhone: doc.data().isFixedPhone,
+                isMynumber: doc.data().isMynumber,
+                isStampRegistration: doc.data().isStampRegistration,
+                isDrivingLicense: doc.data().isDrivingLicense,
+                created_at: doc.data().created_at,
+              }))
+            )
+          );
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     return () => {
       unSub();
     };
