@@ -1,4 +1,6 @@
+import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 import { add } from "date-fns";
+import { procedures } from "../info/procedures";
 import { procedureType } from "../utils/reducers";
 
 //[TODO]数字がそのままでややこしいのでリファクタリングする必要あり
@@ -10,6 +12,9 @@ export const splittedProcedures = (
   procedures: procedureType[],
   moveDate: Date
 ) => {
+  console.log("split procedureが呼ばれた");
+  console.log("procedures", procedures); // [TODO]からのものが渡されている
+  console.log("moveDate", moveDate);
   const weekOneProcedures: procedureType[] = [];
   const weekSixProcedures: procedureType[] = [];
   const weekSevenProcedures: procedureType[] = [];

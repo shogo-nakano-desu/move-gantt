@@ -57,8 +57,9 @@ export default function TodosComponent(props: Props) {
     console.log("Todos.tsx props.userId", props.userId);
     console.log("props.projectId", props.projectId);
     // DBに入っているTODOをここでlistenしている
-    const unSub = async () =>
-      await db
+    // [TODO]DBの中身が変わった際にうまくリッスンできていない
+    const unSub = () =>
+      db
         .collection("users")
         .doc(props.userId)
         .collection("projects")
@@ -100,7 +101,7 @@ export default function TodosComponent(props: Props) {
     return () => {
       unSub();
     };
-  }, []); //props.projectIdが入っていた。
+  }, [props.projectId, props.userId, dispatch]); //props.projectIdが入っていた。
 
   const deleteTodo = () => {
     db.collection("users")
