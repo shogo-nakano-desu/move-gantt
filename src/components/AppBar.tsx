@@ -72,8 +72,8 @@ export default function AppBarComponent() {
   // SignOut
   const SignOut = async () => {
     try {
-      await auth.signOut();
       router.push("/sign-in");
+      await auth.signOut(); //[TODO]サインアウとしてからsign-inページにプッシュされるので、一瞬dashboardに戻ることになって落ちてしまう
     } catch (error) {
       alert(error.message);
     }

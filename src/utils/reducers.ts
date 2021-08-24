@@ -19,6 +19,7 @@ export const setCurrentUser = (uid: string, displayName?: string) => ({
 });
 
 export const signOut = () => ({
+  //[TODO]使っているところがないか確認して削除する
   type: "SIGN_OUT",
   payload: { uid: "", displayName: "" },
 });

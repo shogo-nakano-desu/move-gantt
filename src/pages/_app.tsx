@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import Theme from "../components/Theme";
 import { useStore } from "../utils/reducers";
 import { auth } from "../../firebaseClient";
+import { AuthProvider } from "../utils/authProvider";
 import "./styles.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -22,11 +23,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      !user && router.push("/sign-in"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
-    });
-  }, []);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((user) => {
+  //     !user && router.push("/sign-in"); //dispatch(setCurrentUser(user.uid));もしようとしたらダメだった
+  //   });
+  // }, []);
   // activate Redux
   const store = useStore(pageProps.initialReduxState);
 
@@ -39,13 +40,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+
       <Provider store={store}>
-        {/* <AuthComponent /> */}
-        <ThemeProvider theme={Theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <AuthProvider>
+          {/* <AuthComponent /> */}
+          <ThemeProvider theme={Theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </AuthProvider>
       </Provider>
     </React.Fragment>
   );

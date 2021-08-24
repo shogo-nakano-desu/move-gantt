@@ -11,7 +11,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import firebase from "firebase/app";
 import { db } from "../../firebaseClient";
 import { createNewProject } from "../utils/reducers";
-import CreateProjectComponent from "../pages/new-project";
+import CreateProjectComponent from "./new-project";
 import router from "next/router";
 
 interface Props {
