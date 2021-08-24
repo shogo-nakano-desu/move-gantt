@@ -1,6 +1,5 @@
 import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 import { add } from "date-fns";
-import { procedures } from "../info/procedures";
 import { procedureType } from "../utils/reducers";
 
 //[TODO]数字がそのままでややこしいのでリファクタリングする必要あり

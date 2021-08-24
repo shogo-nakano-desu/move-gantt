@@ -7,7 +7,6 @@ import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import CheckboxesGroup from "./Checkboxes";
 import { handleNext, stateType, refreshProjectForm } from "../utils/reducers";
-import { procedures } from "../info/procedures";
 import { auth, db } from "../../firebaseClient";
 
 const useStyles = makeStyles((theme: Theme) =>
