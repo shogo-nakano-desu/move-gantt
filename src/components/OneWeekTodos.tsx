@@ -64,8 +64,9 @@ export const OneWeekTodosComponent = (props: Props) => {
   );
 
   const procedures = useSelector((state: stateType) => state.procedures);
-  // [TODO] ログアウトしてログインすると、moveDateが今日になってしまうからおかしい。常にDBからデータをとってくるようにするべき。
+  // [TODO] 初回プロジェクト登録時にこの処理が走らない。
   useEffect(() => {
+    console.log("oneWeekTodos 処理開始");
     db.collection("users")
       .doc(currentUser.currentUser!.uid)
       .collection("projects")
@@ -82,7 +83,7 @@ export const OneWeekTodosComponent = (props: Props) => {
       .catch((error) => {
         console.error("Error happend when renderign todos", error);
       });
-  }, []);
+  }, [procedures]);
 
   // const moveDate = useSelector(
   //   (state: stateType) => state.projectForm.formWillMoveDate
@@ -92,6 +93,7 @@ export const OneWeekTodosComponent = (props: Props) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
+    console.log("TODOをコンプリートトライ");
     await db
       .collection("users")
       .doc(props.userId)
@@ -110,6 +112,7 @@ export const OneWeekTodosComponent = (props: Props) => {
               .collection("todos")
               .doc(e.target.id)
               .update({ complete: false });
+            console.log("todoのアップデート成功");
           } else if (doc.data()!.complete === false) {
             db.collection("users")
               .doc(props.userId)
@@ -118,6 +121,7 @@ export const OneWeekTodosComponent = (props: Props) => {
               .collection("todos")
               .doc(e.target.id)
               .update({ complete: true });
+            console.log("todoのアップデート成功");
           } else {
             console.error("該当するデータがありません");
           }

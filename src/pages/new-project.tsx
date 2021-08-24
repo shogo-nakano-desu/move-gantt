@@ -165,7 +165,7 @@ export default function CreateProjectComponent() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBarComponent></AppBarComponent>
+      {/* <AppBarComponent></AppBarComponent> */}
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography

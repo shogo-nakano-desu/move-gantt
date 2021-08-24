@@ -54,51 +54,53 @@ export default function TodosComponent(props: Props) {
   };
 
   useEffect(() => {
-    console.log("props.userId", props.userId);
+    console.log("Todos.tsx props.userId", props.userId);
     console.log("props.projectId", props.projectId);
-    const unSub = db
-      .collection("users")
-      .doc(props.userId)
-      .collection("projects")
-      .doc(props.projectId)
-      .collection("todos")
-      .withConverter(converter)
-      .orderBy("deadline", "asc")
-      .orderBy("startDate", "asc")
-      .onSnapshot({ includeMetadataChanges: true }, (snapshot) => {
-        dispatch(
-          listenProcedures(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              title: doc.data().title,
-              startDate: doc.data().startDate, // プロジェクト作成日か関数で計算した日付
-              deadline: doc.data().deadline, //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
-              submitDestination: doc.data().submitDestination, //
-              targetPerson: doc.data().targetPerson,
-              confirmationSource: doc.data().confirmationSource,
-              memo: doc.data().memo,
-              complete: doc.data().complete,
-              isNotEmployee: doc.data().isNotEmployee,
-              isStudent: doc.data().isStudent,
-              isPet: doc.data().isPet,
-              isScooter: doc.data().isScooter,
-              isCar: doc.data().isCar,
-              isParking: doc.data().isParking,
-              isUnderFifteen: doc.data().isUnderFifteen,
-              isFireInsurance: doc.data().isFireInsurance,
-              isFixedPhone: doc.data().isFixedPhone,
-              isMynumber: doc.data().isMynumber,
-              isStampRegistration: doc.data().isStampRegistration,
-              isDrivingLicense: doc.data().isDrivingLicense,
-              created_at: doc.data().created_at,
-            }))
-          )
-        );
-      });
+    // DBに入っているTODOをここでlistenしている
+    const unSub = async () =>
+      await db
+        .collection("users")
+        .doc(props.userId)
+        .collection("projects")
+        .doc(props.projectId)
+        .collection("todos")
+        .withConverter(converter)
+        .orderBy("deadline", "asc")
+        .orderBy("startDate", "asc")
+        .onSnapshot({ includeMetadataChanges: true }, (snapshot) => {
+          dispatch(
+            listenProcedures(
+              snapshot.docs.map((doc) => ({
+                id: doc.id,
+                title: doc.data().title,
+                startDate: doc.data().startDate, // プロジェクト作成日か関数で計算した日付
+                deadline: doc.data().deadline, //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
+                submitDestination: doc.data().submitDestination, //
+                targetPerson: doc.data().targetPerson,
+                confirmationSource: doc.data().confirmationSource,
+                memo: doc.data().memo,
+                complete: doc.data().complete,
+                isNotEmployee: doc.data().isNotEmployee,
+                isStudent: doc.data().isStudent,
+                isPet: doc.data().isPet,
+                isScooter: doc.data().isScooter,
+                isCar: doc.data().isCar,
+                isParking: doc.data().isParking,
+                isUnderFifteen: doc.data().isUnderFifteen,
+                isFireInsurance: doc.data().isFireInsurance,
+                isFixedPhone: doc.data().isFixedPhone,
+                isMynumber: doc.data().isMynumber,
+                isStampRegistration: doc.data().isStampRegistration,
+                isDrivingLicense: doc.data().isDrivingLicense,
+                created_at: doc.data().created_at,
+              }))
+            )
+          );
+        });
     return () => {
       unSub();
     };
-  }, [props.projectId]);
+  }, []); //props.projectIdが入っていた。
 
   const deleteTodo = () => {
     db.collection("users")
@@ -111,7 +113,6 @@ export default function TodosComponent(props: Props) {
       .then(() => console.log("delete a todo"))
       .then(() => dispatch(setTodoId("")))
       .then(() => handleClose())
-      // .then(() => router.push("/dashboard"))
       .catch((error) => {
         console.error("Error removing document: ", error);
       });
