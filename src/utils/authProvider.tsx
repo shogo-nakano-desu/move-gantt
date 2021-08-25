@@ -27,7 +27,7 @@ export const AuthProvider: FC = ({ children }) => {
       } else {
         setCurrentUser(undefined);
 
-        router.push("/sign-in");
+        router.push("/auth");
       }
     });
   }, []);
