@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import { auth } from "../../firebaseClient";
-import { stateType } from "./reducers";
 
 interface AuthContextProps {
   currentUser: { uid: string; displayName: string | null } | null | undefined;
@@ -15,7 +14,6 @@ export const AuthContext = createContext<AuthContextProps>({
 
 export const AuthProvider: FC = ({ children }) => {
   const router = useRouter();
-  const signInUp = useSelector((state: stateType) => state.signInUp);
 
   const [currentUser, setCurrentUser] = useState<
     { uid: string; displayName: string | null } | null | undefined
@@ -28,11 +26,8 @@ export const AuthProvider: FC = ({ children }) => {
         router.push("/dashboard");
       } else {
         setCurrentUser(undefined);
-        if (signInUp === "signIn") {
-          router.push("/sign-in");
-        } else {
-          router.push("/sign-up");
-        }
+
+        router.push("/sign-in");
       }
     });
   }, []);
