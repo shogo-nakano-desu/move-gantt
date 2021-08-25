@@ -12,6 +12,7 @@ import {
   listenProcedures,
   stateType,
   isEditTodoOpen,
+  isDetailOpen,
   setTodoId,
 } from "../utils/reducers";
 import { converter } from "../utils/firestoreTypeGuard";
@@ -26,11 +27,20 @@ export default function TodosComponent(props: Props) {
   const dispatch = useDispatch();
 
   const open = useSelector((state: stateType) => state.editTodo.isOpen);
+  const detailOpen = useSelector(
+    (state: stateType) => state.todoDetail.isDetailOpen
+  );
   const todoId = useSelector((state: stateType) => state.editTodo.todoId);
   const todoTitle = useSelector((state: stateType) => state.editTodo.todoTitle);
 
+  const detailTitle = useSelector((state: stateType) => state.todoDetail.title);
+
   const handleClose = () => {
     dispatch(isEditTodoOpen(false));
+  };
+
+  const handleDetailClose = () => {
+    dispatch(isDetailOpen(false));
   };
 
   useEffect(() => {
@@ -123,6 +133,17 @@ export default function TodosComponent(props: Props) {
         </DialogActions>
       </Dialog>
 
+      {/* この中に詳細を表示するダイアログを作る */}
+      <Dialog
+        open={detailOpen}
+        onClose={handleDetailClose}
+        aria-labelledby="detail-dialog-title"
+        aria-describedby="detail-dialog-description"
+      >
+        <DialogTitle id="detail-dialog-title">
+          {`TODO : ${detailTitle}`}
+        </DialogTitle>
+      </Dialog>
       <OneWeekTodosComponent
         title={[
           "1か月以上前まで",

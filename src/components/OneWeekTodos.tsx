@@ -21,6 +21,8 @@ import {
   isEditTodoOpen,
   setTodoId,
   setTodoTitle,
+  isDetailOpen,
+  setTodoDetail,
   procedureType,
 } from "../utils/reducers";
 
@@ -127,6 +129,32 @@ export const OneWeekTodosComponent = (props: Props) => {
     dispatch(setTodoId(id));
     dispatch(setTodoTitle(title));
   };
+  const handleDetailOpen = (
+    id: string,
+    title: string,
+    startDate: number,
+    deadline: number,
+    confirmationSource: string,
+    memo: string,
+    submitDestination: string,
+    targetPerson: string,
+    complete: boolean
+  ) => {
+    dispatch(isDetailOpen(true));
+    dispatch(
+      setTodoDetail(
+        id,
+        title,
+        startDate,
+        deadline,
+        confirmationSource,
+        memo,
+        submitDestination,
+        targetPerson,
+        complete
+      )
+    );
+  };
 
   return (
     <div className={classes.root}>
@@ -148,7 +176,22 @@ export const OneWeekTodosComponent = (props: Props) => {
               <List dense={false}>
                 {procedures.map((procedure) => {
                   return (
-                    <ListItem key={procedure.id}>
+                    <ListItem
+                      key={procedure.id}
+                      onClick={() =>
+                        handleDetailOpen(
+                          procedure.id,
+                          procedure.title,
+                          procedure.startDate,
+                          procedure.deadline,
+                          procedure.confirmationSource,
+                          procedure.memo,
+                          procedure.submitDestination,
+                          procedure.targetPerson,
+                          procedure.complete
+                        )
+                      }
+                    >
                       <Box>
                         <ListItemText
                           primary={procedure.title}
