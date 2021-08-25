@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function AppBarComponent() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -77,9 +78,9 @@ export default function AppBarComponent() {
 
   // SignOut
   const SignOut = async () => {
-    await signOut();
     try {
       router.push("/auth");
+      dispatch(signOut());
       await auth.signOut().catch((err) => console.error(err)); //[TODO]サインアウとしてからsign-inページにプッシュされるので、一瞬dashboardに戻ることになって落ちてしまう
     } catch (error) {
       alert(error.message);

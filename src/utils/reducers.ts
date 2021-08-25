@@ -177,7 +177,7 @@ export const setTodoDetail = (
 });
 
 export const signOut = () => ({
-  action: "SIGN_OUT",
+  type: "SIGN_OUT",
   payload: {
     projectId: "",
     moveDate: undefined,

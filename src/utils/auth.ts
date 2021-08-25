@@ -10,6 +10,6 @@ const signInGoogle = async () => {
 
 // 今ログインしているユーザーはだれか確認する
 // ↓これはログイン状態を監視しているところが、stateにユーザー情報を入れているから、それを取ったほうがいいかも
-export const firebaseUser = () => {
-  return auth.currentUser;
-};
+// export const firebaseUser = () => {
+//   return auth.currentUser;
+// };
