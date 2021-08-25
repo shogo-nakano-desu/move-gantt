@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button";
 
 import { auth } from "../../firebaseClient";
 import { dateGenerator } from "../utils/dateGenerator";
-import { stateType } from "../utils/reducers";
+import { stateType, signOut } from "../utils/reducers";
 
 type LinkMenuItemProps = Omit<
   MenuItemProps<"a", { href: string }>,
@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function AppBarComponent() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -79,6 +80,7 @@ export default function AppBarComponent() {
   const SignOut = async () => {
     try {
       router.push("/auth");
+      dispatch(signOut());
       await auth.signOut().catch((err) => console.error(err)); //[TODO]サインアウとしてからsign-inページにプッシュされるので、一瞬dashboardに戻ることになって落ちてしまう
     } catch (error) {
       alert(error.message);

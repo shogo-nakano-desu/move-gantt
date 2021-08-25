@@ -183,7 +183,6 @@ const SignInComponent: React.VFC = () => {
             control={<Checkbox value="remember" color="primary" />}
             label="ユーザー情報を記憶しますか？"
           />
-          {/* [TODO]このボタンを可変にする */}
           <Button
             disabled={
               isSignIn
@@ -229,7 +228,7 @@ const SignInComponent: React.VFC = () => {
               variant="body2"
               onClick={() => setIsSignIn((s) => !s)}
             >
-              {isSignIn ? "ユーザー登録はこちら" : "アカウント作成はこちら"}
+              {isSignIn ? "アカウント作成はこちら" : "ログインはこちら"}
             </Link>
           </Grid>
         </Grid>
