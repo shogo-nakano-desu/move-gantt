@@ -25,7 +25,7 @@ const LinkMenuItem = React.forwardRef<HTMLAnchorElement, LinkMenuItemProps>(
   function LinkMenuItem(props, forwardedRef) {
     const { href, ...other } = props;
     return (
-      <Link href={href}>
+      <Link href={href} passHref>
         <MenuItem component="a" button ref={forwardedRef} {...other} />
       </Link>
     );

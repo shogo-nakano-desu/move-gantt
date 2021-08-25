@@ -1039,7 +1039,7 @@ export default function LoadingComponent() {
   ];
 
   const currentUser = useContext(AuthContext);
-  const userId = currentUser.currentUser!.uid;
+  //const userId = currentUser.currentUser!.uid;
   // firestoreに新規プロジェクトを作成するための関数群
   const willMovePrefecture = useSelector(
     (state: stateType) => state.projectForm.formWillMovePrefecture
@@ -1110,6 +1110,7 @@ export default function LoadingComponent() {
 
   useEffect(() => {
     async function putAlltodos() {
+      const userId = currentUser.currentUser!.uid;
       for (let i = 0; i < filteredTodos.length; i++) {
         db.collection("users")
           .doc(userId)

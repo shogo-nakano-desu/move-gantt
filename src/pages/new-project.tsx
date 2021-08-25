@@ -72,8 +72,8 @@ export default function CreateProjectComponent() {
     dispatch(refreshProjectForm());
   }, []);
   const currentUser = useContext(AuthContext);
+  //[TODO]uid is undefinedでビルドが通らない。prerender時に発生するので対策必要
 
-  const userId = currentUser.currentUser!.uid;
   // firestoreに新規プロジェクトを作成するための関数群
   const willMovePrefecture = useSelector(
     (state: stateType) => state.projectForm.formWillMovePrefecture
@@ -122,7 +122,7 @@ export default function CreateProjectComponent() {
 
   const putProjectToFirestore = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    const userId = currentUser.currentUser!.uid;
     console.log("firestoreに登録開始");
     await db
       .collection("users")
