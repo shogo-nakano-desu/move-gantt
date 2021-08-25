@@ -16,7 +16,12 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { stateType, setCurrentUser, createNewProject } from "../utils/reducers";
+import {
+  stateType,
+  setCurrentUser,
+  createNewProject,
+  setSignInUp,
+} from "../utils/reducers";
 import { auth, db } from "../../firebaseClient";
 
 function Copyright() {
@@ -114,7 +119,7 @@ const SignInComponent: React.VFC = () => {
         <Typography component="h1" variant="h5">
           ログイン
         </Typography>
-        <form className={classes.form} noValidate onSubmit={SignIn}>
+        <form className={classes.form} onSubmit={SignIn}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -166,7 +171,12 @@ const SignInComponent: React.VFC = () => {
             </Link>
           </Grid>
           <Grid item>
-            <Link href="/sign-up">ユーザー登録はこちら</Link>
+            <Link
+              onClick={() => dispatch(setSignInUp("signUp"))}
+              href="/sign-up"
+            >
+              ユーザー登録はこちら
+            </Link>
           </Grid>
         </Grid>
       </div>

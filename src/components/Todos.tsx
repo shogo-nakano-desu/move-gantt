@@ -204,7 +204,7 @@ export default function TodosComponent(props: Props) {
 
       <OneWeekTodosComponent
         title={[
-          "1か月以上前まで",
+          "4週間以上前",
           "3週間前まで",
           "2週間前まで",
           "1週間前まで",
