@@ -8,7 +8,7 @@ import TodosComponent from "../components/Todos";
 import AddTodoButtonComponent from "../components/AddTodoButton";
 import AppBarComponent from "../components/AppBar";
 import ChoseProjectComponent from "./chose-project";
-import { AuthContext } from "../utils/authProvider";
+import { AuthContext, AuthProvider } from "../utils/authProvider";
 import { stateType } from "../utils/reducers";
 
 const useStyles = makeStyles((theme: Theme) =>

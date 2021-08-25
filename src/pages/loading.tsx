@@ -5,7 +5,7 @@ import { add } from "date-fns";
 
 import { db } from "../../firebaseClient";
 import { stateType, createNewProject } from "../utils/reducers";
-import { AuthContext } from "../utils/authProvider";
+import { AuthContext, AuthProvider } from "../utils/authProvider";
 
 export default function LoadingComponent() {
   const dispatch = useDispatch();

@@ -16,12 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import {
-  stateType,
-  setCurrentUser,
-  createNewProject,
-  setSignInUp,
-} from "../utils/reducers";
+import { stateType, setCurrentUser, createNewProject } from "../utils/reducers";
 import { auth, db } from "../../firebaseClient";
 
 function Copyright() {
@@ -63,9 +58,10 @@ const SignInComponent: React.VFC = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [isSignIn, setIsSignIn] = useState(true);
 
-  const SignIn = async (e: any) => {
-    e.preventDefault();
+  const signIn = async () => {
     try {
       await auth
         .signInWithEmailAndPassword(email, password)
@@ -109,6 +105,20 @@ const SignInComponent: React.VFC = () => {
     }
   };
 
+  const signUp = async () => {
+    try {
+      await auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((user) => {
+          user.user && dispatch(setCurrentUser(user.user.uid));
+        })
+        .then(() => router.push("/dashboard"))
+        .catch((err) => console.error(err));
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -117,9 +127,28 @@ const SignInComponent: React.VFC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          ログイン
+          {isSignIn ? "ログイン" : "ユーザー登録"}
         </Typography>
-        <form className={classes.form} onSubmit={SignIn}>
+        <form className={classes.form} noValidate>
+          {!isSignIn && (
+            <>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="username"
+                label="ユーザー名"
+                id="username"
+                autoComplete="username"
+                autoFocus
+                value={userName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setUserName(e.target.value);
+                }}
+              />
+            </>
+          )}
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -154,14 +183,38 @@ const SignInComponent: React.VFC = () => {
             control={<Checkbox value="remember" color="primary" />}
             label="ユーザー情報を記憶しますか？"
           />
+          {/* [TODO]このボタンを可変にする */}
           <Button
-            type="submit"
+            disabled={
+              isSignIn
+                ? !email || password.length < 6
+                : !userName || !email || password.length < 6
+            }
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={
+              isSignIn
+                ? // login mode
+                  async () => {
+                    try {
+                      await signIn();
+                    } catch (err) {
+                      alert(err.message);
+                    }
+                  }
+                : // register mode
+                  async () => {
+                    try {
+                      await signUp();
+                    } catch (err) {
+                      alert(err.message);
+                    }
+                  }
+            }
           >
-            ログイン
+            {isSignIn ? "ログイン" : "登録"}
           </Button>
         </form>
         <Grid container>
@@ -172,10 +225,11 @@ const SignInComponent: React.VFC = () => {
           </Grid>
           <Grid item>
             <Link
-              onClick={() => dispatch(setSignInUp("signUp"))}
-              href="/sign-up"
+              href="#"
+              variant="body2"
+              onClick={() => setIsSignIn((s) => !s)}
             >
-              ユーザー登録はこちら
+              {isSignIn ? "ユーザー登録はこちら" : "アカウント作成はこちら"}
             </Link>
           </Grid>
         </Grid>

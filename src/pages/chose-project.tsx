@@ -112,7 +112,7 @@ export default function ChoseProjectComponent(props: Props) {
         unSub();
       };
     } else {
-      router.push("/sign-in");
+      router.push("/auth");
     }
   }, []);
 

@@ -191,10 +191,6 @@ export const setTodoDetail = (
   },
 });
 
-export const setSignInUp = (which: "signIn" | "signUp") => ({
-  type: "IS_SIGN_IN_UP",
-  payload: which,
-});
 // #region
 export const initialState: stateType = {
   user: { uid: "", displayName: "" },
@@ -244,7 +240,6 @@ export const initialState: stateType = {
     targetPerson: "",
     complete: false,
   },
-  signInUp: "signIn",
 };
 
 // これはinitialStateからReturnTypeで持ってこないようにあえて書いている。
@@ -326,7 +321,6 @@ export interface stateType {
     targetPerson: string;
     complete: boolean;
   };
-  signInUp: "signIn" | "signUp";
 }
 
 // reducer
@@ -593,11 +587,6 @@ export const reducer = (
           targetPerson: action.payload.targetPerson,
           complete: action.payload.complete,
         },
-      };
-    case "IS_SIGN_IN_UP":
-      return {
-        ...state,
-        signInUp: action.payload,
       };
 
     default:
