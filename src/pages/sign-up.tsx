@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { setCurrentUser } from "../utils/reducers";
+import { setCurrentUser, setSignInUp } from "../utils/reducers";
 import { auth } from "../../firebaseClient";
 
 function Copyright() {
@@ -146,7 +146,12 @@ export default function SignUpComponent() {
           <Grid container>
             <Grid item xs></Grid>
             <Grid item>
-              <Link href="/sign-in">ログインはこちら</Link>
+              <Link
+                onClick={() => dispatch(setSignInUp("signIn"))}
+                href="/sign-in"
+              >
+                ログインはこちら
+              </Link>
             </Grid>
           </Grid>
         </form>

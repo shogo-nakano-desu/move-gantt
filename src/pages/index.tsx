@@ -2,6 +2,7 @@
 import React, { useContext } from "react";
 
 import SignInComponent from "./sign-in";
+import SignUpComponent from "./sign-up";
 import Dashboard from "./dashboard";
 import { AuthContext } from "../utils/authProvider";
 
