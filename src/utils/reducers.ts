@@ -3,6 +3,7 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 import { add } from "date-fns";
+import { FastfoodOutlined } from "@material-ui/icons";
 
 // actions
 
@@ -150,6 +151,36 @@ export const setTodoTitle = (title: string) => ({
   payload: title,
 });
 
+export const isDetailOpen = (is: boolean) => ({
+  type: "IS_DETAIL_OPEN",
+  payload: is,
+});
+
+export const setTodoDetail = (
+  id: string,
+  title: string,
+  startDate: number,
+  deadline: number,
+  confirmationSource: string,
+  memo: string,
+  submitDestination: string,
+  targetPerson: string,
+  complete: boolean
+) => ({
+  type: "SET_TODO_DETAIL",
+  payload: {
+    id: id,
+    title: title,
+    startDate: startDate,
+    deadline: deadline,
+    confirmationSource: confirmationSource,
+    memo: memo,
+    submitDestination: submitDestination,
+    targetPerson: targetPerson,
+    complete: complete,
+  },
+});
+// #region
 export const initialState: stateType = {
   user: { uid: "", displayName: "" },
   projectForm: {
@@ -182,6 +213,18 @@ export const initialState: stateType = {
     isOpen: false,
     todoId: "",
     todoTitle: "",
+  },
+  todoDetail: {
+    isDetailOpen: false,
+    id: "",
+    title: "",
+    startDate: Date.now(),
+    deadline: Date.now(),
+    confirmationSource: "",
+    memo: "",
+    submitDestination: "",
+    targetPerson: "",
+    complete: false,
   },
 };
 
@@ -248,6 +291,18 @@ export interface stateType {
     isOpen: boolean;
     todoId: string;
     todoTitle: string;
+  };
+  todoDetail: {
+    isDetailOpen: boolean;
+    id: string;
+    title: string;
+    startDate: number;
+    deadline: number;
+    confirmationSource: string;
+    memo: string;
+    submitDestination: string;
+    targetPerson: string;
+    complete: boolean;
   };
 }
 
@@ -486,6 +541,31 @@ export const reducer = (
         editTodo: {
           ...state.editTodo,
           todoTitle: action.payload,
+        },
+      };
+    case "IS_DETAIL_OPEN":
+      return {
+        ...state,
+        todoDetail: {
+          ...state.todoDetail,
+          isDetailOpen: action.payload,
+        },
+      };
+    // #endregion
+    case "SET_TODO_DETAIL":
+      return {
+        ...state,
+        todoDetail: {
+          ...state.todoDetail,
+          id: action.payload.id,
+          title: action.payload.title,
+          startDate: action.payload.startDate,
+          deadline: action.payload.deadline,
+          confirmationSource: action.payload.confirmationSource,
+          memo: action.payload.memo,
+          submitDestination: action.payload.submitDestination,
+          targetPerson: action.payload.targetPerson,
+          complete: action.payload.complete,
         },
       };
 
