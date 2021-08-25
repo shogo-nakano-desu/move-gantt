@@ -1124,7 +1124,7 @@ export default function LoadingComponent() {
       }
     }
     putAlltodos();
-    dispatch(createNewProject(projectId));
+    //dispatch(createNewProject(projectId));
     console.log("project stateの初期化完了");
     router.push("/dashboard");
   }, []);

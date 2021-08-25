@@ -62,9 +62,27 @@ export default function ChoseProjectComponent(props: Props) {
     },
   ]);
 
-  const submitProjectId = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitProjectId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(createNewProject(value));
+    await db
+      .collection("users")
+      .doc(props.userId)
+      .collection("projects")
+      .doc(value)
+      .get()
+      .then((doc) => {
+        doc &&
+          dispatch(
+            createNewProject(
+              value,
+              doc.data()!.willMoveDate,
+              doc.data()!.moveFromPrefecture + doc.data()!.moveFromAddress,
+              doc.data()!.willMovePrefecture + doc.data()!.willMoveAddress
+            )
+          );
+      })
+      .catch((err) => console.error(err));
+    // dispatch(createNewProject(value));
     router.push("/dashboard");
   };
 

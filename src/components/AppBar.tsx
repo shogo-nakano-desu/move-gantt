@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -15,6 +16,7 @@ import Button from "@material-ui/core/Button";
 
 import { auth } from "../../firebaseClient";
 import { dateGenerator } from "../utils/dateGenerator";
+import { stateType } from "../utils/reducers";
 
 type LinkMenuItemProps = Omit<
   MenuItemProps<"a", { href: string }>,
@@ -54,6 +56,10 @@ export default function AppBarComponent() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const moveDate = useSelector((state: stateType) => state.project.moveDate);
+  const moveFrom = useSelector((state: stateType) => state.project.moveFrom);
+  const moveTo = useSelector((state: stateType) => state.project.moveTo);
+
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -78,15 +84,30 @@ export default function AppBarComponent() {
       alert(error.message);
     }
   };
+
   return (
     <div className={classes.root}>
       <AppBar className={classes.colorPrimary} position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            {`${dateGenerator().year}/${dateGenerator().month}/${
-              dateGenerator().date
-            }(引越しまであとN日って出したい)`}
-          </Typography>
+          {moveDate ? (
+            <Typography variant="h6" className={classes.title}>
+              {`引越し予定日：${dateGenerator(moveDate).year}/${
+                dateGenerator(moveDate).month
+              }/${dateGenerator(moveDate).date}`}
+            </Typography>
+          ) : (
+            <Typography variant="h6" className={classes.title}>
+              {`本日：${dateGenerator(Date.now()).year}/${
+                dateGenerator(Date.now()).month
+              }/${dateGenerator(Date.now()).date}`}
+            </Typography>
+          )}
+          {moveFrom && moveTo && (
+            <Typography variant="h6" className={classes.title}>
+              {`${moveFrom}⇨${moveTo}`}
+            </Typography>
+          )}
+
           <div>
             <IconButton
               aria-label="account of current user"
