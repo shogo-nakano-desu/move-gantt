@@ -60,7 +60,7 @@ export const OneWeekTodosComponent = (props: Props) => {
 
   const procedures = useSelector((state: stateType) => state.procedures);
   useEffect(() => {
-    console.log("oneWeekTodos 処理開始");
+    currentUser && console.log("oneWeekTodos 処理開始");
     db.collection("users")
       .doc(currentUser.currentUser!.uid)
       .collection("projects")

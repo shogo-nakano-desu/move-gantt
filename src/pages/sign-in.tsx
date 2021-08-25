@@ -80,7 +80,16 @@ const SignInComponent: React.VFC = () => {
               .get()
               .then((qs) => {
                 if (qs.docs[0]) {
-                  dispatch(createNewProject(qs.docs[0].id));
+                  dispatch(
+                    createNewProject(
+                      qs.docs[0].id,
+                      qs.docs[0].data().willMoveDate,
+                      qs.docs[0].data().moveFromPrefecture +
+                        qs.docs[0].data().moveFromAddress,
+                      qs.docs[0].data().willMovePrefecture +
+                        qs.docs[0].data().willMoveAddress
+                    )
+                  );
                   router.push("/dashboard");
                 } else {
                   router.push("/new-project");

@@ -148,7 +148,14 @@ export default function CreateProjectComponent() {
         created_at: Date.now(),
       })
       .then((docRef) => {
-        dispatch(createNewProject(docRef.id));
+        dispatch(
+          createNewProject(
+            docRef.id,
+            willMoveDate!.getTime(),
+            moveFromPrefecture + moveFromAddress,
+            willMovePrefecture + willMoveAddress
+          )
+        );
         router.push("/loading");
       })
       .catch((err) => {

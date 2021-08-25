@@ -117,9 +117,19 @@ export const refreshProjectForm = () => ({
   },
 });
 
-export const createNewProject = (projectId: string) => ({
+export const createNewProject = (
+  projectId: string,
+  moveDate: number,
+  moveFrom: string,
+  moveTo: string
+) => ({
   type: "CREATE_NEW_PROJECT",
-  payload: projectId,
+  payload: {
+    projectId: projectId,
+    moveDate: moveDate,
+    moveFrom: moveFrom,
+    moveTo: moveTo,
+  },
 });
 
 export const handleNext = () => ({
@@ -204,6 +214,9 @@ export const initialState: stateType = {
   },
   project: {
     projectId: "",
+    moveDate: undefined,
+    moveFrom: undefined,
+    moveTo: undefined,
   },
   step: {
     stepNum: 0,
@@ -282,6 +295,9 @@ export interface stateType {
   };
   project: {
     projectId: string;
+    moveDate: number | undefined;
+    moveFrom: string | undefined;
+    moveTo: string | undefined;
   };
   step: {
     stepNum: number;
@@ -495,7 +511,10 @@ export const reducer = (
         ...state,
         project: {
           ...state.project,
-          projectId: action.payload,
+          projectId: action.payload.projectId,
+          moveDate: action.payload.moveDate,
+          moveFrom: action.payload.moveFrom,
+          moveTo: action.payload.moveTo,
         },
       };
     case "HANDLE_NEXT":
