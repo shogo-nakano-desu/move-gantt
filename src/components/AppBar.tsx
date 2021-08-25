@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button";
 
 import { auth } from "../../firebaseClient";
 import { dateGenerator } from "../utils/dateGenerator";
-import { stateType } from "../utils/reducers";
+import { stateType, signOut } from "../utils/reducers";
 
 type LinkMenuItemProps = Omit<
   MenuItemProps<"a", { href: string }>,
@@ -77,6 +77,7 @@ export default function AppBarComponent() {
 
   // SignOut
   const SignOut = async () => {
+    await signOut();
     try {
       router.push("/auth");
       await auth.signOut().catch((err) => console.error(err)); //[TODO]サインアウとしてからsign-inページにプッシュされるので、一瞬dashboardに戻ることになって落ちてしまう

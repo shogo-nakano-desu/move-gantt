@@ -17,12 +17,6 @@ export const setCurrentUser = (uid: string, displayName?: string) => ({
   payload: { uid: uid, displayName: displayName },
 });
 
-export const signOut = () => ({
-  //[TODO]使っているところがないか確認して削除する
-  type: "SIGN_OUT",
-  payload: { uid: "", displayName: "" },
-});
-
 export const willMovePrefectureForm = (prefecture: string) => ({
   type: "CHANGE_WILL_MOVE_PREFECTURE",
   payload: prefecture,
@@ -132,15 +126,6 @@ export const createNewProject = (
   },
 });
 
-export const handleNext = () => ({
-  type: "HANDLE_NEXT",
-  payload: 1,
-});
-export const handleBack = () => ({
-  type: "HANDLE_BACK",
-  payload: -1,
-});
-
 export const listenProcedures = (procedures: procedureType[]) => ({
   type: "LISTEN_PROCEDURES",
   payload: procedures,
@@ -191,6 +176,16 @@ export const setTodoDetail = (
   },
 });
 
+export const signOut = () => ({
+  action: "SIGN_OUT",
+  payload: {
+    projectId: "",
+    moveDate: undefined,
+    moveFrom: undefined,
+    moveTo: undefined,
+  },
+});
+
 // #region
 export const initialState: stateType = {
   user: { uid: "", displayName: "" },
@@ -218,9 +213,6 @@ export const initialState: stateType = {
     moveDate: undefined,
     moveFrom: undefined,
     moveTo: undefined,
-  },
-  step: {
-    stepNum: 0,
   },
   procedures: [],
   editTodo: {
@@ -300,9 +292,6 @@ export interface stateType {
     moveFrom: string | undefined;
     moveTo: string | undefined;
   };
-  step: {
-    stepNum: number;
-  };
   procedures: procedureType[];
   editTodo: {
     isOpen: boolean;
@@ -331,15 +320,6 @@ export const reducer = (
   switch (action.type) {
     // sign-in form
     case "SET_CURRENT_USER":
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          uid: action.payload.uid,
-          displayName: action.payload.displayName,
-        },
-      };
-    case "SIGN_OUT":
       return {
         ...state,
         user: {
@@ -518,22 +498,6 @@ export const reducer = (
           moveTo: action.payload.moveTo,
         },
       };
-    case "HANDLE_NEXT":
-      return {
-        ...state,
-        step: {
-          ...state.step,
-          stepNum: state.step.stepNum + 1,
-        },
-      };
-    case "HANDLE_BACK":
-      return {
-        ...state,
-        step: {
-          ...state.step,
-          stepNum: state.step.stepNum - 1,
-        },
-      };
     case "LISTEN_PROCEDURES":
       return {
         ...state,
@@ -586,6 +550,17 @@ export const reducer = (
           submitDestination: action.payload.submitDestination,
           targetPerson: action.payload.targetPerson,
           complete: action.payload.complete,
+        },
+      };
+    case "SIGN_OUT":
+      return {
+        ...state,
+        project: {
+          ...state.project,
+          projectId: action.payload.projectId,
+          moveDate: action.payload.moveDate,
+          moveFrom: action.payload.moveFrom,
+          moveTo: action.payload.moveTo,
         },
       };
 
