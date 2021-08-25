@@ -73,8 +73,12 @@ MyDocument.getInitialProps = async (ctx) => {
       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
     });
 
+  // const initialProps = await Document.getInitialProps(ctx).catch((err) => {
+  //   console.error(err);
+  // });
   const initialProps = await Document.getInitialProps(ctx);
 
+  // errorハンドリングしたら下も出し分ける必要あるが、ハンドリングすると型が合わなくなる
   return {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
