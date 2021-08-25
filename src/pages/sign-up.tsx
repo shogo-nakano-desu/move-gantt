@@ -67,7 +67,8 @@ export default function SignUpComponent() {
         .then((user) => {
           user.user && dispatch(setCurrentUser(user.user.uid));
         })
-        .then(() => router.push("/dashboard"));
+        .then(() => router.push("/dashboard"))
+        .catch((err) => console.error(err));
     } catch (err) {
       alert(err.message);
     }
