@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useRouter } from "next/router";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
@@ -31,15 +31,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Dashboard = () => {
+export default function Dashboard() {
   const classes = useStyles();
   const currentUser = useContext(AuthContext);
+  const router = useRouter();
 
   const projectId = useSelector((state: stateType) => state.project.projectId);
 
+  if (!projectId && currentUser.currentUser) {
+    console.log("choseProjectに飛ばす");
+    router.push("/chose-project");
+  }
   return (
     <>
-      {console.log("dashboard userId")}
+      {console.log("dashboard")}
       {projectId && currentUser.currentUser ? (
         <div style={{ width: "100%", height: "98%" }}>
           <Box className={classes.appbar}>
@@ -60,11 +65,11 @@ const Dashboard = () => {
           </Box>
         </div>
       ) : currentUser.currentUser ? (
-        <ChoseProjectComponent userId={currentUser.currentUser!.uid} />
+        // <ChoseProjectComponent userId={currentUser.currentUser!.uid} />
+        <>{console.log("choseproject")}</>
       ) : (
         <div>ログアウトします</div>
       )}
     </>
   );
-};
-export default Dashboard;
+}
