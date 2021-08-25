@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { getMonth, getDate } from "date-fns";
+
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
 
 import { db } from "../../firebaseClient";
 import {
@@ -34,6 +38,19 @@ export default function TodosComponent(props: Props) {
   const todoTitle = useSelector((state: stateType) => state.editTodo.todoTitle);
 
   const detailTitle = useSelector((state: stateType) => state.todoDetail.title);
+  const detailStartDate = useSelector(
+    (state: stateType) => state.todoDetail.startDate
+  );
+  const detailDeadline = useSelector(
+    (state: stateType) => state.todoDetail.deadline
+  );
+  const detailSubmitDestination = useSelector(
+    (state: stateType) => state.todoDetail.submitDestination
+  );
+  const detailConfirmationSource = useSelector(
+    (state: stateType) => state.todoDetail.confirmationSource
+  );
+  const detailMemo = useSelector((state: stateType) => state.todoDetail.memo);
 
   const handleClose = () => {
     dispatch(isEditTodoOpen(false));
@@ -111,6 +128,7 @@ export default function TodosComponent(props: Props) {
         console.error("Error removing document: ", error);
       });
   };
+  const urlRegex = new RegExp("^http");
 
   return (
     <>
@@ -141,9 +159,49 @@ export default function TodosComponent(props: Props) {
         aria-describedby="detail-dialog-description"
       >
         <DialogTitle id="detail-dialog-title">
-          {`TODO : ${detailTitle}`}
+          {`TODO：${detailTitle}`}
         </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="detail-dialog-startDate">
+            {`開始日：${getMonth(new Date(detailStartDate))}/${getDate(
+              new Date(detailStartDate)
+            )}`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogContent>
+          <DialogContentText id="detail-dialog-deadline">
+            {`期限：${getMonth(new Date(detailDeadline))}/${getDate(
+              new Date(detailDeadline)
+            )}`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogContent>
+          <DialogContentText id="detail-dialog-submitDestination">
+            {`対応場所：${detailSubmitDestination}`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogContent>
+          {/* URLだった時だけリンクにする */}
+          {urlRegex.test(detailConfirmationSource) ? (
+            <DialogContentText id="detail-dialog-confirmationSource">
+              確認先：
+              <a href={detailConfirmationSource}>
+                {`${detailConfirmationSource}`}
+              </a>
+            </DialogContentText>
+          ) : (
+            <DialogContentText id="detail-dialog-confirmationSource">
+              {`確認先：${detailConfirmationSource}`}
+            </DialogContentText>
+          )}
+        </DialogContent>
+        <DialogContent>
+          <DialogContentText id="detail-dialog-memo">
+            {`メモ：${detailMemo}`}
+          </DialogContentText>
+        </DialogContent>
       </Dialog>
+
       <OneWeekTodosComponent
         title={[
           "1か月以上前まで",
