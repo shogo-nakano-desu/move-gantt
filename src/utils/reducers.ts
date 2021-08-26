@@ -146,8 +146,8 @@ export const listenProcedures = (procedures: procedureType[]) => ({
   payload: procedures,
 });
 
-export const isEditTodoOpen = (is: boolean) => ({
-  type: "IS_EDIT_TODO_OPEN",
+export const isDeleteTodoOpen = (is: boolean) => ({
+  type: "IS_DELETE_TODO_OPEN",
   payload: is,
 });
 
@@ -539,7 +539,7 @@ export const reducer = (
         ...state,
         procedures: action.payload,
       };
-    case "IS_EDIT_TODO_OPEN":
+    case "IS_DELETE_TODO_OPEN":
       return {
         ...state,
         editTodo: {

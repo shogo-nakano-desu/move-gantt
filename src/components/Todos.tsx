@@ -15,7 +15,7 @@ import { db } from "../../firebaseClient";
 import {
   listenProcedures,
   stateType,
-  isEditTodoOpen,
+  isDeleteTodoOpen,
   isDetailOpen,
   setTodoId,
 } from "../utils/reducers";
@@ -53,7 +53,7 @@ export default function TodosComponent(props: Props) {
   const detailMemo = useSelector((state: stateType) => state.todoDetail.memo);
 
   const handleClose = () => {
-    dispatch(isEditTodoOpen(false));
+    dispatch(isDeleteTodoOpen(false));
   };
 
   const handleDetailClose = () => {
@@ -133,6 +133,7 @@ export default function TodosComponent(props: Props) {
 
   return (
     <>
+      {/* TODO delete dialog */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -152,7 +153,7 @@ export default function TodosComponent(props: Props) {
         </DialogActions>
       </Dialog>
 
-      {/* この中に詳細を表示するダイアログを作る */}
+      {/* TODO detail dialog */}
       <Dialog
         open={detailOpen}
         onClose={handleDetailClose}
