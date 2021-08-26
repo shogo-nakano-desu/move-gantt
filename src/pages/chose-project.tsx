@@ -54,6 +54,7 @@ export default function ChoseProjectComponent(props: Props) {
     setValue((event.target as HTMLInputElement).value);
   };
 
+  // これは選択するプロジェクトをDBからとってきて入れるためのstate
   const [projects, setProjects] = useState<Project[]>([
     {
       projectId: "",

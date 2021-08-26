@@ -63,8 +63,9 @@ export default function TodosComponent(props: Props) {
   useEffect(() => {
     console.log("Todos.tsx props.userId", props.userId);
     console.log("props.projectId", props.projectId);
-    const unSub = () => console.log("Todos subscribe start");
-    db.collection("users")
+    // const unSub = () => console.log("Todos subscribe start");
+    const unSub = db
+      .collection("users")
       .doc(props.userId)
       .collection("projects")
       .doc(props.projectId)
@@ -111,7 +112,7 @@ export default function TodosComponent(props: Props) {
     return () => {
       unSub();
     };
-  }, [props.projectId, props.userId, dispatch]); //props.projectIdが入っていた。
+  }, [props.projectId, dispatch]); //[TODO][props.projectId, props.userId, dispatch]が元
 
   const deleteTodo = () => {
     db.collection("users")
