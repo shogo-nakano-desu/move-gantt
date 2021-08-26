@@ -98,7 +98,7 @@ const SignInComponent: React.VFC = () => {
               });
         })
         .catch((err) => {
-          console.error(err);
+          alert(err);
         });
     } catch (err) {
       alert(err.message);
@@ -113,7 +113,7 @@ const SignInComponent: React.VFC = () => {
           user.user && dispatch(setCurrentUser(user.user.uid));
         })
         .then(() => router.push("/dashboard"))
-        .catch((err) => console.error(err));
+        .catch((err) => alert(err));
     } catch (err) {
       alert(err.message);
     }
