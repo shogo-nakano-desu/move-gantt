@@ -125,7 +125,11 @@ export const OneWeekTodosComponent = (props: Props) => {
       });
   };
 
-  const handleDelete = (e: any, id: string, title: string) => {
+  const handleDelete = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+    title: string
+  ) => {
     e.stopPropagation();
     dispatch(isDeleteTodoOpen(true));
     dispatch(setTodoId(id));
