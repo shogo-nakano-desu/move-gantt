@@ -76,10 +76,10 @@ export default function AppBarComponent() {
   };
 
   // SignOut
-  const SignOut = async () => {
+  const SignOut = () => {
     try {
-      router.push("/auth");
-      await auth.signOut().catch((err) => console.error(err)); //[TODO]サインアウとしてからsign-inページにプッシュされるので、一瞬dashboardに戻ることになって落ちてしまう
+      router.push("/sign-out");
+      // await auth.signOut().catch((err) => console.error(err)); //[TODO]サインアウとしてからsign-inページにプッシュされるので、一瞬dashboardに戻ることになって落ちてしまう
     } catch (error) {
       alert(error.message);
     }
@@ -155,11 +155,10 @@ export default function AppBarComponent() {
                   <Button onClick={handleDialogClose} color="primary">
                     いいえ
                   </Button>
-                  <form onSubmit={SignOut}>
-                    <Button type="submit" color="primary" autoFocus>
-                      はい
-                    </Button>
-                  </form>
+
+                  <Button onClick={SignOut} color="primary" autoFocus>
+                    はい
+                  </Button>
                 </DialogActions>
               </Dialog>
             </Menu>

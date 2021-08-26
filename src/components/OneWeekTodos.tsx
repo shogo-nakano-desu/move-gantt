@@ -77,7 +77,7 @@ export const OneWeekTodosComponent = (props: Props) => {
         }
       })
       .catch((error) => {
-        console.error("Error happend when renderign todos", error);
+        console.error("Error happened when rendering todos", error);
       });
   }, [procedures, props.projectId, props.userId, currentUser.currentUser]);
 
