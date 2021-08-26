@@ -18,7 +18,7 @@ import { db } from "../../firebaseClient";
 import { AuthContext } from "../utils/authProvider";
 import {
   stateType,
-  isEditTodoOpen,
+  isDeleteTodoOpen,
   setTodoId,
   setTodoTitle,
   isDetailOpen,
@@ -124,8 +124,8 @@ export const OneWeekTodosComponent = (props: Props) => {
       });
   };
 
-  const handleClickOpen = (id: string, title: string) => {
-    dispatch(isEditTodoOpen(true));
+  const handleDelete = (id: string, title: string) => {
+    dispatch(isDeleteTodoOpen(true));
     dispatch(setTodoId(id));
     dispatch(setTodoTitle(title));
   };
@@ -214,7 +214,7 @@ export const OneWeekTodosComponent = (props: Props) => {
                             edge="end"
                             aria-label="delete"
                             onClick={() =>
-                              handleClickOpen(procedure.id, procedure.title)
+                              handleDelete(procedure.id, procedure.title)
                             }
                           >
                             <DeleteIcon />

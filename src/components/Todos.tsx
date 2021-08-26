@@ -15,7 +15,7 @@ import { db } from "../../firebaseClient";
 import {
   listenProcedures,
   stateType,
-  isEditTodoOpen,
+  isDeleteTodoOpen,
   isDetailOpen,
   setTodoId,
 } from "../utils/reducers";
@@ -53,7 +53,7 @@ export default function TodosComponent(props: Props) {
   const detailMemo = useSelector((state: stateType) => state.todoDetail.memo);
 
   const handleClose = () => {
-    dispatch(isEditTodoOpen(false));
+    dispatch(isDeleteTodoOpen(false));
   };
 
   const handleDetailClose = () => {
