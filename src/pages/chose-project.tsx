@@ -119,34 +119,36 @@ export default function ChoseProjectComponent(props: Props) {
 
   return (
     <div style={{ width: "100%", height: "98%" }}>
-      <Box className={classes.appbar}>
-        <AppBarComponent />
-      </Box>
       {projects[0] ? (
-        <form onSubmit={submitProjectId}>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">
-              プロジェクトを選択してください
-            </FormLabel>
-            <RadioGroup
-              aria-label="projects"
-              name="project1"
-              value={value}
-              onChange={handleChange}
-            >
-              {projects.map((project) => (
-                <span key={project.projectId}>
-                  <FormControlLabel
-                    value={project.projectId}
-                    control={<Radio />}
-                    label={project.projectId}
-                  />
-                </span>
-              ))}
-            </RadioGroup>
-          </FormControl>
-          <button type="submit">送信</button>
-        </form>
+        <>
+          <Box className={classes.appbar}>
+            <AppBarComponent />
+          </Box>
+          <form onSubmit={submitProjectId}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">
+                プロジェクトを選択してください
+              </FormLabel>
+              <RadioGroup
+                aria-label="projects"
+                name="project1"
+                value={value}
+                onChange={handleChange}
+              >
+                {projects.map((project) => (
+                  <span key={project.projectId}>
+                    <FormControlLabel
+                      value={project.projectId}
+                      control={<Radio />}
+                      label={project.projectId}
+                    />
+                  </span>
+                ))}
+              </RadioGroup>
+            </FormControl>
+            <button type="submit">送信</button>
+          </form>
+        </>
       ) : (
         <CreateProjectComponent />
       )}
