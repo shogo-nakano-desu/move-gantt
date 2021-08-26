@@ -6,7 +6,7 @@ jest.spyOn(global, "Date").mockImplementation(() => dateToUse);
 test("today described with string object", () => {
   expect(dateGenerator(1631890800000)).toEqual({
     year: "2021",
-    month: "09",
+    month: "08",
     date: "18",
   });
 });
