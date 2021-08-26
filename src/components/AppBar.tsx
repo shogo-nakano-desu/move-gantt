@@ -133,12 +133,14 @@ export default function AppBarComponent() {
               open={open}
               onClose={handleClose}
             >
-              <LinkMenuItem href="/profile">プロフィール</LinkMenuItem>
+              <LinkMenuItem href="/dashboard">
+                プロフィール(工事中)
+              </LinkMenuItem>
               <LinkMenuItem href="/new-project">
                 新規プロジェクト作成
               </LinkMenuItem>
               <LinkMenuItem href="/chose-project">
-                管理するプロジェクトを選択
+                管理する〜（工事中）
               </LinkMenuItem>
               <MenuItem onClick={handleDialogOpen}>ログアウト</MenuItem>
               <Dialog
