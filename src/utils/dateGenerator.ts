@@ -3,7 +3,7 @@ import { getYear, getMonth, getDate } from "date-fns";
 export const dateGenerator = (moveDateNum: number) => {
   const moveDate = new Date(moveDateNum);
   const year = "" + getYear(moveDate);
-  let month: string | number = getMonth(moveDate) + 1;
+  let month: string | number = getMonth(moveDate);
   if (month < 10) {
     month = "0" + month;
   } else {
