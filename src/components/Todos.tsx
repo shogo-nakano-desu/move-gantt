@@ -133,6 +133,7 @@ export default function TodosComponent(props: Props) {
 
   return (
     <>
+      {/* TODO delete dialog */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -152,7 +153,7 @@ export default function TodosComponent(props: Props) {
         </DialogActions>
       </Dialog>
 
-      {/* この中に詳細を表示するダイアログを作る */}
+      {/* TODO detail dialog */}
       <Dialog
         open={detailOpen}
         onClose={handleDetailClose}

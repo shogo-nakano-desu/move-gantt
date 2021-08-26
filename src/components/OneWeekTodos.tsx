@@ -85,6 +85,7 @@ export const OneWeekTodosComponent = (props: Props) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
+    // e.stopPropagation();
     console.log("TODOをコンプリートトライ");
     await db
       .collection("users")
@@ -124,12 +125,16 @@ export const OneWeekTodosComponent = (props: Props) => {
       });
   };
 
-  const handleDelete = (id: string, title: string) => {
+  const handleDelete = (e: any, id: string, title: string) => {
+    e.stopPropagation();
     dispatch(isDeleteTodoOpen(true));
     dispatch(setTodoId(id));
     dispatch(setTodoTitle(title));
+    dispatch(isDetailOpen(false));
   };
+
   const handleDetailOpen = (
+    e: any,
     id: string,
     title: string,
     startDate: number,
@@ -140,20 +145,23 @@ export const OneWeekTodosComponent = (props: Props) => {
     targetPerson: string,
     complete: boolean
   ) => {
-    dispatch(isDetailOpen(true));
-    dispatch(
-      setTodoDetail(
-        id,
-        title,
-        startDate,
-        deadline,
-        confirmationSource,
-        memo,
-        submitDestination,
-        targetPerson,
-        complete
-      )
-    );
+    console.log(e.target.type);
+    if (e.target.type !== "checkbox") {
+      dispatch(isDetailOpen(true));
+      dispatch(
+        setTodoDetail(
+          id,
+          title,
+          startDate,
+          deadline,
+          confirmationSource,
+          memo,
+          submitDestination,
+          targetPerson,
+          complete
+        )
+      );
+    }
   };
 
   return (
@@ -178,8 +186,9 @@ export const OneWeekTodosComponent = (props: Props) => {
                   return (
                     <ListItem
                       key={procedure.id}
-                      onClick={() =>
+                      onClick={(e) =>
                         handleDetailOpen(
+                          e,
                           procedure.id,
                           procedure.title,
                           procedure.startDate,
@@ -202,19 +211,21 @@ export const OneWeekTodosComponent = (props: Props) => {
                       </Box>
                       <Box>
                         <Grid container direction="column">
+                          {/* complete checkbox */}
                           <Checkbox
                             id={procedure.id}
                             checked={procedure.complete}
                             name="completed"
                             color="primary"
                             edge="end"
-                            onChange={handleCompleteChage}
+                            onChange={(e) => handleCompleteChage(e)}
                           />
+                          {/* delete button */}
                           <IconButton
                             edge="end"
                             aria-label="delete"
-                            onClick={() =>
-                              handleDelete(procedure.id, procedure.title)
+                            onClick={(e) =>
+                              handleDelete(e, procedure.id, procedure.title)
                             }
                           >
                             <DeleteIcon />
