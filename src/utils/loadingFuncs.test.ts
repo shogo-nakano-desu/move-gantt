@@ -4,8 +4,38 @@ import MockDate from "mockdate";
 
 const moveDate = new Date("2021/8/18");
 
+interface Procedure {
+  title: string;
+  startDate: number; // プロジェクト作成日か関数で計算した日付
+  deadline: number;
+  submitDestination: string;
+  targetPerson: TARGET_PERSON;
+  confirmationSource: string;
+  memo: string;
+  complete: boolean;
+  isNotEmployee: boolean;
+  isStudent: boolean;
+  isPet: boolean;
+  isScooter: boolean;
+  isCar: boolean;
+  isParking: boolean;
+  isUnderFifteen: boolean;
+  isFireInsurance: boolean;
+  isFixedPhone: boolean;
+  isMynumber: boolean;
+  isStampRegistration: boolean;
+  isDrivingLicense: boolean;
+  created_at: number;
+}
+
+const TARGET_PERSON = {
+  moveInTheSameMunicipalities: "moveInTheSameMunicipalities",
+  moveToDifferentMunicipalities: "moveToDifferentMunicipalities",
+  everyone: "everyone",
+} as const;
+type TARGET_PERSON = typeof TARGET_PERSON[keyof typeof TARGET_PERSON];
 // #region
-const rentalCancellation = {
+const rentalCancellation: Procedure = {
   title: "賃貸物件の解約手続き",
   startDate: 1577804400000, // プロジェクト作成日か関数で計算した日付
   deadline: add(moveDate, { months: -2 }).getTime(), //[TODO]これは１ヶ月前のパターンもあることを明示するか、選択できるようにしたい
@@ -29,7 +59,7 @@ const rentalCancellation = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const parkingCancellation = {
+const parkingCancellation: Procedure = {
   title: "駐車場の解約手続き",
   startDate: 1577804400000, // プロジェクト作成日か関数で計算した日付
   deadline: add(moveDate, { months: -2 }).getTime(),
@@ -53,7 +83,7 @@ const parkingCancellation = {
   created_at: 1577804400000,
 };
 
-const moverContraction = {
+const moverContraction: Procedure = {
   title: "引越し業者との契約",
   startDate: 1577804400000, // プロジェクト作成日か関数で計算した日付
   deadline: add(moveDate, { weeks: -1 }).getTime(),
@@ -77,7 +107,7 @@ const moverContraction = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const schoolChanging = {
+const schoolChanging: Procedure = {
   title: "学校の転校手続き",
   startDate: 1577804400000, // プロジェクト作成日か関数で計算した日付
   deadline: add(new Date(1577804400000), { weeks: 2 }).getTime(),
@@ -102,7 +132,7 @@ const schoolChanging = {
   created_at: 1577804400000,
 };
 
-const internet = {
+const internet: Procedure = {
   title: "インターネットの引越し手続き",
   startDate: add(moveDate, { months: -1, weeks: -2 }).getTime(), // プロジェクト作成日か関数で計算した日付
   deadline: add(moveDate, { months: -1 }).getTime(), //
@@ -127,7 +157,7 @@ const internet = {
   created_at: 1577804400000,
 };
 
-const largeGarbage = {
+const largeGarbage: Procedure = {
   title: "粗大ゴミの処分手続き",
   startDate: 1577804400000, // プロジェクト作成日か関数で計算した日付
   deadline: add(moveDate, { months: -1 }).getTime(),
@@ -150,7 +180,7 @@ const largeGarbage = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const fireInsurance = {
+const fireInsurance: Procedure = {
   title: "火災保険の住所変更手続き",
   startDate: add(moveDate, { months: -1 }).getTime(), // プロジェクト作成日か関数で計算した日付
   deadline: add(moveDate, { weeks: -3 }).getTime(), //
@@ -174,7 +204,7 @@ const fireInsurance = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const movingOutNotification = {
+const movingOutNotification: Procedure = {
   title: "転出届の提出",
   startDate: add(moveDate, { weeks: -2 }).getTime(), // プロジェクト作成日か関数で計算した日付
   deadline: add(moveDate, { days: 13 }).getTime(), //
@@ -198,7 +228,7 @@ const movingOutNotification = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const NationalHealthInsuranceCancellation = {
+const NationalHealthInsuranceCancellation: Procedure = {
   title: "国民健康保険の資格喪失手続き",
   startDate: add(moveDate, { weeks: -2 }).getTime(),
   deadline: add(moveDate, { days: 14 }).getTime(),
@@ -223,7 +253,7 @@ const NationalHealthInsuranceCancellation = {
   created_at: 1577804400000,
 };
 
-const stampDeletion = {
+const stampDeletion: Procedure = {
   title: "印鑑登録の抹消",
   startDate: add(moveDate, { weeks: -2 }).getTime(),
   deadline: moveDate.getTime(),
@@ -247,7 +277,7 @@ const stampDeletion = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const scooterDeletion = {
+const scooterDeletion: Procedure = {
   title: "原付の廃車手続き・住所変更",
   startDate: add(moveDate, { weeks: -2 }).getTime(),
   deadline: add(moveDate, { days: 15 }).getTime(),
@@ -271,7 +301,7 @@ const scooterDeletion = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const childAllowance = {
+const childAllowance: Procedure = {
   title: "児童手当の住所変更手続き",
   startDate: add(moveDate, { weeks: -2 }).getTime(),
   deadline: add(moveDate, { days: 15 }).getTime(),
@@ -296,7 +326,7 @@ const childAllowance = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const electricity = {
+const electricity: Procedure = {
   title: "電気の使用停止・開始手続き",
   startDate: add(moveDate, { weeks: -2 }).getTime(),
   deadline: add(moveDate, { weeks: -1 }).getTime(),
@@ -320,7 +350,7 @@ const electricity = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const gasTap = {
+const gasTap: Procedure = {
   title: "ガスの使用中止・開始手続き",
   startDate: add(moveDate, { weeks: -2 }).getTime(),
   deadline: add(moveDate, { weeks: -1 }).getTime(),
@@ -344,7 +374,7 @@ const gasTap = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const tapwaterCancellation = {
+const tapwaterCancellation: Procedure = {
   title: "水道の使用中止手続き",
   startDate: add(moveDate, { weeks: -2 }).getTime(),
   deadline: add(moveDate, { days: -2 }).getTime(),
@@ -368,7 +398,7 @@ const tapwaterCancellation = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const tapwaterStart = {
+const tapwaterStart: Procedure = {
   title: "水道の使用開始手続き",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 10 }).getTime(),
@@ -392,7 +422,7 @@ const tapwaterStart = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const postofficeChangeAddress = {
+const postofficeChangeAddress: Procedure = {
   title: "転居・転送届",
   startDate: add(moveDate, { weeks: -2 }).getTime(),
   deadline: add(moveDate, { weeks: -1 }).getTime(),
@@ -417,7 +447,7 @@ const postofficeChangeAddress = {
   created_at: 1577804400000,
 };
 
-const fixedPhone = {
+const fixedPhone: Procedure = {
   title: "固定電話の住所変更手続き",
   startDate: 1577804400000,
   deadline: add(moveDate, { weeks: -2 }).getTime(),
@@ -441,7 +471,7 @@ const fixedPhone = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const mobilePhone = {
+const mobilePhone: Procedure = {
   title: "携帯電話・スマートフォンの住所変更手続",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { weeks: 1 }).getTime(),
@@ -465,7 +495,7 @@ const mobilePhone = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const pet = {
+const pet: Procedure = {
   title: "ペットの登録事項変更届",
   startDate: add(moveDate, { weeks: -1 }).getTime(),
   deadline: add(moveDate, { weeks: 1 }).getTime(),
@@ -489,7 +519,7 @@ const pet = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const gasPrecense = {
+const gasPrecense: Procedure = {
   title: "ガス使用停止の立ち合い",
   startDate: moveDate.getTime(),
   deadline: moveDate.getTime(),
@@ -513,7 +543,7 @@ const gasPrecense = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const tapPrecense = {
+const tapPrecense: Procedure = {
   title: "水道使用停止の立ち合い",
   startDate: moveDate.getTime(),
   deadline: moveDate.getTime(),
@@ -537,7 +567,7 @@ const tapPrecense = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const moveOutPrecense = {
+const moveOutPrecense: Procedure = {
   title: "旧居の明け渡し",
   startDate: moveDate.getTime(),
   deadline: moveDate.getTime(),
@@ -560,7 +590,7 @@ const moveOutPrecense = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const gasStartPrecense = {
+const gasStartPrecense: Procedure = {
   title: "ガス開栓の立ち会い",
   startDate: moveDate.getTime(),
   deadline: moveDate.getTime(),
@@ -584,7 +614,7 @@ const gasStartPrecense = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const movingNotification = {
+const movingNotification: Procedure = {
   title: "転居届",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 14 }).getTime(),
@@ -608,7 +638,7 @@ const movingNotification = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const transferNotification = {
+const transferNotification: Procedure = {
   title: "転入届",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 14 }).getTime(),
@@ -632,7 +662,7 @@ const transferNotification = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const mynumber = {
+const mynumber: Procedure = {
   title: "マイナンバーの住所変更",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 14 }).getTime(),
@@ -656,7 +686,7 @@ const mynumber = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const stampRegistration = {
+const stampRegistration: Procedure = {
   title: "印鑑登録",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 21 }).getTime(),
@@ -680,7 +710,7 @@ const stampRegistration = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const compensation = {
+const compensation: Procedure = {
   title: "国民年金の住所変更",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 14 }).getTime(),
@@ -705,7 +735,7 @@ const compensation = {
   created_at: 1577804400000,
 };
 
-const nationalHealthInsuranceRegistration = {
+const nationalHealthInsuranceRegistration: Procedure = {
   title: "国民健康保険の加入",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 14 }).getTime(),
@@ -730,7 +760,7 @@ const nationalHealthInsuranceRegistration = {
   created_at: 1577804400000,
 };
 
-const nationalHealthInsuranceChange = {
+const nationalHealthInsuranceChange: Procedure = {
   title: "国民健康保険の住所変更",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 14 }).getTime(),
@@ -754,7 +784,7 @@ const nationalHealthInsuranceChange = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const company = {
+const company: Procedure = {
   title: "会社の健康保険と厚生年金の変更手続き",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 7 }).getTime(),
@@ -777,7 +807,7 @@ const company = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const parkingCertification = {
+const parkingCertification: Procedure = {
   title: "車庫証明の取得申請",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 15 }).getTime(),
@@ -802,7 +832,7 @@ const parkingCertification = {
   created_at: 1577804400000,
 };
 
-const drivingLicense = {
+const drivingLicense: Procedure = {
   title: "免許証の住所変更手続き",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 14 }).getTime(),
@@ -827,7 +857,7 @@ const drivingLicense = {
   isDrivingLicense: true,
   created_at: 1577804400000,
 };
-const carAddress = {
+const carAddress: Procedure = {
   title: "自動車の住所変更手続き",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 15 }).getTime(),
@@ -851,7 +881,7 @@ const carAddress = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const creaditcard = {
+const creaditcard: Procedure = {
   title: "クレジットカードの住所変更手続き",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { weeks: 1 }).getTime(),
@@ -875,7 +905,7 @@ const creaditcard = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const bankAccount = {
+const bankAccount: Procedure = {
   title: "銀行口座の住所変更",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { days: 15 }).getTime(),
@@ -898,7 +928,7 @@ const bankAccount = {
   isDrivingLicense: false,
   created_at: 1577804400000,
 };
-const onlineShop = {
+const onlineShop: Procedure = {
   title: "通販サイトの住所変更手続き",
   startDate: moveDate.getTime(),
   deadline: add(moveDate, { weeks: 3 }).getTime(),
@@ -924,55 +954,78 @@ const onlineShop = {
 
 //#endregion
 
-// const now = new Date(1577804400000) as unknown as string;
-// jest.spyOn(global, "Date").mockImplementation(() => now);
-
-// const spy = jest.spyOn(Date, "now");
-// spy.mockReturnValue(1577804400000); // 2020/01/01
-
 MockDate.set(new Date(1577804400000));
 
-test("procedures array will correctly created?", () => {
-  expect(procedures(moveDate)).toEqual([
-    rentalCancellation,
-    parkingCancellation,
-    moverContraction,
-    schoolChanging,
-    internet,
-    largeGarbage,
-    fireInsurance,
-    movingOutNotification,
-    NationalHealthInsuranceCancellation,
-    stampDeletion,
-    scooterDeletion,
-    childAllowance,
-    electricity,
-    gasTap,
-    tapwaterCancellation,
-    tapwaterStart,
-    postofficeChangeAddress,
-    fixedPhone,
-    mobilePhone,
-    pet,
-    gasPrecense,
-    tapPrecense,
-    moveOutPrecense,
-    gasStartPrecense,
-    movingNotification,
-    transferNotification,
-    mynumber,
-    stampRegistration,
-    compensation,
-    nationalHealthInsuranceRegistration,
-    nationalHealthInsuranceChange,
-    company,
-    parkingCertification,
-    drivingLicense,
-    carAddress,
-    creaditcard,
-    bankAccount,
-    onlineShop,
-  ]);
-  //spy.mockRestore();
-  MockDate.reset();
+describe("creating procedures", () => {
+  test("procedures array will correctly created?", () => {
+    expect(procedures(moveDate)).toEqual([
+      rentalCancellation,
+      parkingCancellation,
+      moverContraction,
+      schoolChanging,
+      internet,
+      largeGarbage,
+      fireInsurance,
+      movingOutNotification,
+      NationalHealthInsuranceCancellation,
+      stampDeletion,
+      scooterDeletion,
+      childAllowance,
+      electricity,
+      gasTap,
+      tapwaterCancellation,
+      tapwaterStart,
+      postofficeChangeAddress,
+      fixedPhone,
+      mobilePhone,
+      pet,
+      gasPrecense,
+      tapPrecense,
+      moveOutPrecense,
+      gasStartPrecense,
+      movingNotification,
+      transferNotification,
+      mynumber,
+      stampRegistration,
+      compensation,
+      nationalHealthInsuranceRegistration,
+      nationalHealthInsuranceChange,
+      company,
+      parkingCertification,
+      drivingLicense,
+      carAddress,
+      creaditcard,
+      bankAccount,
+      onlineShop,
+    ]);
+    //spy.mockRestore();
+    MockDate.reset();
+  });
+  test("filteredTodos will work?", () => {
+    expect(
+      filteredTodos(
+        [
+          rentalCancellation,
+          parkingCancellation,
+          moverContraction,
+          schoolChanging,
+          internet,
+          largeGarbage,
+          fireInsurance,
+        ],
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      )
+    ).toEqual([rentalCancellation, moverContraction, internet, largeGarbage]);
+  });
 });

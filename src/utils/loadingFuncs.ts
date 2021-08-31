@@ -1085,7 +1085,8 @@ export const filteredTodos = (
   isNotEmployee: boolean,
   isStampRegistration: boolean,
   isStudent: boolean,
-  isUnderFifteen: boolean
+  isUnderFifteen: boolean,
+  isParking: boolean
 ) => {
   return procedures.filter((procedure: Procedure) => {
     // ロジックはOK
@@ -1102,7 +1103,8 @@ export const filteredTodos = (
         isStampRegistration === false && procedure.isStampRegistration === true
       ) &&
       !(isStudent === false && procedure.isStudent === true) &&
-      !(isUnderFifteen === false && procedure.isUnderFifteen === true)
+      !(isUnderFifteen === false && procedure.isUnderFifteen === true) &&
+      !(isParking === false && procedure.isParking === true)
     ) {
       return true;
     }

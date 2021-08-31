@@ -63,6 +63,9 @@ export default function LoadingComponent() {
   const isDrivingLicense = useSelector(
     (state: stateType) => state.projectForm.formIsDrivingLicense
   );
+  const isParking = useSelector(
+    (state: stateType) => state.projectForm.formIsParking
+  );
 
   const filteredTodosArray = filteredTodos(
     proceduresArray,
@@ -76,7 +79,8 @@ export default function LoadingComponent() {
     isNotEmployee,
     isStampRegistration,
     isStudent,
-    isUnderFifteen
+    isUnderFifteen,
+    isParking
   );
 
   useEffect(() => {
