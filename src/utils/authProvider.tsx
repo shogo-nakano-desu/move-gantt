@@ -21,7 +21,7 @@ export const AuthProvider: FC = ({ children }) => {
   >(undefined);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user: firebase.User) => {
+    auth.onAuthStateChanged((user: firebase.User | null) => {
       if (user) {
         setCurrentUser({ uid: user.uid, displayName: user.displayName });
         router.push("/dashboard");

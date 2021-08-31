@@ -72,7 +72,7 @@ const SignInComponent: React.VFC = () => {
           user.user && console.log("user.user.uid", user.user.uid);
           return user.user;
         })
-        .then((user: firebase.User) => {
+        .then((user: any) => {
           user &&
             db
               .collection("users")
@@ -99,10 +99,10 @@ const SignInComponent: React.VFC = () => {
                 }
               });
         })
-        .catch((err: string) => {
+        .catch((err: any) => {
           alert(err);
         });
-    } catch (err) {
+    } catch (err: any) {
       alert(err.message);
     }
   };
@@ -115,8 +115,8 @@ const SignInComponent: React.VFC = () => {
           user.user && dispatch(setCurrentUser(user.user.uid));
         })
         .then(() => router.push("/dashboard"))
-        .catch((err: string) => alert(err));
-    } catch (err) {
+        .catch((err: any) => alert(err));
+    } catch (err: any) {
       alert(err.message);
     }
   };
@@ -202,7 +202,7 @@ const SignInComponent: React.VFC = () => {
                   async () => {
                     try {
                       await signIn();
-                    } catch (err) {
+                    } catch (err: any) {
                       alert(err.message);
                     }
                   }
@@ -210,7 +210,7 @@ const SignInComponent: React.VFC = () => {
                   async () => {
                     try {
                       await signUp();
-                    } catch (err) {
+                    } catch (err: any) {
                       alert(err.message);
                     }
                   }

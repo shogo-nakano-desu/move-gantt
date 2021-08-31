@@ -105,7 +105,7 @@ export default function TodosComponent(props: Props) {
             )
           );
         },
-        (error: string) => {
+        (error: any) => {
           console.error(error);
         }
       );
@@ -125,7 +125,7 @@ export default function TodosComponent(props: Props) {
       .then(() => console.log("delete a todo"))
       .then(() => dispatch(setTodoId("")))
       .then(() => handleClose())
-      .catch((error: string) => {
+      .catch((error: any) => {
         console.error("Error removing document: ", error);
       });
   };

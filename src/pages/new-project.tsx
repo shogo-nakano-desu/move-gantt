@@ -158,7 +158,7 @@ export default function CreateProjectComponent() {
         );
         router.push("/loading");
       })
-      .catch((err: string) => {
+      .catch((err: any) => {
         console.error(err);
       });
   };

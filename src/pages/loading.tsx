@@ -93,7 +93,7 @@ export default function LoadingComponent() {
           .doc(projectId)
           .collection("todos")
           .add(filteredTodosArray[i])
-          .catch((error: string) => {
+          .catch((error: any) => {
             console.error("Error adding document: ", error);
           });
       }

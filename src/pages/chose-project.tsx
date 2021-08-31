@@ -82,7 +82,7 @@ export default function ChoseProjectComponent(props: Props) {
             )
           );
       })
-      .catch((err: string) => console.error(err));
+      .catch((error: any) => console.error(error));
     // dispatch(createNewProject(value));
     router.push("/dashboard");
   };
@@ -105,7 +105,7 @@ export default function ChoseProjectComponent(props: Props) {
               }))
             );
           },
-          (error: string) => {
+          (error: any) => {
             console.error(error);
           }
         );

@@ -76,7 +76,7 @@ export const OneWeekTodosComponent = (props: Props) => {
           console.log("there is no todos");
         }
       })
-      .catch((error: string) => {
+      .catch((error: any) => {
         console.error("Error happened when rendering todos", error);
       });
   }, [procedures, props.projectId, props.userId, currentUser.currentUser]);
@@ -120,7 +120,7 @@ export const OneWeekTodosComponent = (props: Props) => {
           }
         }
       })
-      .catch((error: string) => {
+      .catch((error: any) => {
         console.error("Error getting document", error);
       });
   };
