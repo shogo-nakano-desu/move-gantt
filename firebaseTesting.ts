@@ -1,4 +1,5 @@
-import * as firebase from "@firebase/rules-unit-testing";
+// import * as firebase from "@firebase/rules-unit-testing";
+var firebase = require("@firebase/rules-unit-testing");
 
 const projectId = `rules-test-${Date.now()}`;
 interface Auth {
@@ -45,7 +46,7 @@ export const getFirestore = (data?: Data) => {
 
 // アプリの全削除
 export const deleteAppAll = () => {
-  Promise.all(firebase.apps().map((app) => app.delete()));
+  Promise.all(firebase.apps().map((app: any) => app.delete()));
 };
 
 // データベースの初期化

@@ -9,7 +9,7 @@ export default function SignOutComponent() {
   const router = useRouter();
   useEffect(() => {
     const so = async () => {
-      await auth.signOut().catch((err) => console.error(err));
+      await auth.signOut().catch((err: string) => console.error(err));
       dispatch(createNewProject("", 0, "", ""));
       router.push("/auth");
     };

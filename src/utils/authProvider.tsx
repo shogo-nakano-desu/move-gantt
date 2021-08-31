@@ -2,6 +2,7 @@
 import { FC, createContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import firebase from "firebase";
 
 import { auth } from "../../firebaseClient";
 
@@ -20,7 +21,7 @@ export const AuthProvider: FC = ({ children }) => {
   >(undefined);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user: firebase.User) => {
       if (user) {
         setCurrentUser({ uid: user.uid, displayName: user.displayName });
         router.push("/dashboard");

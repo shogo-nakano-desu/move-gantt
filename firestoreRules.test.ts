@@ -1,15 +1,13 @@
 import * as firebase from "@firebase/rules-unit-testing";
+import { initializeTestApp } from "@firebase/rules-unit-testing";
 import fs from "fs";
 import path from "path";
-import {
-  getFirestoreWithAuth,
-  getFirestore,
-  deleteAppAll,
-  clearDB,
-} from "./firebaseTesting";
+import { getFirestoreWithAuth, getFirestore } from "./firebaseTesting";
 
-const currentUserUid = "current-user-uid";
-const receiveUserUid = "receive-user-uid";
+const myId = "user_shogo";
+const theirId = "user_someone";
+
+const myAuth = { uid: myId, email: "shogo@gmail.com" };
 
 const USER = "users";
 // localhostをデフォルトから書き換えているので、上書きする必要あり
@@ -18,10 +16,10 @@ process.env.FIRESTORE_EMULATOR_HOST = "localhost:58080";
 // セキュリティルールをロードする
 const filePath = path.join(__dirname, "./firestore.rules");
 const rules = fs.readFileSync(filePath, "utf8");
-const projectId = `rules-test-${Date.now()}`;
+const myProjectId = "my-moving-manager-1995";
 // Dateを固定しておく
-const dateToUse = new Date(2021, 8, 18) as unknown as string;
-jest.spyOn(global, "Date").mockImplementation(() => dateToUse);
+// const dateToUse = new Date(2021, 8, 18) as unknown as string;
+// jest.spyOn(global, "Date").mockImplementation(() => dateToUse);
 
 // projectとして登録するmock data
 interface testProjectDataType {
@@ -65,100 +63,114 @@ const testProjectData: testProjectDataType = {
 
 describe("usersコレクションへの認証付きでのアクセスのみを許可", () => {
   //テスト毎にデータの初期化
-  afterEach(async () => await clearDB());
+  beforeEach(
+    async () => await firebase.clearFirestoreData({ projectId: myProjectId })
+  );
   // テスト毎にテストルールの読み込み
-  afterEach(
+  beforeEach(
     async () =>
       await firebase.loadFirestoreRules({
-        projectId,
-        rules,
+        projectId: myProjectId,
+        rules: rules,
       })
   );
-  // 全テストが完了したらappを全て削除
-  afterAll(async () => await deleteAppAll());
+  // 全テスト完了時にデータ初期化
+  afterAll(
+    async () => await firebase.clearFirestoreData({ projectId: myProjectId })
+  );
 
   describe("projectsコレクションへの認証付きアクセスを許可", () => {
-    test("認証なしでのデータ保存に失敗", async () => {
-      const db = getFirestore();
+    it("認証なしでのデータ保存に失敗", async () => {
+      const db = firebase
+        .initializeTestApp({
+          projectId: myProjectId,
+        })
+        .firestore();
       const doc = db
         .collection("users")
-        .doc("shogo")
+        .doc("user_shogo")
         .collection("projects")
         .doc("testProjectId");
       await firebase.assertFails(doc.set(testProjectData));
     });
 
-    test("認証ありでのデータ保存に成功", async () => {
-      const db = getFirestoreWithAuth();
-      const doc = db
-        .collection("users")
-        .doc("shogo")
-        .collection("projects")
-        .doc("testProjectId");
-      await firebase.assertFails(doc.set(testProjectData));
-    });
+    //   test("認証ありでのデータ保存に成功", async () => {
+    //     const db = firebase
+    //       .initializeTestApp({ projectId: myProjectId, auth: myAuth })
+    //       .firestore();
+    //     const doc = db
+    //       .collection("users")
+    //       .doc("user_shogo")
+    //       .collection("projects")
+    //       .doc("testProjectId");
+    //     await firebase.assertFails(doc.set(testProjectData));
+    //   });
 
     test("認証なしでの取得に失敗", async () => {
-      const db = getFirestore();
+      const db = firebase
+        .initializeTestApp({
+          projectId: myProjectId,
+        })
+        .firestore();
       const doc = db
         .collection("users")
-        .doc("shogo")
+        .doc("user_shogo")
         .collection("projects")
         .doc("testProjectId");
       await firebase.assertFails(doc.get());
     });
 
-    test("認証ありでの取得に成功", async () => {
-      const db = getFirestoreWithAuth();
-      const doc = db
-        .collection("users")
-        .doc("shogo")
-        .collection("projects")
-        .doc("testProjectId");
-      await firebase.assertSucceeds(doc.get());
-    });
-  });
+    //   test("認証ありでの取得に成功", async () => {
+    //     const db = getFirestoreWithAuth();
+    //     const doc = db
+    //       .collection("users")
+    //       .doc("shogo")
+    //       .collection("projects")
+    //       .doc("testProjectId");
+    //     await firebase.assertSucceeds(doc.get());
+    //   });
+    // });
 
-  describe("projects以外のコレクションへのアクセス禁止", () => {
-    test("認証なしでのデータ保存に失敗", async () => {
-      const db = getFirestore();
-      const doc = db
-        .collection("users")
-        .doc("shogo")
-        .collection("countries")
-        .doc("falseProjectId");
-      await firebase.assertFails(doc.set(testProjectData));
-    });
+    // describe("projects以外のコレクションへのアクセス禁止", () => {
+    //   test("認証なしでのデータ保存に失敗", async () => {
+    //     const db = getFirestore();
+    //     const doc = db
+    //       .collection("users")
+    //       .doc("shogo")
+    //       .collection("countries")
+    //       .doc("falseProjectId");
+    //     await firebase.assertFails(doc.set(testProjectData));
+    //   });
 
-    test("認証ありでのデータ保存に失敗", async () => {
-      const db = getFirestoreWithAuth();
-      const doc = db
-        .collection("users")
-        .doc("shogo")
-        .collection("countries")
-        .doc("falseProjectId");
-      await firebase.assertFails(doc.set(testProjectData));
-    });
+    //   test("認証ありでのデータ保存に失敗", async () => {
+    //     const db = getFirestoreWithAuth();
+    //     const doc = db
+    //       .collection("users")
+    //       .doc("shogo")
+    //       .collection("countries")
+    //       .doc("falseProjectId");
+    //     await firebase.assertFails(doc.set(testProjectData));
+    //   });
 
-    test("認証なしでの取得に失敗", async () => {
-      const db = getFirestore();
-      const doc = db
-        .collection("users")
-        .doc("shogo")
-        .collection("countries")
-        .doc("falseProjectId");
-      await firebase.assertFails(doc.get());
-    });
+    //   test("認証なしでの取得に失敗", async () => {
+    //     const db = getFirestore();
+    //     const doc = db
+    //       .collection("users")
+    //       .doc("shogo")
+    //       .collection("countries")
+    //       .doc("falseProjectId");
+    //     await firebase.assertFails(doc.get());
+    //   });
 
-    test("認証ありでの取得に失敗", async () => {
-      const db = getFirestoreWithAuth();
-      const doc = db
-        .collection("users")
-        .doc("shogo")
-        .collection("countries")
-        .doc("falseProjectId");
-      await firebase.assertFails(doc.get());
-    });
+    //   test("認証ありでの取得に失敗", async () => {
+    //     const db = getFirestoreWithAuth();
+    //     const doc = db
+    //       .collection("users")
+    //       .doc("shogo")
+    //       .collection("countries")
+    //       .doc("falseProjectId");
+    //     await firebase.assertFails(doc.get());
+    //   });
   });
 });
 

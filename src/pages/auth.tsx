@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import firebase from "firebase";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,6 +19,7 @@ import Container from "@material-ui/core/Container";
 
 import { stateType, setCurrentUser, createNewProject } from "../utils/reducers";
 import { auth, db } from "../../firebaseClient";
+//import { auth } from "firebase-admin";
 
 function Copyright() {
   return (
@@ -65,12 +67,12 @@ const SignInComponent: React.VFC = () => {
     try {
       await auth
         .signInWithEmailAndPassword(email, password)
-        .then((user) => {
+        .then((user: firebase.auth.UserCredential) => {
           user.user && dispatch(setCurrentUser(user.user.uid));
           user.user && console.log("user.user.uid", user.user.uid);
           return user.user;
         })
-        .then((user) => {
+        .then((user: firebase.User) => {
           user &&
             db
               .collection("users")
@@ -79,7 +81,7 @@ const SignInComponent: React.VFC = () => {
               .orderBy("created_at", "desc")
               .limit(1)
               .get()
-              .then((qs) => {
+              .then((qs: any) => {
                 if (qs.docs[0]) {
                   dispatch(
                     createNewProject(
@@ -97,7 +99,7 @@ const SignInComponent: React.VFC = () => {
                 }
               });
         })
-        .catch((err) => {
+        .catch((err: string) => {
           alert(err);
         });
     } catch (err) {
@@ -109,11 +111,11 @@ const SignInComponent: React.VFC = () => {
     try {
       await auth
         .createUserWithEmailAndPassword(email, password)
-        .then((user) => {
+        .then((user: any) => {
           user.user && dispatch(setCurrentUser(user.user.uid));
         })
         .then(() => router.push("/dashboard"))
-        .catch((err) => alert(err));
+        .catch((err: string) => alert(err));
     } catch (err) {
       alert(err.message);
     }

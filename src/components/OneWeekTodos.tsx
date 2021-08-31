@@ -66,7 +66,7 @@ export const OneWeekTodosComponent = (props: Props) => {
       .collection("projects")
       .doc(props.projectId)
       .get()
-      .then((doc) => {
+      .then((doc: any) => {
         if (doc) {
           const moveDate = doc.data()!.willMoveDate;
           console.log("before split procedures");
@@ -76,7 +76,7 @@ export const OneWeekTodosComponent = (props: Props) => {
           console.log("there is no todos");
         }
       })
-      .catch((error) => {
+      .catch((error: string) => {
         console.error("Error happened when rendering todos", error);
       });
   }, [procedures, props.projectId, props.userId, currentUser.currentUser]);
@@ -95,7 +95,7 @@ export const OneWeekTodosComponent = (props: Props) => {
       .collection("todos")
       .doc(e.target.id)
       .get()
-      .then((doc) => {
+      .then((doc: any) => {
         if (doc.exists) {
           if (doc.data()!.complete === true) {
             db.collection("users")
@@ -120,7 +120,7 @@ export const OneWeekTodosComponent = (props: Props) => {
           }
         }
       })
-      .catch((error) => {
+      .catch((error: string) => {
         console.error("Error getting document", error);
       });
   };

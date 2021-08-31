@@ -96,7 +96,7 @@ export default function AddTodoButtonComponent({ onChange }: Props) {
         setDeadline(undefined);
         setMemo("");
       })
-      .catch((err) => {
+      .catch((err: string) => {
         console.error(err);
       });
   };

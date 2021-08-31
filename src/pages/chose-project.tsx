@@ -71,7 +71,7 @@ export default function ChoseProjectComponent(props: Props) {
       .collection("projects")
       .doc(value)
       .get()
-      .then((doc) => {
+      .then((doc: any) => {
         doc &&
           dispatch(
             createNewProject(
@@ -82,7 +82,7 @@ export default function ChoseProjectComponent(props: Props) {
             )
           );
       })
-      .catch((err) => console.error(err));
+      .catch((err: string) => console.error(err));
     // dispatch(createNewProject(value));
     router.push("/dashboard");
   };
@@ -96,16 +96,16 @@ export default function ChoseProjectComponent(props: Props) {
         .collection("projects")
         .orderBy("created_at", "desc")
         .onSnapshot(
-          (snapshot) => {
+          (snapshot: any) => {
             setProjects(
-              snapshot.docs.map((doc) => ({
+              snapshot.docs.map((doc: any) => ({
                 projectId: doc.id,
                 willMoveAddress: doc.data().willMoveAddress,
                 willMoveDate: doc.data().willMoveDate,
               }))
             );
           },
-          (error) => {
+          (error: string) => {
             console.error(error);
           }
         );

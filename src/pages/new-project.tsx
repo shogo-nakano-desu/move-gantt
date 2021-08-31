@@ -147,7 +147,7 @@ export default function CreateProjectComponent() {
         isDrivingLicense: isDrivingLicense,
         created_at: Date.now(),
       })
-      .then((docRef) => {
+      .then((docRef: any) => {
         dispatch(
           createNewProject(
             docRef.id,
@@ -158,7 +158,7 @@ export default function CreateProjectComponent() {
         );
         router.push("/loading");
       })
-      .catch((err) => {
+      .catch((err: string) => {
         console.error(err);
       });
   };

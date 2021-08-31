@@ -5,7 +5,7 @@ import "firebase/firestore";
 import { auth, provider } from "../../firebaseClient";
 
 const signInGoogle = async () => {
-  await auth.signInWithPopup(provider).catch((err) => alert(err.message));
+  await auth.signInWithPopup(provider).catch((err: any) => alert(err.message));
 };
 
 // 今ログインしているユーザーはだれか確認する
