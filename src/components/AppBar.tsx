@@ -80,7 +80,7 @@ export default function AppBarComponent() {
     try {
       router.push("/sign-out");
       // await auth.signOut().catch((err) => console.error(err)); //[TODO]サインアウとしてからsign-inページにプッシュされるので、一瞬dashboardに戻ることになって落ちてしまう
-    } catch (error) {
+    } catch (error: any) {
       alert(error.message);
     }
   };

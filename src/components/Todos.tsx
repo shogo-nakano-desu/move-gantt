@@ -75,10 +75,10 @@ export default function TodosComponent(props: Props) {
       .orderBy("startDate", "asc")
       .onSnapshot(
         { includeMetadataChanges: true },
-        (snapshot) => {
+        (snapshot: any) => {
           dispatch(
             listenProcedures(
-              snapshot.docs.map((doc) => ({
+              snapshot.docs.map((doc: any) => ({
                 id: doc.id,
                 title: doc.data().title,
                 startDate: doc.data().startDate, // プロジェクト作成日か関数で計算した日付
@@ -105,7 +105,7 @@ export default function TodosComponent(props: Props) {
             )
           );
         },
-        (error) => {
+        (error: any) => {
           console.error(error);
         }
       );
@@ -125,7 +125,7 @@ export default function TodosComponent(props: Props) {
       .then(() => console.log("delete a todo"))
       .then(() => dispatch(setTodoId("")))
       .then(() => handleClose())
-      .catch((error) => {
+      .catch((error: any) => {
         console.error("Error removing document: ", error);
       });
   };
